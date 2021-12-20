@@ -24,7 +24,7 @@ const Route: React.FC<ReactRouterProps>  = ({ isPrivade = false, component: Comp
         if ( isPrivade === !!user ) {
           return <Component />;
         } else {
-          return <Redirect to={{ pathname: isPrivade ? '/' : '/'}} />;
+          return <Redirect to={{ pathname: isPrivade ? '/' : '/scf/dashboard'}} />;
         }
       }} 
     />
