@@ -4,9 +4,9 @@ import { shade } from 'polished';
 
 export const Container = styled.div`
   width: 100%;
-  height: 100vh;
+
   background-color: #FFF;
-  display: flex;
+  display: space-around;
   align-items: center;
 `;
 
@@ -15,11 +15,12 @@ export const Body = styled.div`
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: calc(100% - 300px);
   flex-direction: column;
   margin-left: 300px;
 
   h1 {
+    margin-top: 40px;
     color: #808080;
   }
 
@@ -50,6 +51,7 @@ export const Body = styled.div`
 
 export const Modal = styled.div`
   position: fixed;
+  top: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0,0,0,0.4);

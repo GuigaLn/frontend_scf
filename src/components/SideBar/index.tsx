@@ -4,6 +4,7 @@ import { FiClock, FiPieChart, FiMap, FiBriefcase, FiKey, FiAlertCircle, FiMenu, 
 
 import logo from '../../assets/logo2.png';
 import { useHistory } from 'react-router';
+import { useAuth } from '../../context/AuthContext';
 
 interface SidebarProps {
     page: string;
@@ -11,6 +12,7 @@ interface SidebarProps {
 
 const Dashboard: React.FC<SidebarProps> = ({ page }) => {
     const history = useHistory();
+    const { signOut } = useAuth();
 
     return (
         <SideBar>
@@ -56,6 +58,11 @@ const Dashboard: React.FC<SidebarProps> = ({ page }) => {
                 <div className={ page === 'ubs' ? "option select" : 'option' } onClick={() => history.push('/scf/ubs')}>
                     <FiKey />
                     <span>Únidade</span>
+                </div>
+
+                <div className="option" onClick={() => signOut()}>
+                    <FiKey />
+                    <span>Sair</span>
                 </div>
             </div>
         </SideBar>

@@ -19,6 +19,7 @@ import Comments from '../pages/SCF/Comments';
 import TimeAttendance from '../pages/SCF/TimeAttendance';
 import TimeAttendanceDetail from '../pages/SCF/TimeAttendanceDetail';
 import Employee from '../pages/SCF/Employee';
+import Login from '../pages/SCF/Login';
 
 const Routes: React.FC = () => {
   return (
@@ -30,14 +31,16 @@ const Routes: React.FC = () => {
 
       <Route path="/panelconfig" component={PanelConfig} />
       <Route path="/panel" component={Panel} />
-      <Route path="/scf/dashboard" component={Dashboard} />
-      <Route path="/scf/city" component={City} />
-      <Route path="/scf/occupation" component={Occupation} />
-      <Route path="/scf/ubs" component={UBS} />
-      <Route path="/scf/comments" component={Comments} />
-      <Route path="/scf/timeattendance" exact component={TimeAttendance} />
-      <Route path="/scf/timeattendance/detail/:id" component={TimeAttendanceDetail} />
-      <Route path="/scf/employee" component={Employee} />
+
+      <Route path="/scf" exact component={Login} />
+      <Route path="/scf/dashboard" component={Dashboard} isPrivade />
+      <Route path="/scf/city" component={City} isPrivade />
+      <Route path="/scf/occupation" component={Occupation} isPrivade />
+      <Route path="/scf/ubs" component={UBS} isPrivade />
+      <Route path="/scf/comments" component={Comments} isPrivade />
+      <Route path="/scf/timeattendance" exact component={TimeAttendance} isPrivade />
+      <Route path="/scf/timeattendance/detail/:id" component={TimeAttendanceDetail} isPrivade />
+      <Route path="/scf/employee" component={Employee} isPrivade />
       
     </Switch>
   );

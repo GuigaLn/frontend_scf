@@ -1,18 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Container, Body, Modal} from './styles';
-import DataTable from "react-data-table-component";
 import SideBar from '../../../components/SideBar';
 import api from '../../../services/api';
+
+import DataTable from "react-data-table-component";
+// @ts-ignore
+import DataTableExtensions from 'react-data-table-component-extensions';
+import 'react-data-table-component-extensions/dist/index.css';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useHistory } from 'react-router-dom';
-
-interface valueOccupation {
-  id: number; 
-  idemployee: number; 
-  name: string;
-}
 
 const TimeAttendance: React.FC = () => {
   const data2 = [{}];
@@ -31,6 +29,11 @@ const TimeAttendance: React.FC = () => {
       sortable: true
     },
   ];
+
+  const tableData = {
+    columns,
+    data,
+  };
 
   useEffect(() => {
     promiseLoading();
@@ -74,13 +77,18 @@ const TimeAttendance: React.FC = () => {
           ÚSUARIO
         </h1>
         <div className="table">
-          <DataTable
-            columns={columns}
-            data={data}
-            pagination
-            paginationPerPage={5}
-            onRowDoubleClicked={(e: any) => { history.push(`/scf/timeattendance/detail/${e.id}`) }}
-          />
+          <DataTableExtensions
+            {...tableData}
+            exportHeaders={true}
+          >
+            <DataTable
+              columns={columns}
+              data={data}
+              pagination
+              paginationPerPage={5}
+              onRowDoubleClicked={(e: any) => { history.push(`/scf/timeattendance/detail/${e.id}`) }}
+            />
+          </DataTableExtensions>
         </div>
       </Body>
     </Container>

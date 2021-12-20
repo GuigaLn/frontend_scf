@@ -182,7 +182,7 @@ const TimeAttendanceDetail: React.FC = () => {
               columns={columns}
               data={data}
               pagination
-              paginationPerPage={5}
+              paginationPerPage={31}
               onRowDoubleClicked={(e: any) => {setOpenModal(true); setIdDate(e.id); setIdComments(undefined) }}
             />
           </DataTableExtensions>

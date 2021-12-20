@@ -214,7 +214,7 @@ const Employee: React.FC = () => {
               columns={columns}
               data={data}
               pagination
-              paginationPerPage={15}
+              paginationPerPage={5}
               onRowDoubleClicked={(e: any) => {setOpenModal(true); setValueEdit(e) }}
             />
           </DataTableExtensions>
