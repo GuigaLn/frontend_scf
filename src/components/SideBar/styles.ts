@@ -9,6 +9,7 @@ export const SideBar = styled.div`
   padding: 20px;
   position: fixed;
   z-index: 10;
+  overflow-y: auto;
 
   div.header {
     display: flex;

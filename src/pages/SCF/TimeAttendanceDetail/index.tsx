@@ -26,7 +26,7 @@ const TimeAttendanceDetail: React.FC = () => {
   const [startDay, setStartDay] = useState(''); 
   const [endDay, setEndDay] = useState(''); 
 
-  const [idDate, setIdDate] = useState();
+  const [detailUpdate, setDetailUpdate] = useState<any>();
   const [idComments, setIdComments] = useState<any>();
 
   const [comments, setComments] = useState<InterfaceComments[]>([]);
@@ -37,6 +37,11 @@ const TimeAttendanceDetail: React.FC = () => {
     {
       name: "Data",
       selector: "day",
+      sortable: true
+    },
+    {
+      name: "Sem",
+      selector: "week",
       sortable: true
     },
     {
@@ -133,10 +138,10 @@ const TimeAttendanceDetail: React.FC = () => {
   }
   
   let submitComments = () => {
-    if (idDate === undefined && idComments === undefined) return;
+    if (detailUpdate.id === undefined && idComments === undefined) return;
      new Promise((resolve, reject) => {
        try {
-         api.put('time', {id: idDate, note: idComments}).then(response => {
+         api.put('time', {id: detailUpdate.id, note: idComments, date: detailUpdate.date, idEmployee: detailUpdate.idEmployee}).then(response => {
            promiseLoadingData();
            setOpenModal(false);
            return;
@@ -183,7 +188,12 @@ const TimeAttendanceDetail: React.FC = () => {
               data={data}
               pagination
               paginationPerPage={31}
-              onRowDoubleClicked={(e: any) => {setOpenModal(true); setIdDate(e.id); setIdComments(undefined) }}
+              onRowDoubleClicked={(e: any) => 
+                {
+                  setOpenModal(true); 
+                  setDetailUpdate({id: e.id, idEmployee: e.id_funcionario, date: e.day}); 
+                  setIdComments(undefined) 
+                }}
             />
           </DataTableExtensions>
         </div>

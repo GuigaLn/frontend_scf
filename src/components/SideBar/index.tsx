@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { SideBar} from './styles';
-import { FiClock, FiPieChart, FiMap, FiBriefcase, FiKey, FiAlertCircle, FiMenu, FiHome } from 'react-icons/fi';
+import { FiClock, FiPieChart, FiMap, FiBriefcase, FiKey, FiAlertCircle, FiMenu, FiHome, FiLogOut } from 'react-icons/fi';
 
 import logo from '../../assets/logo2.png';
 import { useHistory } from 'react-router';
@@ -61,7 +61,7 @@ const Dashboard: React.FC<SidebarProps> = ({ page }) => {
                 </div>
 
                 <div className="option" onClick={() => signOut()}>
-                    <FiKey />
+                    <FiLogOut />
                     <span>Sair</span>
                 </div>
             </div>
