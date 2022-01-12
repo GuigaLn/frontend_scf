@@ -35,34 +35,34 @@ const Employee: React.FC = () => {
   const columns: any = [
     {
       name: "ID",
-      selector: "id",
+      selector: (row: any) => row.id,
       sortable: true,
     },
     {
       name: "MATRICULA",
-      selector: "registration",
+      selector: (row: any) => row.registration,
       sortable: true,
     },
     {
       name: "NAME",
-      selector: "name",
+      selector: (row: any) => row.name,
       sortable: true,
       minWidth: '300px',
       maxWidth: '300px'
     },
     {
       name: "NASCIMENTO",
-      selector: "birthday",
+      selector: (row: any) => row.birthday,
       sortable: true
     },
     {
       name: "CPF",
-      selector: "cpf",
+      selector: (row: any) => row.cpf,
       sortable: true
     },
     {
       name: "CNS",
-      selector: "cns",
+      selector: (row: any) => row.cns,
       sortable: true
     },
   ];

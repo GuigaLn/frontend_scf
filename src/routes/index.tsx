@@ -4,10 +4,12 @@ import { Switch } from 'react-router-dom';
 
 import Route from './Route'
 
-import InitialConfig from '../pages/Tickets/InitialConfig';
-import SecondConfig from '../pages/Tickets/SecondConfig';
-import CallTickets from '../pages/Tickets/CallTickets';
-import ResetTickets from '../pages/Tickets/ResetTickets';
+import InitialRouter from '../pages/SCF/InitialRouter';
+
+import InitialConfig from '../pages/SCF/InitialConfig';
+import SecondConfig from '../pages/SCF/SecondConfig';
+import CallTickets from '../pages/SCF/CallTickets';
+import ResetTickets from '../pages/SCF/ResetTickets';
 
 import Panel from '../pages/Tickets/Panel';
 import PanelConfig from '../pages/Tickets/PanelConfig';
@@ -20,14 +22,24 @@ import TimeAttendance from '../pages/SCF/TimeAttendance';
 import TimeAttendanceDetail from '../pages/SCF/TimeAttendanceDetail';
 import Employee from '../pages/SCF/Employee';
 import Login from '../pages/SCF/Login';
+import EmployeeDetail from '../pages/SCF/EmployeeDetail';
+import PDFPrinter from '../pages/SCF/PDFPrinter';
+
 
 const Routes: React.FC = () => {
   return (
     <Switch>
-      <Route path="/" exact component={InitialConfig} />
-      <Route path="/second" component={SecondConfig} />
-      <Route path="/calltickets" component={CallTickets} />
+      
       <Route path="/resettickets" component={ResetTickets} />
+
+      <Route path="/" exact component={InitialRouter} />
+
+      <Route path="/test" exact isPrivade component={PDFPrinter} />
+
+      <Route path="/scf/ticket/initialconfig" isPrivade component={InitialConfig} />
+      <Route path="/scf/ticket/secondconfig" isPrivade component={SecondConfig} />
+      <Route path="/scf/ticket/calltickets" isPrivade component={CallTickets} />
+      <Route path="/scf/ticket/resettickets" isPrivade component={ResetTickets} />
 
       <Route path="/panelconfig" component={PanelConfig} />
       <Route path="/panel" component={Panel} />
@@ -40,7 +52,8 @@ const Routes: React.FC = () => {
       <Route path="/scf/comments" component={Comments} isPrivade />
       <Route path="/scf/timeattendance" exact component={TimeAttendance} isPrivade />
       <Route path="/scf/timeattendance/detail/:id" component={TimeAttendanceDetail} isPrivade />
-      <Route path="/scf/employee" component={Employee} isPrivade />
+      <Route path="/scf/employee" exact component={Employee} isPrivade />
+      <Route path="/scf/employee/detail/:id" component={EmployeeDetail} isPrivade />
       
     </Switch>
   );

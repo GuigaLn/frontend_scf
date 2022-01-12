@@ -24,12 +24,12 @@ const TimeAttendance: React.FC = () => {
   const columns: any = [
     {
       name: "ID",
-      selector: "idpontoobs",
+      selector: (row: any) => row.idpontoobs,
       sortable: true
     },
     {
       name: "Descrição",
-      selector: "description",
+      selector: (row: any) => row.description,
       sortable: true
     },
   ];
@@ -185,7 +185,7 @@ const TimeAttendance: React.FC = () => {
         <h1>
           OBSERVAÇÕES PONTO
         </h1>
-        <button className="addColaborador" onClick={() => setOpenModalAdd(true)}>Adicionar Cidade</button>
+        <button className="addColaborador" onClick={() => setOpenModalAdd(true)}>Adicionar Observações Ponto</button>
         <div className="table">
           <DataTable
             columns={columns}
@@ -199,7 +199,7 @@ const TimeAttendance: React.FC = () => {
       {openModal ?
         <Modal>
           <div>
-            <p>EDITAR CIDADE</p>
+            <p>EDITAR OBSERVAÇÕES PONTO</p>
             <input type="text" onChange={(e) => value.description = e.currentTarget.value} defaultValue={value.description}/>
             <button className="editar" onClick={promiseEdit}>EDITAR</button>
             <button className="excluir" onClick={promiseDelete}>EXCLUIR</button>

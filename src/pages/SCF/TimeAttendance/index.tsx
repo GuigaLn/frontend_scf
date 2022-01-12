@@ -19,13 +19,13 @@ const TimeAttendance: React.FC = () => {
   const [data, setData] = useState<any>(data2);
   const columns: any = [
     {
-      name: "ID",
-      selector: "idemployee",
+      name: "MATRÍCULA",
+      selector: (row: any) => row.registration,
       sortable: true
     },
     {
       name: "NOME",
-      selector: "name",
+      selector: (row: any) => row.name,
       sortable: true
     },
   ];

@@ -26,6 +26,8 @@ const TimeAttendanceDetail: React.FC = () => {
   const [startDay, setStartDay] = useState(''); 
   const [endDay, setEndDay] = useState(''); 
 
+  const [nameEmployee, setNameEmployee] = useState('');
+
   const [detailUpdate, setDetailUpdate] = useState<any>();
   const [idComments, setIdComments] = useState<any>();
 
@@ -85,8 +87,11 @@ const TimeAttendanceDetail: React.FC = () => {
    
    new Promise((resolve, reject) => {
       try {
-        api.post('timee', {id}).then(response => {
-          setData(response.data);
+        api.post('time/detail', {id}).then(response => {
+          setData(response.data.times);
+          if(response.data.customer) {
+            setNameEmployee(response.data.customer);
+          }
           setTimeout(resolve);
           return;
         }).catch((err) => {
@@ -120,8 +125,13 @@ const TimeAttendanceDetail: React.FC = () => {
    if (startDay === '' || endDay === '') return;
     new Promise((resolve, reject) => {
       try {
-        api.post('timee', {id, startDay, endDay}).then(response => {
-          setData(response.data);
+        api.post('time/detail', {id, startDay, endDay}).then(response => {
+          setData(response.data.times);
+          if(nameEmployee === '') {
+            setNameEmployee(response.data.customer);
+            console.log(nameEmployee)
+          }
+          console.log(response.data)
           setTimeout(resolve);
           return;
         }).catch((err) => {
@@ -184,6 +194,7 @@ const TimeAttendanceDetail: React.FC = () => {
             exportHeaders={true}
           >
             <DataTable
+            title={nameEmployee}
               columns={columns}
               data={data}
               pagination

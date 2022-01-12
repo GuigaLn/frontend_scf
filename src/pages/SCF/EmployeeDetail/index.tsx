@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Container, Body, Modal} from './styles';
+import { Container, Body } from './styles';
 import DataTable from "react-data-table-component";
 import SideBar from '../../../components/SideBar';
 import api from '../../../services/api';
@@ -7,29 +7,24 @@ import api from '../../../services/api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-interface valueUBS {
+interface valueCity {
   id: number; 
-  idubs: number; 
+  idcity: number; 
   description: string;
 }
 
-const UBS: React.FC = () => {
+const EmployeeDetail: React.FC = () => {
   const data2 = [{}];
 
   const [openModal, setOpenModal] = useState(false);
   const [openModalAdd, setOpenModalAdd] = useState(false);
-  const [value, setValue] = useState<valueUBS>({id: 0, description: "Error", idubs: 0});
+  const [value, setValue] = useState<valueCity>({id: 0, description: "Error", idcity: 0});
   const [description, setDescription] = useState('');
   const [data, setData] = useState<any>(data2);
   const columns: any = [
     {
-      name: "ID",
-      selector: (row: any) => row.idubs,
-      sortable: true
-    },
-    {
-      name: "Descrição",
-      selector: (row: any) => row.description,
+      name: "E-MAIL",
+      selector: "description",
       sortable: true
     },
   ];
@@ -41,7 +36,7 @@ const UBS: React.FC = () => {
   let promiseLoading = () => {
     const reseolveApi = new Promise((resolve, reject) => {
       try {
-        api.get('/ubs').then(response => {
+        api.get('/city').then(response => {
           setData(response.data);
           setTimeout(resolve);
           return;
@@ -69,7 +64,7 @@ const UBS: React.FC = () => {
 
   const reloadData = () => {
     try {
-      api.get('/ubs').then(response => {
+      api.get('/city').then(response => {
         setData(response.data);
         return;
       }).catch((err) => {
@@ -80,12 +75,11 @@ const UBS: React.FC = () => {
       console.log(err);      
     }
   }
-
   let promiseAdd = () => {
     const reseolveApi = new Promise((resolve, reject) => {
       try {
-        api.post('/ubs', {description: description}).then(response => {
-          setData([...data, {id: response.data.rows[0].id, description, idubs: response.data.rows[0].id}]);
+        api.post('/city', {description: description}).then(response => {
+          setData([...data, {id: response.data.rows[0].id, description, idcity: response.data.rows[0].id}]);
           setTimeout(resolve);
           setOpenModalAdd(false);
           return;
@@ -116,7 +110,7 @@ const UBS: React.FC = () => {
   let promiseEdit = () => {
     const reseolveApi = new Promise((resolve, reject) => {
       try {
-        api.put('/ubs', {description: value.description, id: value.id}).then(response => {
+        api.put('/city', {description: value.description, id: value.id}).then(response => {
           reloadData();
           setTimeout(resolve);
           setOpenModal(false);
@@ -138,7 +132,7 @@ const UBS: React.FC = () => {
     toast.promise(
       reseolveApi,
       {
-        pending: 'Consultando API',
+        pending: 'Editando Cidade',
         success: 'Sucesso ao Editar 👌',
         error: 'Erro ao Editar 🤯'
       }
@@ -148,7 +142,7 @@ const UBS: React.FC = () => {
   let promiseDelete = () => {
     const reseolveApi = new Promise((resolve, reject) => {
       try {
-        api.post('/ubs/delete', {id: value.id}).then(response => {
+        api.post('/city/delete', {id: value.id}).then(response => {
           reloadData();
           setTimeout(resolve);
           setOpenModal(false);
@@ -170,7 +164,7 @@ const UBS: React.FC = () => {
     toast.promise(
       reseolveApi,
       {
-        pending: 'Consultando API',
+        pending: 'Deletando Cidade',
         success: 'Sucesso ao Deletar 👌',
         error: 'Erro ao Deletar 🤯'
       }
@@ -180,48 +174,52 @@ const UBS: React.FC = () => {
   return (
     <Container>
       <ToastContainer />
-      <SideBar page='ubs' />
+      <SideBar page='employee' />
       <Body>
-        <h1>
-          ÚNIDADE DE SAÚDE
-        </h1>
-        <button className="addColaborador" onClick={() => setOpenModalAdd(true)}>Adicionar Cidade</button>
+        <h1>1957 - GUILHERME LEONARDO NALLON</h1>
+        <span>Data Nascimento: 19/04/2000</span>
+        <span>CPF: 085.800.259-07</span>
+        <span>CNS: 085.800.259-07</span>
+
         <div className="table">
           <DataTable
             columns={columns}
             data={data}
-            pagination
             paginationPerPage={5}
-            onRowDoubleClicked={(e: any) => {setOpenModal(true); setValue(e) }}
+            onRowDoubleClicked={(e: any) => {setOpenModal(true)}}
           />
         </div>
-      </Body>
-      {openModal ?
-        <Modal>
-          <div>
-            <p>EDITAR CIDADE</p>
-            <input type="text" onChange={(e) => value.description = e.currentTarget.value} defaultValue={value.description}/>
-            <button className="editar" onClick={promiseEdit}>EDITAR</button>
-            <button className="excluir" onClick={promiseDelete}>EXCLUIR</button>
-            <button className="cancelar" onClick={() => setOpenModal(false)}>CANCELAR</button>
-          </div>
-        </Modal>
-        : <></>
-      }
 
-      {openModalAdd ?
-        <Modal>
-          <div>
-            <p>ADICIONAR CIDADE</p>
-            <input type="text"  onChange={(e) => setDescription(e.currentTarget.value)} placeholder="NOME DA CIDADE" />
-            <button className="editar" onClick={promiseAdd}>CADASTRAR</button>
-            <button className="cancelar" onClick={() => setOpenModalAdd(false)}>CANCELAR</button>
-          </div>
-        </Modal>
-        : <></>
-      }
+        <div className="table">
+          <DataTable
+            columns={columns}
+            data={data}
+            paginationPerPage={5}
+            onRowDoubleClicked={(e: any) => {setOpenModal(true)}}
+          />
+        </div>
+
+        <div className="table">
+          <DataTable
+            columns={columns}
+            data={data}
+            paginationPerPage={5}
+            onRowDoubleClicked={(e: any) => {setOpenModal(true)}}
+          />
+        </div>
+
+        <div className="table">
+          <DataTable
+            columns={columns}
+            data={data}
+            paginationPerPage={5}
+            onRowDoubleClicked={(e: any) => {setOpenModal(true)}}
+          />
+        </div>
+
+      </Body>
     </Container>
   );
 }
 
-export default UBS;
+export default EmployeeDetail;

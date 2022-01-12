@@ -2,15 +2,24 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   width: 100%;
-  height: 100vh;
-  background-color: #F0F0F0;
+
+  background-color: #FFF;
+  align-items: center;
+`;
+
+export const Body = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+  width: calc(100% - 300px);
+  flex-direction: column;
+
+  margin-left: 300px;
 
   div.body {
     display: flex;
-    flex-basis: 30%;
+    
     flex-direction: column;
     background-color: #FFF;
     border-radius: 5px;
@@ -21,6 +30,7 @@ export const Container = styled.div`
       font-size: 28px;
       margin-bottom: 40px;
       color: #606060;
+      margin-top: 100px;
     }
 
     input {
@@ -38,14 +48,18 @@ export const Container = styled.div`
       border-radius: 5px;
       font-size: 20px;
       border: none;
-      background-color: #CCC;
+      background-color: #DDD;
+
+      &:hover {
+        background-color: #CCC;
+      }
     }
   }
 
   div.modal {
     position: absolute;
-
-    width: 100%;
+    
+    width: calc(100% - 300px);
     height: 100%;
 
     display: flex;
@@ -61,6 +75,7 @@ export const Container = styled.div`
       font-size: 28px;
       margin-bottom: 40px;
       color: #606060;
+      margin-top: 100px;
     }
 
     input {
@@ -69,7 +84,7 @@ export const Container = styled.div`
       border: none;
       font-size: 20px;
       border: none;
-      background-color: #DDD;
+      background-color: #EEE;
       width: 50%;
     }
 
@@ -79,8 +94,13 @@ export const Container = styled.div`
       border-radius: 5px;
       font-size: 20px;
       border: none;
-      background-color: #CCC;
+      background-color: #EEE;
       width: 50%;
+
+      &:hover {
+        background-color: #DDD;
+      }
     }
   }
 `;
+

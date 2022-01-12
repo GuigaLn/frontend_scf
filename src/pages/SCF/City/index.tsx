@@ -24,12 +24,12 @@ const City: React.FC = () => {
   const columns: any = [
     {
       name: "ID",
-      selector: "idcity",
+      selector: (row: any) => row.idcity,
       sortable: true
     },
     {
       name: "Descrição",
-      selector: "description",
+      selector: (row: any) => row.description,
       sortable: true
     },
   ];

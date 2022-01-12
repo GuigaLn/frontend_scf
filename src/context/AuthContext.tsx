@@ -2,6 +2,12 @@ import React, { createContext, useCallback, useState, useContext } from 'react';
 
 import api from '../services/api';
 
+interface InterfaceUser {
+  id: number;
+  login: string;
+  userPermissions: Array<{ permisao_id: number }>
+}
+
 interface SignInCredentials {
   login: string;
   password: string;
@@ -9,11 +15,11 @@ interface SignInCredentials {
 
 interface AuthState {
   token: string;
-  user: object;
+  user: InterfaceUser;
 }
 
 interface AuthContextState {
-  user: object;
+  user: InterfaceUser;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
 }
@@ -23,8 +29,8 @@ export const AuthContext = createContext<AuthContextState>({} as AuthContextStat
 
 export const AuthProvider: React.FC = ({ children }) => {
   const [data, setData] = useState<AuthState>(() => {
-    const token = localStorage.getItem('@scf_system:token');
-    const user =localStorage.getItem('@scf_system:user');
+    const token = localStorage.getItem('@ScfUserAuth:token');
+    const user = localStorage.getItem('@ScfUserAuth:user');
 
     if ( token && user ) {
       api.defaults.headers.authorization = `Bearer ${token}`;
@@ -36,8 +42,6 @@ export const AuthProvider: React.FC = ({ children }) => {
   });
   
   const signIn = useCallback(async({ login, password }) => {
-    localStorage.setItem('@scf_system:token', 'token');
-    localStorage.setItem('@scf_system:user', JSON.stringify('user'));
 
     const response = await api.post('login', {
       login,
@@ -48,15 +52,15 @@ export const AuthProvider: React.FC = ({ children }) => {
 
     api.defaults.headers.authorization = `Bearer ${token}`;
 
-    localStorage.setItem('@scf_system:token', token);
-    localStorage.setItem('@scf_system:user', JSON.stringify(user));
+    localStorage.setItem('@ScfUserAuth:token', token);
+    localStorage.setItem('@ScfUserAuth:user', JSON.stringify(user));
 
     setData({ token, user });
   }, []);
   
   const signOut = useCallback(() => {
-    localStorage.removeItem('@scf_system:token');
-    localStorage.removeItem('@scf_system:user');
+    localStorage.removeItem('@ScfUserAuth:token');
+    localStorage.removeItem('@ScfUserAuth:user');
 
     setData({} as AuthState);
   }, []);

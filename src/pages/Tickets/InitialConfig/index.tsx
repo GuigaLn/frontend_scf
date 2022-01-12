@@ -22,7 +22,7 @@ const InitialConfig: React.FC = () => {
         <input type="text" placeholder="Exmp. 01" onChange={(e) => setWindownNumber(e.target.value)}></input>
         <button onClick={handdleNumber}>PROSSEGUIR</button>
         <button onClick={() => history.push('/panelconfig')}>PAINEL</button>
-        <button onClick={() => history.push('/resettickets')}>RESETAR FICHAS</button>
+        <button onClick={() => history.push('/scf/ticket/resettickets')}>RESETAR FICHAS</button>
       </div>
     </Container>
   );
