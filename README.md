@@ -17,10 +17,6 @@
   <p>Mobile (para efetuar as batidas de ponto e futuramente emitir as senhas) - ReactNative + TypeScript;</p>
   <p>Banco de Dados - PostgreSQL.</p>
 
-In the project directory, you can run:
-
-## Learn More
-
 <p align="center">
   <img align="center" src="https://img.shields.io/static/v1?label=Tec&style=flat-square&logo=ReactJs&message=ReactJs&color=blue"/>
 	<img align="center" src="https://img.shields.io/static/v1?label=Tec&style=flat-square&logo=ReactNative&message=ReactNative&color=blue"/>
