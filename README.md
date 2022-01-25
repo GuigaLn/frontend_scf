@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# Projeto SCF - Parte FrontEnd
 
-Projeto SCF - Parte FrontEnd - Criado com ReactJs [Create React App](https://github.com/facebook/create-react-app).
+ Criado com ReactJs [Create React App](https://github.com/facebook/create-react-app).
 
 ## OBJETIVO E FUNCIONALIDADES:
   Desenvolver um sistema para a Prefeitura Municipal de Cruz Machado - Pr, com a finalidade de gerenciar as atividades dos funcionários do estabelecimento.
