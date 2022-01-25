@@ -12,19 +12,19 @@
     Painel de Chamados para as senhas.
 
 ## COMPOSIÇÃO:
-  FrontEnd - ReactJs + TypeScript;
-  BackEnd - Nodejs + TypeScript;
-  Mobile (para efetuar as batidas de ponto e futuramente emitir as senhas) - ReactNative + TypeScript;
-  Banco de Dados - PostgreSQL.
+  <p>FrontEnd - ReactJs + TypeScript;</p>
+  <p>BackEnd - Nodejs + TypeScript;</p>
+  <p>Mobile (para efetuar as batidas de ponto e futuramente emitir as senhas) - ReactNative + TypeScript;</p>
+  <p>Banco de Dados - PostgreSQL.</p>
 
 In the project directory, you can run:
 
 ## Learn More
 
 <p align="center">
-  <img align="center" src="https://img.shields.io/github/issues/GuigaLn/frontend_scf"/>
-  <img align="center" src="https://img.shields.io/github/forks/GuigaLn/frontend_scf"/>
-  <img align="center" src="https://img.shields.io/github/stars/GuigaLn/frontend_scf"/>
+  <img align="center" src="https://img.shields.io/static/v1?label=Tec&style=flat-square&logo=Reactjs&message=Ionic&color=blue"/>
+  <img align="center" src="https://img.shields.io/static/v1?label=Tec&style=flat-square&logo=Firebase&message=Firebase&color=blue"/>
+  <img align="center" src="https://img.shields.io/static/v1?label=Tec&style=flat-square&logo=TypeScript&message=TypeScript&color=blue"/>
 </p>
 
 <h4 align="center"> 
