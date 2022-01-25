@@ -22,8 +22,9 @@ In the project directory, you can run:
 ## Learn More
 
 <p align="center">
-  <img align="center" src="https://img.shields.io/static/v1?label=Tec&style=flat-square&logo=Reactjs&message=Ionic&color=blue"/>
-  <img align="center" src="https://img.shields.io/static/v1?label=Tec&style=flat-square&logo=Firebase&message=Firebase&color=blue"/>
+  <img align="center" src="https://img.shields.io/static/v1?label=Tec&style=flat-square&logo=ReactJs&message=ReactJs&color=blue"/>
+	<img align="center" src="https://img.shields.io/static/v1?label=Tec&style=flat-square&logo=ReactNative&message=ReactNative&color=blue"/>
+  <img align="center" src="https://img.shields.io/static/v1?label=Tec&style=flat-square&logo=PostgreSQL&message=PostgreSQL&color=blue"/>
   <img align="center" src="https://img.shields.io/static/v1?label=Tec&style=flat-square&logo=TypeScript&message=TypeScript&color=blue"/>
 </p>
 
