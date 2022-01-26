@@ -4,13 +4,16 @@ import { Switch } from 'react-router-dom';
 
 import Route from './Route'
 
+/* ROTA INICIAL */
 import InitialRouter from '../pages/SCF/InitialRouter';
 
+/* ROTAS DO SISTEMA DE TICKETS */
 import InitialConfig from '../pages/SCF/InitialConfig';
 import SecondConfig from '../pages/SCF/SecondConfig';
 import CallTickets from '../pages/SCF/CallTickets';
 import ResetTickets from '../pages/SCF/ResetTickets';
 
+/* ROTAS DO SISTEMA DE FUNCIONÁRIOS */
 import Panel from '../pages/Tickets/Panel';
 import PanelConfig from '../pages/Tickets/PanelConfig';
 import Dashboard from '../pages/SCF/Dashboard';
@@ -24,14 +27,18 @@ import Employee from '../pages/SCF/Employee';
 import Login from '../pages/SCF/Login';
 import EmployeeDetail from '../pages/SCF/EmployeeDetail';
 import PDFPrinter from '../pages/SCF/PDFPrinter';
+import Vacation from '../pages/SCF/Vacation';
+import PrintEPI from '../pages/SCF/PrintEPI';
+import ListVacation from '../pages/SCF/ListVacation';
+
+/* ROTA DO CHAT DO WHATSAPP */
+import Chat from '../pages/SCF/Chat';
 
 
 const Routes: React.FC = () => {
   return (
     <Switch>
       
-      <Route path="/resettickets" component={ResetTickets} />
-
       <Route path="/" exact component={InitialRouter} />
 
       <Route path="/test" exact isPrivade component={PDFPrinter} />
@@ -54,6 +61,11 @@ const Routes: React.FC = () => {
       <Route path="/scf/timeattendance/detail/:id" component={TimeAttendanceDetail} isPrivade />
       <Route path="/scf/employee" exact component={Employee} isPrivade />
       <Route path="/scf/employee/detail/:id" component={EmployeeDetail} isPrivade />
+      <Route path="/scf/employee/vacation/:id" component={Vacation} isPrivade />
+      <Route path="/scf/employee/listvacation" component={ListVacation} isPrivade />
+      <Route path="/scf/employee/printepi/:id" component={PrintEPI} isPrivade />
+
+      <Route path="/scf/chat" exact component={Chat} isPrivade />
       
     </Switch>
   );

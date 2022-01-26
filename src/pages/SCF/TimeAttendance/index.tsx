@@ -11,10 +11,13 @@ import 'react-data-table-component-extensions/dist/index.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useHistory } from 'react-router-dom';
+import { useAuth } from '../../../context/AuthContext';
+import { AxiosError } from 'axios';
 
 const TimeAttendance: React.FC = () => {
   const data2 = [{}];
   const history = useHistory();
+  const { signOut } = useAuth();
 
   const [data, setData] = useState<any>(data2);
   const columns: any = [
@@ -46,13 +49,16 @@ const TimeAttendance: React.FC = () => {
           setData(response.data);
           setTimeout(resolve);
           return;
-        }).catch((err) => {
-          console.log(err);
+        }).catch((err: AxiosError) => {
+          if(err.response?.status === 401) {
+            signOut();
+            return;
+          }
+          console.log(err.response);
           setTimeout(reject);
           return;
         }); 
       } catch (err) {
-        console.log(err);
         setTimeout(reject);
         return;
       }
@@ -85,7 +91,7 @@ const TimeAttendance: React.FC = () => {
               columns={columns}
               data={data}
               pagination
-              paginationPerPage={5}
+              paginationPerPage={30}
               onRowDoubleClicked={(e: any) => { history.push(`/scf/timeattendance/detail/${e.id}`) }}
             />
           </DataTableExtensions>

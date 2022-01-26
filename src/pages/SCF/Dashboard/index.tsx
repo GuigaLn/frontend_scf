@@ -1,6 +1,5 @@
 import React from 'react';
 import { Container, Body} from './styles';
-import DataTable from "react-data-table-component";
 import SideBar from '../../../components/SideBar';
 
 

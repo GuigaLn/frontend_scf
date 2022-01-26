@@ -1,13 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Container } from './styles';
+import { Container, Modal } from './styles';
 import socketIoClient from "socket.io-client";
 
 import api from '../../../services/api';
 import { END_POINT } from '../../../services/utils';
 
+/*
+* FALTA RECEBER AS SENHAS ATRAVÉS DO SOCKET E ATUALIZAR O PAINEL
+*/
 const Panel: React.FC = () => {
   const [sectorName, setSectorName] = useState("PAINEL");
   const [sectorId, setSectorId] = useState(0);
+  const [modalError, setModalError] = useState(false);
   const audioCall = new Audio('/sound.mp3');
   var lastNumber = "0";
  
@@ -29,25 +33,45 @@ const Panel: React.FC = () => {
     var sectorNameLocal = localStorage.getItem("@panel-ticket/sectorName");
     var sectorIdLocal = localStorage.getItem("@panel-ticket/sectorWindow");
     
-    if(sectorNameLocal !== undefined && sectorNameLocal !== null && sectorIdLocal !== undefined  && sectorIdLocal !== null) {
-      setSectorName(sectorNameLocal!);
-      setSectorId(Number(sectorIdLocal));
-      loadingDate(Number(sectorIdLocal))
-    } 
+    /* VERIFICA SE EXISTE SECTOR ID DEFINIDO */
+    if(sectorIdLocal && !modalError) {
+      /* INICIA UM END_POIN PARA REALIZAR AS CHAMADAS DO PAINEL */
+      const socket = socketIoClient(END_POINT, { extraHeaders: { sectorid: sectorIdLocal }});
+
+      socket.on('error', (error) => {
+        setModalError(true);
+        socket.disconnect();
+        document.getElementById("errorId")!.innerHTML="Error ID: " + error;
+      });
+      
+      socket.on('sucess', (sucess) => {
+        console.log(sucess);
+        /* CASO CONECTE SETA AS VARIAVEIS LOCAIS E CHAMA UM LOADING INICIAL (PUXAR ULTIMAS SENHAS) */
+        if(sectorNameLocal !== undefined && sectorNameLocal !== null && sectorIdLocal !== undefined  && sectorIdLocal !== null) {
+          setSectorName(sectorNameLocal!);
+          setSectorId(Number(sectorIdLocal));
+          loadingDate(Number(sectorIdLocal))
+        } 
+      });
+
+      socket.on('disconnect', () => {
+        /* SE POR ALGUM MOTIVO DESCONECTAR, ELE CHAMA UM MODAL DE ATUALIZAÇÃO DE PAGINA */
+        setModalError(true);
+        socket.disconnect();
+        document.getElementById("errorId")!.innerHTML="Error ID: Client Disconnected";
+      });
+    }
   }, []);
 
   async function loadingDate(sectorIdd: number) {
+    /* BUSCA NA API AS ULTIMAS SENHAS */
     await api.post('/loadingInitialWindow', {sectorId: sectorIdd}).then(response => {      
       if(response.data[0].numero.toString() !== lastNumber) {
-        console.log(lastNumber)
         lastNumber = response.data[0].numero.toString();
         updateList(response.data);
         audioCall.play()
       }
     });
-    await new Promise(resolve => setTimeout(resolve, 3000));
-    
-    loadingDate(sectorIdd);
   }
 
   return (
@@ -82,6 +106,17 @@ const Panel: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {modalError ?
+      <Modal id="modalError">
+        <div>
+          <h1>ERRO AO SE COMUNICAR COM O SERVIDOR!</h1>
+          <p>CLIQUE EM ATUALIZAR, CASO NÃO FUNCIONE VERIFIQUE SE NÃO EXISTE NENHUMA TV USANDO O MESMO SETOR!</p>
+          <p className='errorId' id="errorId"></p>
+          <button onClick={() => window.location.reload()}>RECARREGAR</button>
+        </div>
+      </Modal>
+      : <></>}
    </Container>
   );
 }

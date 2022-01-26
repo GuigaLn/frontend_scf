@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-//import { shade } from 'polished';
-
 export const Container = styled.div`
   width: 100%;
   height: 100vh;
@@ -97,6 +95,41 @@ export const Container = styled.div`
           font-size: 50px;
         }
       }
+    }
+  }
+`;
+
+export const Modal = styled.div`
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.4);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 11;
+
+  div {
+    background-color: #FFF;
+    padding: 20px;
+
+    h1 {
+      color: red;
+    }
+
+    p {
+      margin-top: 20px;
+      font-weight: 400;
+      font-size: 20px;
+      color: #404040;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    p.errorId {
+      font-size: 16px !important;
     }
   }
 `;

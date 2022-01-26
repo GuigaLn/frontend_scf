@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { SideBar} from './styles';
-import { FiClock, FiPieChart, FiMap, FiBriefcase, FiKey, FiAlertCircle, FiMenu, FiHome, FiLogOut, FiCast } from 'react-icons/fi';
+import { FiClock, FiPieChart, FiMap, FiBriefcase, FiKey, FiAlertCircle, FiMenu, FiHome, FiLogOut, FiCast, FiSun, FiMessageCircle } from 'react-icons/fi';
 
 import logo from '../../assets/logo2.png';
 import { useHistory } from 'react-router';
@@ -25,9 +25,7 @@ const Dashboard: React.FC<SidebarProps> = ({ page }) => {
     const [ timeAttedance, setTimeAttedance ] = useState(-1);
 
     useEffect(() => {
-        console.log(user.userPermissions.findIndex((item) => item.permisao_id === 1))
         if(user.userPermissions.findIndex((item) => item.permisao_id === 1) !== -1) {
-            console.log(1)
             setTickets(1);
             setTimeAttedance(1);
             setAll(1);
@@ -66,7 +64,20 @@ const Dashboard: React.FC<SidebarProps> = ({ page }) => {
                         <span>Relatórios</span>
                     </div> :<></>
                 }
-
+                { // VERIFICAR SE TEM PERMISÃO TOAL
+                 all !== -1 ?
+                    <div className={ page === 'vacation' ? "option select" : 'option' } onClick={() => history.push('/scf/employee/listvacation')}>
+                        <FiSun />
+                        <span>Férias e Licenças</span>
+                    </div> :<></>
+                }
+                { // VERIFICAR SE TEM PERMISÃO TOAL
+                 timeAttedance !== -1 ?
+                    <div className={ page === 'chat' ? "option select" : 'option' } onClick={() => history.push('/scf/chat')}>
+                        <FiMessageCircle />
+                        <span>Chat</span>
+                    </div> :<></>
+                }
                 { // VERIFICAR SE TEM PERMISÃO TOAL
                  all !== -1 ?
                     <div className={ page === 'comments' ? "option select" : 'option' } onClick={() => history.push('/scf/comments')}>

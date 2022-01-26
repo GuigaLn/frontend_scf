@@ -9,6 +9,8 @@ import SideBar from '../../../components/SideBar';
 import api from '../../../services/api';
 import { ToastContainer } from 'react-toastify';
 import { useParams } from 'react-router-dom';
+import { AxiosError } from 'axios';
+import { useAuth } from '../../../context/AuthContext';
 
 interface Request {
   id: string;
@@ -22,6 +24,7 @@ interface InterfaceComments {
 const TimeAttendanceDetail: React.FC = () => {
   const data2 = [{}];
   const [data, setData] = useState<any>(data2);
+  const { signOut } = useAuth();
 
   const [startDay, setStartDay] = useState(''); 
   const [endDay, setEndDay] = useState(''); 
@@ -94,13 +97,16 @@ const TimeAttendanceDetail: React.FC = () => {
           }
           setTimeout(resolve);
           return;
-        }).catch((err) => {
-          console.log(err);
+        }).catch((err: AxiosError) => {
+          if(err.response?.status === 401) {
+            signOut();
+            return;
+          }
+          console.log(err.response);
           setTimeout(reject);
           return;
         }); 
       } catch (err) {
-        console.log(err);
         setTimeout(reject);
         return;
       }

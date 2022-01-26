@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router';
 import { Container } from './styles';
 
 const InitialRouter: React.FC = () => {
   const history = useHistory();
-
 
   return (
     <Container>

@@ -6,6 +6,8 @@ import api from '../../../services/api';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { AxiosError } from 'axios';
+import { useAuth } from '../../../context/AuthContext';
 
 interface valueOccupation {
   id: number; 
@@ -15,6 +17,7 @@ interface valueOccupation {
 
 const Occupation: React.FC = () => {
   const data2 = [{}];
+  const { signOut } = useAuth();
 
   const [openModal, setOpenModal] = useState(false);
   const [openModalAdd, setOpenModalAdd] = useState(false);
@@ -45,13 +48,16 @@ const Occupation: React.FC = () => {
           setData(response.data);
           setTimeout(resolve);
           return;
-        }).catch((err) => {
-          console.log(err);
+        }).catch((err: AxiosError) => {
+          if(err.response?.status === 401) {
+            signOut();
+            return;
+          }
+          console.log(err.response);
           setTimeout(reject);
           return;
         }); 
       } catch (err) {
-        console.log(err);
         setTimeout(reject);
         return;
       }

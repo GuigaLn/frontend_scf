@@ -2,7 +2,10 @@ import React from 'react';
 import { useHistory } from 'react-router';
 import { Container } from './styles';
 
-const CallTickets: React.FC = () => {
+/*
+* CONFIGURA O PAINEL
+*/
+const PanelConfig: React.FC = () => {
   const history = useHistory();
 
   function handdleNumber(sectorWindow: number, sectorName: string) {
@@ -27,4 +30,4 @@ const CallTickets: React.FC = () => {
   );
 }
 
-export default CallTickets;
+export default PanelConfig;

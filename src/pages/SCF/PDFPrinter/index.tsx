@@ -4,6 +4,8 @@ import { Container } from './styles';
 // @ts-ignore
 import Printer, { print } from 'react-pdf-print';
 import api from '../../../services/api';
+import { useAuth } from '../../../context/AuthContext';
+import { AxiosError } from 'axios';
 
 interface ApiResponseData {
   day: string,
@@ -16,7 +18,7 @@ interface ApiResponseData {
 }
 
 const PDFPrinter: React.FC = () => {
-  const history = useHistory();
+  const { signOut } = useAuth();
   const ids = ['printer'];
   
   const [data, setData] = useState<ApiResponseData[]>([{day: '', obs: '', one: '', oneout: '', two: '', twoout: '', week: ''}]);
@@ -40,13 +42,16 @@ const PDFPrinter: React.FC = () => {
           }
           setTimeout(resolve);
           return;
-        }).catch((err) => {
-          console.log(err);
+        }).catch((err: AxiosError) => {
+          if(err.response?.status === 401) {
+            signOut();
+            return;
+          }
+          console.log(err.response);
           setTimeout(reject);
           return;
         }); 
       } catch (err) {
-        console.log(err);
         setTimeout(reject);
         return;
       }

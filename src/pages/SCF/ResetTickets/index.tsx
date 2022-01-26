@@ -6,9 +6,12 @@ import { useHistory } from 'react-router';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import api from '../../../services/api';
+import { AxiosError } from 'axios';
+import { useAuth } from '../../../context/AuthContext';
 
 const ResetTickets: React.FC = () => {
   const history = useHistory();
+  const { signOut } = useAuth();
   const [sectorId, setSectorId] = useState<Number>(0); 
   const [password, setPassword] = useState('');
 
@@ -18,8 +21,13 @@ const ResetTickets: React.FC = () => {
         api.post('/resetTickets', {sectorId: sectorId}).then(response => {
           alert("Resetado com sucesso!");
           history.push("/scf/ticket/initialconfig");
-        }).catch((err) => {
-          console.log(err);
+        }).catch((err: AxiosError) => {
+          if(err.response?.status === 401) {
+            signOut();
+            return;
+          }
+
+          console.log(err.response);
           toast.error('Erro ao Resetar!', {
             position: "top-right",
             autoClose: 5000,

@@ -11,6 +11,9 @@ import 'react-data-table-component-extensions/dist/index.css';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useHistory } from 'react-router-dom';
+import { AxiosError } from 'axios';
+import { useAuth } from '../../../context/AuthContext';
 
 interface valueEmployee {
   id?: number; 
@@ -24,7 +27,9 @@ interface valueEmployee {
 }
 
 const Employee: React.FC = () => {
+  const history = useHistory();
   const data2 = [{}];
+  const { signOut } = useAuth();
 
   const [openModal, setOpenModal] = useState(false);
   const [openModalAdd, setOpenModalAdd] = useState(false);
@@ -60,11 +65,6 @@ const Employee: React.FC = () => {
       selector: (row: any) => row.cpf,
       sortable: true
     },
-    {
-      name: "CNS",
-      selector: (row: any) => row.cns,
-      sortable: true
-    },
   ];
 
   const tableData = {
@@ -83,13 +83,16 @@ const Employee: React.FC = () => {
           setData(response.data);
           setTimeout(resolve);
           return;
-        }).catch((err) => {
-          console.log(err);
+        }).catch((err: AxiosError) => {
+          if(err.response?.status === 401) {
+            signOut();
+            return;
+          }
+          console.log(err.response);
           setTimeout(reject);
           return;
         }); 
       } catch (err) {
-        console.log(err);
         setTimeout(reject);
         return;
       }
@@ -195,7 +198,6 @@ const Employee: React.FC = () => {
     )
   }
 
-
   return (
     <Container>
       <ToastContainer />
@@ -214,8 +216,8 @@ const Employee: React.FC = () => {
               columns={columns}
               data={data}
               pagination
-              paginationPerPage={5}
-              onRowDoubleClicked={(e: any) => {setOpenModal(true); setValueEdit(e) }}
+              paginationPerPage={30}
+              onRowDoubleClicked={(e: any) => {history.push(`employee/detail/${e.id}`) }}
             />
           </DataTableExtensions>
         </div>
