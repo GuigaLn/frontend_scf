@@ -191,7 +191,7 @@ const Occupation: React.FC = () => {
         <h1>
           FUNÇÕES
         </h1>
-        <button className="addColaborador" onClick={() => setOpenModalAdd(true)}>Adicionar Cidade</button>
+        <button className="addColaborador" onClick={() => setOpenModalAdd(true)}>Adicionar Função</button>
         <div className="table">
           <DataTable
             columns={columns}
