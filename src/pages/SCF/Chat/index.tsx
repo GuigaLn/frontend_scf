@@ -111,6 +111,7 @@ const Chat: React.FC = () => {
               <Contact 
                 key={item.id}
                 onClick={() => activeChatHandle(item.id, item.id_phone)} 
+                id={item.id_phone.toString()}
                 className={`chat ${activeChat.chatId === item.id ? 'activeChat': ''}`}
               >
                
@@ -119,7 +120,7 @@ const Chat: React.FC = () => {
                     <strong>{item.name}</strong>
                     {activeChat.chatId !== item.id ? <p>{item.msg}</p> : ''}
                   </div>
-                  {item.seen === true ? <></> : <span />}
+                  {item.seen === true ? <></> : <FiInfo size={18} style={{ color: '#1E97F7' }} />}
                 </ContactInformation>
               </Contact>
             ))}
@@ -139,6 +140,7 @@ const Chat: React.FC = () => {
                   <input value={msgToSend} type="text" onInputCapture={(e) => setMsgToSend(e.currentTarget.value)} ></input>
                   <button onClick={sendMessage}>ENVIAR</button>
                 </div>
+                <div onClick={() => { document.getElementById('554299436691@c.us')?.remove() }}>e</div>
               </Menssagens> 
             ) : <NotChatOpen />
             }
