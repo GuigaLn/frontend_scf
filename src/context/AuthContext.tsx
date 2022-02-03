@@ -1,6 +1,7 @@
 import React, { createContext, useCallback, useState, useContext } from 'react';
 
 import api from '../services/api';
+import callCenterApi from '../services/callCenterApi';
 
 interface InterfaceUser {
   id: number;
@@ -34,6 +35,7 @@ export const AuthProvider: React.FC = ({ children }) => {
 
     if ( token && user ) {
       api.defaults.headers.authorization = `Bearer ${token}`;
+      callCenterApi.defaults.headers.authorization = `Bearer ${token}`;
       
       return { token, user: JSON.parse(user) };
     }
@@ -51,6 +53,8 @@ export const AuthProvider: React.FC = ({ children }) => {
     const { token, user } = response.data;
 
     api.defaults.headers.authorization = `Bearer ${token}`;
+    callCenterApi.defaults.headers.authorization = `Bearer ${token}`;
+    console.log(token);
 
     localStorage.setItem('@ScfUserAuth:token', token);
     localStorage.setItem('@ScfUserAuth:user', JSON.stringify(user));

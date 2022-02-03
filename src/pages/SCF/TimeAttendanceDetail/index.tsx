@@ -30,6 +30,7 @@ const TimeAttendanceDetail: React.FC = () => {
   const [endDay, setEndDay] = useState(''); 
 
   const [nameEmployee, setNameEmployee] = useState('');
+  const [sumHours, setSumHours] = useState('');
 
   const [detailUpdate, setDetailUpdate] = useState<any>();
   const [idComments, setIdComments] = useState<any>();
@@ -74,6 +75,11 @@ const TimeAttendanceDetail: React.FC = () => {
       selector: "obs",
       sortable: true
     },
+    {
+      name: "SOMA",
+      selector: "sum",
+      sortable: true
+    },
   ];
 
   const tableData = {
@@ -91,10 +97,11 @@ const TimeAttendanceDetail: React.FC = () => {
    new Promise((resolve, reject) => {
       try {
         api.post('time/detail', {id}).then(response => {
-          setData(response.data.times);
+          setData(response.data.times.list);
           if(response.data.customer) {
             setNameEmployee(response.data.customer);
           }
+          setSumHours(response.data.times.sumHours);
           setTimeout(resolve);
           return;
         }).catch((err: AxiosError) => {
@@ -132,12 +139,12 @@ const TimeAttendanceDetail: React.FC = () => {
     new Promise((resolve, reject) => {
       try {
         api.post('time/detail', {id, startDay, endDay}).then(response => {
-          setData(response.data.times);
+          setData(response.data.times.list);
           if(nameEmployee === '') {
             setNameEmployee(response.data.customer);
             console.log(nameEmployee)
           }
-          console.log(response.data)
+          setSumHours(response.data.times.sumHours);
           setTimeout(resolve);
           return;
         }).catch((err) => {
@@ -204,7 +211,7 @@ const TimeAttendanceDetail: React.FC = () => {
               columns={columns}
               data={data}
               pagination
-              paginationPerPage={31}
+              paginationPerPage={32}
               onRowDoubleClicked={(e: any) => 
                 {
                   setOpenModal(true); 
@@ -214,6 +221,7 @@ const TimeAttendanceDetail: React.FC = () => {
             />
           </DataTableExtensions>
         </div>
+        <h1>{sumHours}</h1>
       </Body>
 
       {openModal ?
