@@ -6,7 +6,8 @@ import callCenterApi from '../services/callCenterApi';
 interface InterfaceUser {
   id: number;
   login: string;
-  userPermissions: Array<{ permisao_id: number }>
+  userPermissions: Array<{ permisionid: number }>
+  id_unidade_de_saude: number
 }
 
 interface SignInCredentials {
@@ -54,7 +55,6 @@ export const AuthProvider: React.FC = ({ children }) => {
 
     api.defaults.headers.authorization = `Bearer ${token}`;
     callCenterApi.defaults.headers.authorization = `Bearer ${token}`;
-    console.log(token);
 
     localStorage.setItem('@ScfUserAuth:token', token);
     localStorage.setItem('@ScfUserAuth:user', JSON.stringify(user));

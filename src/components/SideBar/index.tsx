@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { SideBar} from './styles';
-import { FiClock, FiPieChart, FiMap, FiBriefcase, FiKey, FiAlertCircle, FiMenu, FiHome, FiLogOut, FiCast, FiSun, FiMessageCircle } from 'react-icons/fi';
+import { FiClock, FiPieChart, FiMap, FiBriefcase, FiKey, FiAlertCircle, FiMenu, FiHome, FiLogOut, FiCast, FiSun, FiMessageCircle, FiUser } from 'react-icons/fi';
 
 import logo from '../../assets/logo2.png';
 import { useHistory } from 'react-router';
@@ -23,15 +23,18 @@ const Dashboard: React.FC<SidebarProps> = ({ page }) => {
     const [ all, setAll ] = useState(-1);
     const [ tickets, setTickets ] = useState(-1);
     const [ timeAttedance, setTimeAttedance ] = useState(-1);
+    const [ employee, setEmployee ] = useState(-1);
 
     useEffect(() => {
-        if(user.userPermissions.findIndex((item) => item.permisao_id === 1) !== -1) {
+        if(user.userPermissions.findIndex((item) => item.permisionid === 1) !== -1) {
             setTickets(1);
             setTimeAttedance(1);
             setAll(1);
+            setEmployee(1);
         }
-        if(user.userPermissions.findIndex((item) => item.permisao_id === 2) !== -1) setTimeAttedance(1);
-        if(user.userPermissions.findIndex((item) => item.permisao_id === 3) !== -1) setTickets(1);
+        if(user.userPermissions.findIndex((item) => item.permisionid === 2) !== -1) setTimeAttedance(1);
+        if(user.userPermissions.findIndex((item) => item.permisionid === 3) !== -1) setTickets(1);
+        if(user.userPermissions.findIndex((item) => item.permisionid === 4) !== -1) setEmployee(1);
     })
     return (
         <SideBar>
@@ -41,13 +44,19 @@ const Dashboard: React.FC<SidebarProps> = ({ page }) => {
                 <FiMenu size={20} />
             </div>
 
-            <div className="body">
-                <button onClick={() => history.push('/scf/employee')}>Colaboradores</button>
-                
+            <div className="body">                
                 <div className={ page === 'dashboard' ? "option select" : 'option' } onClick={() => history.push('/scf/dashboard')}>
                     <FiHome />
                     <span>Dashboard</span>
                 </div>
+
+                { // VERIFICAR SE TEM PERMISÃO DE INTERAGIR COM OS FUNCIONÁRIOS
+                employee !== -1 ? 
+                    <div className={ page === 'employee' ? "option select" : 'option' } onClick={() => history.push('/scf/employee')}>
+                        <FiUser />
+                        <span>Funcionários</span>
+                    </div> :<></>
+                }
 
                 { // VERIFICAR SE TEM PERMISÃO DE VER O PONTO
                 timeAttedance !== -1 ? 
@@ -65,14 +74,14 @@ const Dashboard: React.FC<SidebarProps> = ({ page }) => {
                     </div> :<></>
                 }
                 { // VERIFICAR SE TEM PERMISÃO TOAL
-                 all !== -1 ?
+                 employee !== -1 ?
                     <div className={ page === 'vacation' ? "option select" : 'option' } onClick={() => history.push('/scf/employee/listvacation')}>
                         <FiSun />
                         <span>Férias e Licenças</span>
                     </div> :<></>
                 }
                 { // VERIFICAR SE TEM PERMISÃO TOAL
-                 timeAttedance !== -1 ?
+                 all !== -1 ?
                     <div className={ page === 'chat' ? "option select" : 'option' } onClick={() => history.push('/scf/chat')}>
                         <FiMessageCircle />
                         <span>Chat</span>

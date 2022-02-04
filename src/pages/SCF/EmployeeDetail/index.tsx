@@ -64,8 +64,7 @@ const EmployeeDetail: React.FC = () => {
   const [daysPeriod, setDaysPeriod] = useState('');
   const [dateInitial, setDateInitial] = useState('');
 
-  const data2 = [{}];
-  const [dataListVacation, setDataListVacation] = useState<any>(data2);
+  const [dataListVacation, setDataListVacation] = useState<any>();
   const columns: any = [
     {
       name: "TIPO",
@@ -91,7 +90,9 @@ const EmployeeDetail: React.FC = () => {
     },
     {
       name: "VISUALIZAR",
-      selector: (row: any) => <span onClick={() => history.push(`/scf/employee/vacation/${row.id}`)}  className='icon-printer' style={{ cursor: 'pointer', color: '#1E97F7'}}><FiPrinter /></span>,
+      selector: (row: any) =>  row.autorizedby !== null ? 
+        <span onClick={() => history.push(`/scf/employee/vacation/${row.id}`)}  className='icon-printer' style={{ cursor: 'pointer', color: '#1E97F7'}}><FiPrinter /></span> 
+        : <span style={{ color: 'red' }}>PENDENTE</span>,
       sortable: true
     },
   ];
@@ -112,7 +113,8 @@ const EmployeeDetail: React.FC = () => {
     const reseolveApi = new Promise((resolve, reject) => {
       try {
         api.post('/employee/detail', {id}).then(response => {
-          setData(response.data[0])
+          if(response.data[0] === undefined) { return history.push('/scf/employee') }
+          setData(response.data[0]);
           setTimeout(resolve);
           return;
         }).catch((err: AxiosError) => {
@@ -226,7 +228,7 @@ const EmployeeDetail: React.FC = () => {
       try {
         api.post('/vacation', { vacation: vacationBoolean, discharge: dischargeBoolean, vestingPeriod, daysPeriod: Number(daysPeriod), dateInitial, idEmployee: Number(id), idOccupation: data.occupationid, idSystemUser: user.id}).then(response => {
           setTimeout(resolve); 
-          //history.push(`/scf/employee/vacation/${response.data.rows[0].id}`);
+
           loadingListVacation();
           setOpenModalVacation(false);
           return;

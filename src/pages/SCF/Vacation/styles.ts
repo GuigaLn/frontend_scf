@@ -79,12 +79,44 @@ export const Container = styled.div`
         width: 100%;
         margin-top: 120px;
        
+        .signture {
+          > div {
+            position: relative;
+            img {
+              position: relative;
+              top: 25px;
+              width: 200px;
+            }
+          }
+        }
 
         tr {
+          
           width: 100%;
+          display: flex;
+          justify-content: space-around;
+          
+          &:first-child {
+            margin-bottom: 10px;
+
+            td {
+              display: flex;
+              flex-direction: column;
+              justify-content: flex-end;
+              text-align: center;
+              align-items: center;
+
+              hr {
+                width: 80%;
+                border: none;
+                border-top: 1px solid black;
+              }
+            }
+          }
 
           td {
-            text-align: center;
+            flex-basis: 100%;
+            text-align: center;           
           }
         }
       }

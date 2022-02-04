@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useParams, useHistory } from 'react-router';
 import { Container } from './styles';
 // @ts-ignore
 import Printer from 'react-pdf-print';
@@ -7,11 +7,14 @@ import api from '../../../services/api';
 import { AxiosError } from 'axios';
 import { useAuth } from '../../../context/AuthContext';
 
+import logo from '../../../assets/signture.png';
+
 interface Request {
   id: string;
 }
 
 const Vacation: React.FC = () => {
+  const history = useHistory();
   const { id } = useParams<Request>();
   const { signOut } = useAuth();
   
@@ -25,6 +28,7 @@ const Vacation: React.FC = () => {
   useEffect(() => {
     try {
       api.post('/vacation/detail', {id}).then(response => {
+        if(response.data === undefined) { alert('NÃO FOI AUTORIZADO!'); return history.push(`/scf/employee/listvacation`); }        
         setText(response.data.text)
         setDateNow(response.data.dateNow)
         setName(response.data.name);
@@ -37,21 +41,14 @@ const Vacation: React.FC = () => {
           signOut();
           return;
         }
-        console.log(err.response);
-        return;
+        alert('NÃO FOI AUTORIZADO!');
+        return history.push(`/scf/employee/listvacation`);
       });
     } catch (err: any) {
       return;
     }
-    // FALTA OCUPAÇÃO e DATA FINAL!!
   }, []);
 
-/* 
- <input type='button'
-          onClick={() => print(ids)} value='Stampa' 
-        />
-        
-*/
   return (
     <Container>
       <div className='App'>
@@ -73,12 +70,17 @@ const Vacation: React.FC = () => {
             <table className='tableSign'>
               <tbody>
                 <tr> 
-                  <td>________________________________</td>
-                  <td>________________________________</td>
+                  <td><hr /></td>
+                  <td className="signture">
+                    <div>
+                      <img src={logo} alt="signture" />
+                    </div>
+                    <hr />
+                  </td>
                 </tr>
                 <tr> 
-                  <td>{name}</td>
-                  <td>SECREATRIA DE SAÚDE</td>
+                  <td><b>{name}</b></td>
+                  <td><b>GRAZIELA BRAUN</b><br/>SEC. MUN. DE SAÚDE<br/>DECRETO Nº 3677/2021</td>
                 </tr>
               </tbody>
             </table>           

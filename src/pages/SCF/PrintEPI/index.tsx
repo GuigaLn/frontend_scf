@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useParams, useHistory } from 'react-router';
 import { Container } from './styles';
+
 // @ts-ignore
 import Printer from 'react-pdf-print';
 import api from '../../../services/api';
@@ -13,6 +14,7 @@ interface Request {
 }
 
 const PrintEPI: React.FC = () => {
+  const history = useHistory();
   const { id } = useParams<Request>();
   const { signOut } = useAuth();
   
@@ -31,6 +33,7 @@ const PrintEPI: React.FC = () => {
   let promiseLoading = () => {
     try {
       api.post('/employee/detailforepi', {id: Number(id)}).then(response => {
+        if(response.data === undefined) { alert('Verifique se possui Únidade de Saúde, Nome, CNS, CPF e Ocupação!'); return history.push(`/scf/employee/detail/${id}`); }
         setName(response.data.name);
         setCns(response.data.cns);
         setCpf(response.data.cpf);
@@ -44,8 +47,8 @@ const PrintEPI: React.FC = () => {
           signOut();
           return;
         }
-        console.log(err.response);
-        return;
+        alert('VERIFIQUE SE É DE SUA ÚNIDADE DE SAÚDE E SE POSSUÍ NOME, CNS, CPF e OCUPAÇÃO!');
+        return history.push(`/scf/employee/detail/${id}`);
       }); 
     } catch (err) {
       return;

@@ -28,7 +28,6 @@ interface valueEmployee {
 
 const Employee: React.FC = () => {
   const history = useHistory();
-  const data2 = [{}];
   const { signOut } = useAuth();
 
   const [openModal, setOpenModal] = useState(false);
@@ -36,7 +35,7 @@ const Employee: React.FC = () => {
   let valueAdd: valueEmployee = {name: '', birthday: '', cpf: ''};
   let [valueEdit, setValueEdit] = useState<valueEmployee>({name: '', birthday: '', cpf: ''});
 
-  const [data, setData] = useState<any>(data2);
+  const [data, setData] = useState<any>();
   const columns: any = [
     {
       name: "ID",

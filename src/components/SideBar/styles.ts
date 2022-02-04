@@ -15,6 +15,7 @@ export const SideBar = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 10px;
 
     img {
       width: 20%;
@@ -32,26 +33,7 @@ export const SideBar = styled.div`
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    
-
-    button {
-      background-color: #1E97F7;
-      border: none;
-      color: #FFF;
-      font-weight: 400;
-      font-size: 18px;
-      font-family: Arial, Helvetica, sans-serif;
-      margin-top: 40px;
-      margin-bottom: 40px;
-      padding: 10px 0px;
-      border-radius: 5px;
-      width: 100%;
-      transition: background 0.4s;
-
-      &:hover {
-        background-color: ${shade(0.2, '#1E97F7')};
-      }
-    }
+    border-top: 1px solid #CCC;
 
     div.option {
       font-weight: 400;
