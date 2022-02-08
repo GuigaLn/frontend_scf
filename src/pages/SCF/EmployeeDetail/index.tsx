@@ -90,9 +90,17 @@ const EmployeeDetail: React.FC = () => {
     },
     {
       name: "VISUALIZAR",
-      selector: (row: any) =>  row.autorizedby !== null ? 
-        <span onClick={() => history.push(`/scf/employee/vacation/${row.id}`)}  className='icon-printer' style={{ cursor: 'pointer', color: '#1E97F7'}}><FiPrinter /></span> 
-        : <span style={{ color: 'red' }}>PENDENTE</span>,
+      selector: (row: any) =>  {
+        if(row.autorizedby !== null) {
+          return <span onClick={() => history.push(`/scf/employee/vacation/${row.id}`)}  className='icon-printer' style={{ cursor: 'pointer', color: '#1E97F7'}}><FiPrinter /></span> 
+        } else { 
+          if(row.canceledby !== null) {
+            return <span style={{ color: 'red' }}>REJEITADO</span> 
+          } else {
+            return <span style={{ color: 'red' }}>PENDENTE</span> 
+          }
+        }
+      },
       sortable: true
     },
   ];

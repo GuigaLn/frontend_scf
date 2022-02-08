@@ -15,9 +15,9 @@ export const Body = styled.div`
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  width: calc(100% - 300px);
+  width: calc(100% - 250px);
   flex-direction: column;
-  margin-left: 300px;
+  margin-left: 250px;
 
   h1 {
     margin-top: 40px;

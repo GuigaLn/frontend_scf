@@ -10,7 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../../../context/AuthContext';
 import { AxiosError } from 'axios';
-import { FiPrinter, FiThumbsUp } from 'react-icons/fi';
+import { FiPrinter, FiThumbsDown, FiThumbsUp } from 'react-icons/fi';
 
 
 const ListVacation: React.FC = () => {
@@ -20,9 +20,19 @@ const ListVacation: React.FC = () => {
 
   const conditionalRowStyles = [
     {
-      when: (row: any) => row.started === "true",
+      when: (row: any) => row.autorizedby !== null && row.started === "true" && row.enjoyment === true,
       style: {
         backgroundColor: 'rgb(200, 255, 200, 1)',
+        color: 'black',
+        '&:hover': {
+          cursor: 'pointer',
+        },
+      },
+    },
+    {
+      when: (row: any) => row.autorizedby !== null && row.enjoyment === false,
+      style: {
+        backgroundColor: 'rgb(200, 200, 255, 1)',
         color: 'black',
         '&:hover': {
           cursor: 'pointer',
@@ -41,7 +51,13 @@ const ListVacation: React.FC = () => {
     },
     {
       name: "TIPO",
-      selector: (row: any) => { if(row.vacation) { return 'FÉRIAS'} else { return 'LICENÇA PRÊMIO'} },
+      selector: (row: any) => { 
+        if(row.enjoyment === false) {
+          return 'QUITAÇÃO';
+        } else {
+          if(row.vacation) { return 'FÉRIAS'} else { return 'LICENÇA PRÊMIO'} 
+        }
+      },
       sortable: true,
     },
     {
@@ -60,11 +76,14 @@ const ListVacation: React.FC = () => {
       sortable: true
     },
     {
-      name: "VISUALIZAR",
+      name: "OPÇÕES",
       selector: (row: any) => {  
         if(user.id_unidade_de_saude === 9) { 
           return row.autorizedby === null ? 
-          <span onClick={() => promiseEdit(row.id)}  className='icon-printer' style={{ cursor: 'pointer', color: '#1E97F7'}}><FiThumbsUp size={22} /></span> 
+          <div>
+            <span onClick={() => promiseConfirm(row.id)}  className='icon-printer' style={{ cursor: 'pointer', color: '#1E97F7'}}><FiThumbsUp size={22} /></span> 
+            <span onClick={() => promiseCancel(row.id)}  className='icon-printer' style={{ marginLeft: '10px', cursor: 'pointer', color: '#ff4040'}}><FiThumbsDown size={22} /></span> 
+          </div>
           : <span onClick={() => history.push(`/scf/employee/vacation/${row.id}`)}  className='icon-printer' style={{ cursor: 'pointer', color: '#1E97F7'}}><FiPrinter size={22} /></span> 
         } 
         else {
@@ -128,7 +147,7 @@ const ListVacation: React.FC = () => {
     }
   }
 
-  let promiseEdit = (idVacation: number) => {
+  let promiseConfirm = (idVacation: number) => {
     if(!window.confirm('Deseja Autorizar o Pedido de Férias?')) {
       return
     }
@@ -136,6 +155,39 @@ const ListVacation: React.FC = () => {
     const reseolveApi = new Promise((resolve, reject) => {
       try {
         api.put('/vacation/confirm', { id: idVacation}).then(response => {
+          reloadData();
+          setTimeout(resolve);
+          return;
+        }).catch((err) => {
+          console.log(err);
+          setTimeout(reject);
+          return;
+        }); 
+      } catch (err) {
+        console.log(err);
+        setTimeout(reject);
+        return;
+      }
+    });
+
+    toast.promise(
+      reseolveApi,
+      {
+        pending: 'Consultando API',
+        success: 'Sucesso ao Autorizar 👌',
+        error: 'Erro ao Autorizar 🤯'
+      }
+    )
+  }
+
+  let promiseCancel = (idVacation: number) => {
+    if(!window.confirm('Deseja Rejeitar o Pedido de Férias?')) {
+      return
+    }
+
+    const reseolveApi = new Promise((resolve, reject) => {
+      try {
+        api.put('/vacation/cancel', { id: idVacation}).then(response => {
           reloadData();
           setTimeout(resolve);
           return;
@@ -175,7 +227,7 @@ const ListVacation: React.FC = () => {
             columns={columns}
             data={data}
             pagination
-            paginationPerPage={5}
+            paginationPerPage={30}
             conditionalRowStyles={conditionalRowStyles}
           />
         </div>
