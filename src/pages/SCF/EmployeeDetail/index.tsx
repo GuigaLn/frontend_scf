@@ -58,7 +58,7 @@ const EmployeeDetail: React.FC = () => {
   const [dataOccupation, setDataOccupation] = useState<InterfaceOccupation[]>([]);
   const [openModalVacation, setOpenModalVacation] = useState(false);
 
-  const [discharge, setDischarge] = useState('');
+  const [discharge, setDischarge] = useState('gozo');
   const [vacation, setVacation] = useState('vacation')
   const [vestingPeriod, setVestingPeriod] = useState('');
   const [daysPeriod, setDaysPeriod] = useState('');
@@ -221,14 +221,26 @@ const EmployeeDetail: React.FC = () => {
       data.id = Number(id);
       let vacationBoolean;
       let dischargeBoolean;
-
+      let enjoymentBoolean;
+      
+      // VERIFICA SE É FÉRIAS OU LICENÇA PRÊMIO
       if(vacation === 'vacation') { vacationBoolean = true} else { vacationBoolean = false }
-      if(discharge === 'gozo_quitacao') { dischargeBoolean = true} else { dischargeBoolean = false }
+
+      // VERIFICA O TIPO
+      if(discharge === 'gozo') { 
+        enjoymentBoolean = true; dischargeBoolean = false 
+      }
+      else if(discharge === 'gozo_quitacao') { enjoymentBoolean = true; dischargeBoolean = true } 
+      else if(discharge === 'quitacao') { enjoymentBoolean = false; dischargeBoolean = true } 
 
       try {
-        api.post('/vacation', { vacation: vacationBoolean, discharge: dischargeBoolean, vestingPeriod, daysPeriod: Number(daysPeriod), dateInitial, idEmployee: Number(id), idOccupation: data.occupationid, idSystemUser: user.id}).then(response => {
+        api.post('/vacation', { vacation: vacationBoolean, enjoyment: enjoymentBoolean, discharge: dischargeBoolean, vestingPeriod, daysPeriod: Number(daysPeriod), dateInitial, idEmployee: Number(id), idOccupation: data.occupationid, idSystemUser: user.id}).then(response => {
           setTimeout(resolve); 
-
+          setDischarge('gozo');
+          setVacation('vacation');
+          setVestingPeriod('');
+          setDaysPeriod('');
+          setDateInitial('');
           loadingListVacation();
           setOpenModalVacation(false);
           return;
@@ -237,8 +249,8 @@ const EmployeeDetail: React.FC = () => {
           setTimeout(reject);
           return;
         }); 
-      } catch (err) {
-        console.log(err);
+      } catch (err: any) {
+        console.log(err.data);
         setTimeout(reject);
         return;
       }
@@ -375,9 +387,10 @@ const EmployeeDetail: React.FC = () => {
             </select>
 
             <div className="titleInput"> Tipo de Requerimento *</div>
-            <select name="vacation" id="vacation" defaultValue={'gozo'} onInput={(e) => setDischarge(e.currentTarget.value)}>
+            <select name="vacation" id="vacation" defaultValue='gozo' onInput={(e) => setDischarge(e.currentTarget.value)}>
               <option value="gozo">Gozo</option>
               <option value="gozo_quitacao">Gozo e Quitação</option> 
+              <option value="quitacao">Quitação</option>
             </select>
 
             <div className="titleInput"> Período em Dias *</div>
