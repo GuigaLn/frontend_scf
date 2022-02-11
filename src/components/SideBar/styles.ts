@@ -1,27 +1,32 @@
 import styled from 'styled-components';
 
-import { shade } from 'polished';
-
-export const SideBar = styled.div`
+export const SideBar = styled.div<{ close: boolean }>`
+  transition-duration: 0.5s;
   background-color: #F7F9FC;
-  height: 100%;
-  width: 300px;
+  position: relative;
+  width: ${({ close }) => (close ? '10%' : '30%')};
   padding: 20px;
-  position: fixed;
+  
   z-index: 10;
-  overflow-y: auto;
+
+  div.navbar {
+    position: fixed;
+    width: ${({ close }) => (close ? 'calc(10% - 48px)' : 'calc(30% - 136px)')};
+  }
 
   div.header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: ${({ close }) => (close ? 'center' : 'space-between')};
     margin-bottom: 10px;
 
     img {
-      width: 20%;
+      display: ${({ close }) => (close ? 'none' : 'flex')};
+      width: 40px;
     }
 
     strong {
+      display: ${({ close }) => (close ? 'none' : 'flex')};
       font-family: Arial, Helvetica, sans-serif;
       color: #606060;
     }
@@ -34,6 +39,9 @@ export const SideBar = styled.div`
     align-items: center;
     flex-wrap: wrap;
     border-top: 1px solid #CCC;
+    overflow: auto;
+    max-height: 90vh;
+    overflow: auto;
 
     div.option {
       font-weight: 400;
@@ -48,10 +56,12 @@ export const SideBar = styled.div`
 
       display: flex;
       transition: color 0.2s;
+      justify-content: ${({ close }) => (close ? 'center' : 'flex-start')};
 
       span {
         margin-left: 10px;
         font-family: Arial, Helvetica, sans-serif;
+        display: ${({ close }) => (close ? 'none' : 'flex')};
       }
 
       &.select {

@@ -14,7 +14,7 @@ interface SidebarProps {
 const Dashboard: React.FC<SidebarProps> = ({ page }) => {
     const history = useHistory();
     const { signOut, user } = useAuth();
-
+    const [close, setClose] = useState(false);
     /*
     1 = total
     2 = ponto
@@ -35,101 +35,103 @@ const Dashboard: React.FC<SidebarProps> = ({ page }) => {
         if(user.userPermissions.findIndex((item) => item.permisionid === 2) !== -1) setTimeAttedance(1);
         if(user.userPermissions.findIndex((item) => item.permisionid === 3) !== -1) setTickets(1);
         if(user.userPermissions.findIndex((item) => item.permisionid === 4) !== -1) setEmployee(1);
-    })
+    }, [user.userPermissions]);
     return (
-        <SideBar>
-            <div className="header">
-                <img src={logo} alt="Logo" />
-                <strong>SCF - SMS</strong>
-                <FiMenu size={20} />
-            </div>
-
-            <div className="body">                
-                <div className={ page === 'dashboard' ? "option select" : 'option' } onClick={() => history.push('/scf/dashboard')}>
-                    <FiHome />
-                    <span>Dashboard</span>
+        <SideBar close={close}>
+            <div className="navbar">
+                <div className="header">
+                    <img src={logo} alt="Logo" />
+                    <strong >SCF - SMS</strong>
+                    <FiMenu size={20} style={{ cursor: 'pointer'}} onClick={() => setClose(!close)} />
                 </div>
 
-                { // VERIFICAR SE TEM PERMISÃO DE INTERAGIR COM OS FUNCIONÁRIOS
-                employee !== -1 ? 
-                    <div className={ page === 'employee' ? "option select" : 'option' } onClick={() => history.push('/scf/employee')}>
-                        <FiUser />
-                        <span>Funcionários</span>
-                    </div> :<></>
-                }
+                <div className="body">                
+                    <div className={ page === 'dashboard' ? "option select" : 'option' } onClick={() => history.push('/scf/dashboard')}>
+                        <FiHome />
+                        <span>Dashboard</span>
+                    </div>
 
-                { // VERIFICAR SE TEM PERMISÃO DE VER O PONTO
-                timeAttedance !== -1 ? 
-                    <div className={ page === 'timeattendance' ? "option select" : 'option' } onClick={() => history.push('/scf/timeattendance')}>
-                        <FiClock />
-                        <span>Batidas</span>
-                    </div> :<></>
-                }
-                
-                { // VERIFICAR SE TEM PERMISÃO TOAL
-                 all !== -1 ?
-                    <div className="option">
-                        <FiPieChart />
-                        <span>Relatórios</span>
-                    </div> :<></>
-                }
-                { // VERIFICAR SE TEM PERMISÃO TOAL
-                 employee !== -1 ?
-                    <div className={ page === 'vacation' ? "option select" : 'option' } onClick={() => history.push('/scf/employee/listvacation')}>
-                        <FiSun />
-                        <span>Férias e Licenças</span>
-                    </div> :<></>
-                }
-                { // VERIFICAR SE TEM PERMISÃO TOAL
-                 all !== -1 ?
-                    <div className={ page === 'chat' ? "option select" : 'option' } onClick={() => history.push('/scf/chat')}>
-                        <FiMessageCircle />
-                        <span>Chat</span>
-                    </div> :<></>
-                }
-                { // VERIFICAR SE TEM PERMISÃO TOAL
-                 all !== -1 ?
-                    <div className={ page === 'comments' ? "option select" : 'option' } onClick={() => history.push('/scf/comments')}>
-                        <FiAlertCircle />
-                        <span>Observações Ponto</span>
-                    </div> :<></>
-                }
+                    { // VERIFICAR SE TEM PERMISÃO DE INTERAGIR COM OS FUNCIONÁRIOS
+                    employee !== -1 ? 
+                        <div className={ page === 'employee' ? "option select" : 'option' } onClick={() => history.push('/scf/employee')}>
+                            <FiUser />
+                            <span>Funcionários</span>
+                        </div> :<></>
+                    }
 
-                { // VERIFICAR SE TEM PERMISÃO TOAL
-                 all !== -1 ?
-                    <div className={ page === 'city' ? "option select" : 'option' } onClick={() => history.push('/scf/city')}>
-                        <FiMap />
-                        <span>Cidades</span>
-                    </div> :<></>
-                }
+                    { // VERIFICAR SE TEM PERMISÃO DE VER O PONTO
+                    timeAttedance !== -1 ? 
+                        <div className={ page === 'timeattendance' ? "option select" : 'option' } onClick={() => history.push('/scf/timeattendance')}>
+                            <FiClock />
+                            <span>Batidas</span>
+                        </div> :<></>
+                    }
+                    
+                    { // VERIFICAR SE TEM PERMISÃO TOAL
+                    all !== -1 ?
+                        <div className="option">
+                            <FiPieChart />
+                            <span>Relatórios</span>
+                        </div> :<></>
+                    }
+                    { // VERIFICAR SE TEM PERMISÃO TOAL
+                    employee !== -1 ?
+                        <div className={ page === 'vacation' ? "option select" : 'option' } onClick={() => history.push('/scf/employee/listvacation')}>
+                            <FiSun />
+                            <span>Férias e Licenças</span>
+                        </div> :<></>
+                    }
+                    { // VERIFICAR SE TEM PERMISÃO TOAL
+                    all !== -1 ?
+                        <div className={ page === 'chat' ? "option select" : 'option' } onClick={() => history.push('/scf/chat')}>
+                            <FiMessageCircle />
+                            <span>Chat</span>
+                        </div> :<></>
+                    }
+                    { // VERIFICAR SE TEM PERMISÃO TOAL
+                    all !== -1 ?
+                        <div className={ page === 'comments' ? "option select" : 'option' } onClick={() => history.push('/scf/comments')}>
+                            <FiAlertCircle />
+                            <span>Observações Ponto</span>
+                        </div> :<></>
+                    }
 
-                { // VERIFICAR SE TEM PERMISÃO TOAL
-                 all !== -1 ?
-                    <div className={ page === 'occupation' ? "option select" : 'option' } onClick={() => history.push('/scf/occupation')}>
-                        <FiBriefcase />
-                        <span>Ocupações</span>
-                    </div> :<></>
-                }
+                    { // VERIFICAR SE TEM PERMISÃO TOAL
+                    all !== -1 ?
+                        <div className={ page === 'city' ? "option select" : 'option' } onClick={() => history.push('/scf/city')}>
+                            <FiMap />
+                            <span>Cidades</span>
+                        </div> :<></>
+                    }
 
-                { // VERIFICAR SE TEM PERMISÃO TOAL
-                 all !== -1 ?
-                    <div className={ page === 'ubs' ? "option select" : 'option' } onClick={() => history.push('/scf/ubs')}>
-                        <FiKey />
-                        <span>Únidade</span>
-                    </div> :<></>
-                }
+                    { // VERIFICAR SE TEM PERMISÃO TOAL
+                    all !== -1 ?
+                        <div className={ page === 'occupation' ? "option select" : 'option' } onClick={() => history.push('/scf/occupation')}>
+                            <FiBriefcase />
+                            <span>Ocupações</span>
+                        </div> :<></>
+                    }
 
-                { 
-                 tickets !== -1 ?
-                    <div className={ page === 'panel' ? "option select" : 'option' } onClick={() => history.push('/scf/ticket/initialconfig')}>
-                        <FiCast />
-                        <span>Painel</span>
-                    </div> :<></>
-                }
+                    { // VERIFICAR SE TEM PERMISÃO TOAL
+                    all !== -1 ?
+                        <div className={ page === 'ubs' ? "option select" : 'option' } onClick={() => history.push('/scf/ubs')}>
+                            <FiKey />
+                            <span>Únidade</span>
+                        </div> :<></>
+                    }
 
-                <div className="option" onClick={() => signOut()}>
-                    <FiLogOut />
-                    <span>Sair</span>
+                    { 
+                    tickets !== -1 ?
+                        <div className={ page === 'panel' ? "option select" : 'option' } onClick={() => history.push('/scf/ticket/initialconfig')}>
+                            <FiCast />
+                            <span>Painel</span>
+                        </div> :<></>
+                    }
+
+                    <div className="option" onClick={() => signOut()}>
+                        <FiLogOut />
+                        <span>Sair</span>
+                    </div>
                 </div>
             </div>
         </SideBar>

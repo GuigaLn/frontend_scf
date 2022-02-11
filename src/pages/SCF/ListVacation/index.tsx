@@ -214,25 +214,27 @@ const ListVacation: React.FC = () => {
   }
 
   return (
-    <Container>
+    <>
       <ToastContainer />
-      <SideBar page='vacation' />
-      <Body>
-        <h1>
-          FÉRIAS E LICENÇA PRÊMIO
-        </h1>
+      <Container>
+        <SideBar page='vacation' />
+        <Body>
+          <h1>
+            FÉRIAS E LICENÇA PRÊMIO
+          </h1>
 
-        <div className="table">
-          <DataTable
-            columns={columns}
-            data={data}
-            pagination
-            paginationPerPage={30}
-            conditionalRowStyles={conditionalRowStyles}
-          />
-        </div>
-      </Body>
-    </Container>
+          <div className="table">
+            <DataTable
+              columns={columns}
+              data={data}
+              pagination
+              paginationPerPage={30}
+              conditionalRowStyles={conditionalRowStyles}
+            />
+          </div>
+        </Body>
+      </Container>
+    </>
   );
 }
 

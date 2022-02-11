@@ -17,17 +17,19 @@ const InitialConfig: React.FC = () => {
   }
 
   return (
-    <Container>
-      <SideBar page='panel' />
-      <Body>
-        <div>
-          <h1>Número do Guichê</h1>
-          <input type="text" placeholder="Exmp. 01" onChange={(e) => setWindownNumber(e.target.value)}></input>
-          <button onClick={handdleNumber}>PROSSEGUIR</button>
-          <button onClick={() => history.push('/scf/ticket/resettickets')}>RESETAR FICHAS</button>
-        </div>
-      </Body>
-    </Container>
+    <>
+      <Container>
+        <SideBar page='panel' />
+        <Body>
+          <div>
+            <h1>Número do Guichê</h1>
+            <input type="text" placeholder="Exmp. 01" onChange={(e) => setWindownNumber(e.target.value)}></input>
+            <button onClick={handdleNumber}>PROSSEGUIR</button>
+            <button onClick={() => history.push('/scf/ticket/resettickets')}>RESETAR FICHAS</button>
+          </div>
+        </Body>
+      </Container>
+    </>
   );
 }
 

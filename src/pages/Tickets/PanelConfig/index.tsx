@@ -8,13 +8,12 @@ import { Container } from './styles';
 const PanelConfig: React.FC = () => {
   const history = useHistory();
 
-  function handdleNumber(sectorWindow: number, sectorName: string) {
-    if(sectorWindow) {
-      localStorage.setItem('@panel-ticket/sectorWindow', sectorWindow.toString());
+  function handdleNumber(sectorName: string) {
+    if(sectorName) {
       localStorage.setItem('@panel-ticket/sectorName', sectorName.toString());
       history.push("/panel");
     } else {
-      alert("Selecione o Setor do Guichê!");
+      alert("Selecione o Setor!");
     }
   }
 
@@ -22,9 +21,9 @@ const PanelConfig: React.FC = () => {
     <Container>
       <div>
         <h1>Qual o Setor do Painel?</h1>
-        <button onClick={() => handdleNumber(1, 'FARMÁCIA')}>FARMÁCIA</button>
-        <button onClick={() => handdleNumber(2, 'CONSULTAS')}>CONSULTAS</button>
-        <button onClick={() => handdleNumber(3, 'EXAMES')}>EXAMES</button>
+        <button onClick={() => handdleNumber('FARMACIA')}>FARMÁCIA</button>
+        <button onClick={() => handdleNumber('CONSULTA')}>CONSULTAS</button>
+        <button onClick={() => handdleNumber('EXAME')}>EXAMES</button>
       </div>
     </Container>
   );

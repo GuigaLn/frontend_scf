@@ -4,10 +4,9 @@ import { shade } from 'polished';
 
 export const Container = styled.div`
   width: 100%;
-
-  background-color: #FFF;
-  display: space-around;
-  align-items: center;
+  height: 100%;
+  display: flex;
+  flex-wrap: no-wrap;
 `;
 
 export const Body = styled.div`
@@ -15,9 +14,10 @@ export const Body = styled.div`
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  width: calc(100% - 300px);
+  width: 100%;
   flex-direction: column;
-  margin-left: 300px;
+  padding: 0px 40px;
+  min-height: 100vh;
 
   h1 {
     margin-top: 40px;
@@ -45,7 +45,7 @@ export const Body = styled.div`
   }
 
   div.table {
-    width: 80%;
+    width: 100%;
   }
 `;
 
@@ -60,6 +60,7 @@ export const Modal = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
+  z-index: 11;
 
   div {
     background-color: #FFF;

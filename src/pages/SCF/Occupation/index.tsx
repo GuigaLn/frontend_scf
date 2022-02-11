@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Body, Modal} from './styles';
 import DataTable from "react-data-table-component";
 import SideBar from '../../../components/SideBar';
@@ -184,25 +184,28 @@ const Occupation: React.FC = () => {
   }
 
   return (
-    <Container>
-      <ToastContainer />
-      <SideBar page='occupation' />
-      <Body>
-        <h1>
-          FUNÇÕES
-        </h1>
-        <button className="addColaborador" onClick={() => setOpenModalAdd(true)}>Adicionar Função</button>
-        <div className="table">
-          <DataTable
-            columns={columns}
-            data={data}
-            pagination
-            paginationPerPage={5}
-            onRowDoubleClicked={(e: any) => {setOpenModal(true); setValue(e) }}
-          />
-        </div>
-      </Body>
-      {openModal ?
+    <>
+    <ToastContainer />
+      <Container>
+        <SideBar page='occupation' />
+        <Body>
+          <h1>
+            FUNÇÕES
+          </h1>
+          <button className="addColaborador" onClick={() => setOpenModalAdd(true)}>Adicionar Função</button>
+          <div className="table">
+            <DataTable
+              columns={columns}
+              data={data}
+              pagination
+              paginationPerPage={5}
+              onRowDoubleClicked={(e: any) => {setOpenModal(true); setValue(e) }}
+            />
+          </div>
+        </Body>
+      </Container>
+
+      {openModal &&
         <Modal>
           <div>
             <p>EDITAR CIDADE</p>
@@ -212,10 +215,9 @@ const Occupation: React.FC = () => {
             <button className="cancelar" onClick={() => setOpenModal(false)}>CANCELAR</button>
           </div>
         </Modal>
-        : <></>
       }
 
-      {openModalAdd ?
+      {openModalAdd &&
         <Modal>
           <div>
             <p>ADICIONAR CIDADE</p>
@@ -224,9 +226,8 @@ const Occupation: React.FC = () => {
             <button className="cancelar" onClick={() => setOpenModalAdd(false)}>CANCELAR</button>
           </div>
         </Modal>
-        : <></>
       }
-    </Container>
+    </>
   );
 }
 

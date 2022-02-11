@@ -1,12 +1,10 @@
 import styled from 'styled-components';
 
-import { shade } from 'polished';
-
 export const Container = styled.div`
   width: 100%;
-
-  background-color: #FFF;
-  align-items: center;
+  height: 100%;
+  display: flex;
+  flex-wrap: no-wrap;
 `;
 
 export const Body = styled.div`
@@ -14,10 +12,10 @@ export const Body = styled.div`
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  width: calc(100% - 300px);
+  width: 100%;
   flex-direction: column;
-
-  margin-left: 300px;
+  padding: 0px 40px;
+  min-height: 100vh;
 
   div {
     display: flex;
@@ -26,7 +24,6 @@ export const Body = styled.div`
     border-radius: 5px;
     padding: 20px;
     text-align: center;
-    margin-top: 100px;
 
     h1 {
       font-size: 28px;

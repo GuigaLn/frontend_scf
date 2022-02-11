@@ -1,23 +1,59 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Container, Modal } from './styles';
-import socketIoClient from "socket.io-client";
-
-import api from '../../../services/api';
-import { END_POINT } from '../../../services/utils';
+import { gql, useSubscription } from '@apollo/react-hooks';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { Container } from './styles';
 
 /*
 * FALTA RECEBER AS SENHAS ATRAVÉS DO SOCKET E ATUALIZAR O PAINEL
 */
 const Panel: React.FC = () => {
-  const [sectorName, setSectorName] = useState("PAINEL");
-  const [sectorId, setSectorId] = useState(0);
-  const [modalError, setModalError] = useState(false);
-  const audioCall = new Audio('/sound.mp3');
-  var lastNumber = "0";
- 
-  /*
-  * AQUI FICA APENAS UM DEFAULT PARA CARREGAR
-  */
+  const [sectorName, setSectorName] = useState("FARMACIA");
+  const audioCall = useMemo(() => new Audio('/sound.mp3'), []);
+  const history = useHistory();
+
+  useEffect(() => {
+    var sectorNameLocal = localStorage.getItem("@panel-ticket/sectorName");
+
+    if(sectorNameLocal === "FARMACIA" || sectorNameLocal === "CONSULTA" || sectorNameLocal === "EXAME") {
+      setSectorName(sectorNameLocal)
+    } else {
+      history.push("/panelconfig");
+    }
+
+    audioCall.play();
+  }, [audioCall, history]);
+
+
+  const NOTIFY_NEW_PUBLIC_TODOS = gql`
+    subscription MySubscription {
+      chamados(where: {setor: {nome: {_eq: "${localStorage.getItem("@panel-ticket/sectorName")}"}}}, limit: 4, order_by: {id: desc}) {
+        id
+        numero
+        setor_id
+        guiche
+      }
+    }
+  `;
+  
+  const { loading, error, data } = useSubscription(NOTIFY_NEW_PUBLIC_TODOS);
+
+  useEffect(() => {
+    if(data !== undefined) {
+      updateList(data.chamados);
+      audioCall.play();
+    }
+
+    if (error?.message === 'Observable cancelled prematurely') {
+      window.location.reload();
+    }
+
+    if(error) {
+      console.log(error)
+    }
+    
+  }, [audioCall, data, error]);
+
+  /* EVITAR ERROS */
   const defaultList = [
     {id: 0, numero: '-', guiche: '-'},
     {id: 0, numero: '-', guiche: '-'},
@@ -26,53 +62,6 @@ const Panel: React.FC = () => {
   ]
 
   const [list, updateList] = useState(defaultList);
-
-  useEffect(() => {
-    //new Audio('/sound.mp3').play();
-    Notification.requestPermission();
-    var sectorNameLocal = localStorage.getItem("@panel-ticket/sectorName");
-    var sectorIdLocal = localStorage.getItem("@panel-ticket/sectorWindow");
-    
-    /* VERIFICA SE EXISTE SECTOR ID DEFINIDO */
-    if(sectorIdLocal && !modalError) {
-      /* INICIA UM END_POIN PARA REALIZAR AS CHAMADAS DO PAINEL */
-      const socket = socketIoClient(END_POINT, { extraHeaders: { sectorid: sectorIdLocal }});
-
-      socket.on('error', (error) => {
-        setModalError(true);
-        socket.disconnect();
-        document.getElementById("errorId")!.innerHTML="Error ID: " + error;
-      });
-      
-      socket.on('sucess', (sucess) => {
-        console.log(sucess);
-        /* CASO CONECTE SETA AS VARIAVEIS LOCAIS E CHAMA UM LOADING INICIAL (PUXAR ULTIMAS SENHAS) */
-        if(sectorNameLocal !== undefined && sectorNameLocal !== null && sectorIdLocal !== undefined  && sectorIdLocal !== null) {
-          setSectorName(sectorNameLocal!);
-          setSectorId(Number(sectorIdLocal));
-          loadingDate(Number(sectorIdLocal))
-        } 
-      });
-
-      socket.on('disconnect', () => {
-        /* SE POR ALGUM MOTIVO DESCONECTAR, ELE CHAMA UM MODAL DE ATUALIZAÇÃO DE PAGINA */
-        setModalError(true);
-        socket.disconnect();
-        document.getElementById("errorId")!.innerHTML="Error ID: Client Disconnected";
-      });
-    }
-  }, []);
-
-  async function loadingDate(sectorIdd: number) {
-    /* BUSCA NA API AS ULTIMAS SENHAS */
-    await api.post('/loadingInitialWindow', {sectorId: sectorIdd}).then(response => {      
-      if(response.data[0].numero.toString() !== lastNumber) {
-        lastNumber = response.data[0].numero.toString();
-        updateList(response.data);
-        audioCall.play()
-      }
-    });
-  }
 
   return (
     <Container>
@@ -87,7 +76,7 @@ const Panel: React.FC = () => {
           <p>GUICHÊ {list[0].guiche}</p>
         </div>
         <div className="lasted">
-          <h2>ULTIMAS SENHAS</h2>
+          <h2>ÚLTIMAS SENHAS</h2>
           <div>
             <p className="senha">SENHA</p>
             <p className="guiche">GUICHÊ</p>
@@ -106,17 +95,6 @@ const Panel: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {modalError ?
-      <Modal id="modalError">
-        <div>
-          <h1>ERRO AO SE COMUNICAR COM O SERVIDOR!</h1>
-          <p>CLIQUE EM ATUALIZAR, CASO NÃO FUNCIONE VERIFIQUE SE NÃO EXISTE NENHUMA TV USANDO O MESMO SETOR!</p>
-          <p className='errorId' id="errorId"></p>
-          <button onClick={() => window.location.reload()}>RECARREGAR</button>
-        </div>
-      </Modal>
-      : <></>}
    </Container>
   );
 }

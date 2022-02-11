@@ -4,8 +4,9 @@ import { shade } from 'polished';
 
 export const Container = styled.div`
   width: 100%;
-
-  background-color: #FFF;
+  height: 100%;
+  display: flex;
+  flex-wrap: no-wrap;
   display: space-around;
 
   .rdt_TableCol {
@@ -29,10 +30,9 @@ export const Body = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  
-  width: calc(100% - 300px);
+  width: 100%;
   flex-direction: column;
-  margin-left: 300px;
+  min-height: 100vh;
 
   div.header {
     width: 100%;
@@ -138,7 +138,7 @@ export const Body = styled.div`
   }
 
   div.table {
-    width: 95%;
+    width: 100%;
   }
 `;
 

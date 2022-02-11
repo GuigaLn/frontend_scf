@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router';
 import { Container } from './styles';
 // @ts-ignore
-import Printer, { print } from 'react-pdf-print';
+import Printer from 'react-pdf-print';
 import api from '../../../services/api';
 import { useAuth } from '../../../context/AuthContext';
 import { AxiosError } from 'axios';

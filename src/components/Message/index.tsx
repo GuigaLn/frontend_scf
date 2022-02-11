@@ -1,5 +1,4 @@
 import React, { useState } from 'react'; 
-import { FiXCircle } from 'react-icons/fi';
 
 import { Container } from './style';
 
@@ -8,7 +7,6 @@ interface SidebarProps {
     typeMessage: number;
     created_at: string
 }
-
 
 const Audio: React.FC<SidebarProps> = ({ msg, typeMessage, created_at }) => { 
     const [openModalImage, setOpenModalImage] = useState(false);

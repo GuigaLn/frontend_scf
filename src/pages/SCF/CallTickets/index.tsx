@@ -50,16 +50,18 @@ const CallTickets: React.FC = () => {
   }
 
   return (
-    <Container>
-      <SideBar page='panel' />
-      <Body>
-        <div>
-          <h1>{sectorName} - GUICHÊ {numberWindow}</h1>
-          <button onClick={handdleCall} style={{ opacity: delayCall ? '0' : '1' }} disabled={delayCall}>CHAMAR</button>
-          <h2>SENHA: {lastTicket}</h2>
-        </div>
-      </Body>
-    </Container>
+    <>
+      <Container>
+        <SideBar page='panel' />
+        <Body>
+          <div>
+            <h1>{sectorName} - GUICHÊ {numberWindow}</h1>
+            <button onClick={handdleCall} style={{ opacity: delayCall ? '0' : '1' }} disabled={delayCall}>CHAMAR</button>
+            <h2>SENHA: {lastTicket}</h2>
+          </div>
+        </Body>
+      </Container>
+    </>
   );
 }
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Body } from './styles';
+import { Container, Body, Modal } from './styles';
 import SideBar from '../../../components/SideBar';
 import { useHistory } from 'react-router';
 
@@ -66,25 +66,30 @@ const ResetTickets: React.FC = () => {
 
 
   return (
-    <Container>
-      <ToastContainer />
-      <SideBar page='panel' />
-      <Body>
-        <div className="body">
-          <h1>Qual o Setor que será Resetado?</h1>
-          <button onClick={() => setSectorId(1)}>FARMÁCIA</button>
-          <button onClick={() => setSectorId(2)}>CONSULTAS</button>
-          <button onClick={() => setSectorId(3)}>EXAMES</button>
-        </div>
-        { sectorId !== 0 ? 
-        <div className="modal">
-          <h1>Confirme o Reset</h1>
-          <input type="password" placeholder="Digite sua Senha" onChange={(e) => setPassword(e.currentTarget.value)}></input>
-          <button onClick={submit}>RESETAR</button>
-        </div> : <div></div>
-        }
-      </Body>
-    </Container>
+    <>
+      <ToastContainer />  
+      <Container>
+        <SideBar page='panel' />
+        <Body>
+          <div className="body">
+            <h1>Qual o Setor que será Resetado?</h1>
+            <button onClick={() => setSectorId(1)}>FARMÁCIA</button>
+            <button onClick={() => setSectorId(2)}>CONSULTAS</button>
+            <button onClick={() => setSectorId(3)}>EXAMES</button>
+          </div>
+        </Body>
+      </Container>
+      { sectorId !== 0 &&
+        <Modal>
+          <div>
+            <h1>Confirme o Reset</h1>
+            <input type="password" placeholder="Digite sua Senha" onChange={(e) => setPassword(e.currentTarget.value)}></input>
+            <button className="editar" onClick={submit}>RESETAR</button>
+            <button className="cancelar" onClick={() => setSectorId(0)}>CANCELAR</button>
+          </div>
+        </Modal>
+      }
+    </>
   );
 }
 

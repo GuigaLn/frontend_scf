@@ -165,7 +165,7 @@ const TimeAttendanceDetail: React.FC = () => {
      new Promise((resolve, reject) => {
        try {
          api.put('time', {id: detailUpdate.id, note: idComments, date: detailUpdate.date, idEmployee: detailUpdate.idEmployee}).then(response => {
-           promiseLoadingData();
+           //promiseLoadingData();
            setOpenModal(false);
            return;
          }).catch((err) => {
@@ -180,51 +180,52 @@ const TimeAttendanceDetail: React.FC = () => {
    }
 
   return (
-    <Container>
-
+    <>
       <ToastContainer />
-      <SideBar page='timeattendance' />
-      
-      <Body>
-        <div className="findForDate">
-          <div>
-            <div>
-              <span>Data Inicial: </span>
-              <input type="date" onChange={(e) => setStartDay(e.currentTarget.value)} />
-            </div>
-
-            <div>
-              <span>Data Final: </span>
-              <input type="date"  onChange={(e) => setEndDay(e.currentTarget.value)} />
-            </div>
-          </div>
-          <button className="loadingData" onClick={loadingWithData} >CARREGAR DADOS</button>
-        </div>
+      <Container>
+        <SideBar page='timeattendance' />
         
-        <div className="table">
-          <DataTableExtensions
-            {...tableData}
-            exportHeaders={true}
-          >
-            <DataTable
-            title={nameEmployee}
-              columns={columns}
-              data={data}
-              pagination
-              paginationPerPage={32}
-              onRowDoubleClicked={(e: any) => 
-                {
-                  setOpenModal(true); 
-                  setDetailUpdate({id: e.id, idEmployee: e.id_funcionario, date: e.day}); 
-                  setIdComments(undefined) 
-                }}
-            />
-          </DataTableExtensions>
-        </div>
-        <h1>{sumHours}</h1>
-      </Body>
+        <Body>
+          <div className="findForDate">
+            <div>
+              <div>
+                <span>Data Inicial: </span>
+                <input type="date" onChange={(e) => setStartDay(e.currentTarget.value)} />
+              </div>
 
-      {openModal ?
+              <div>
+                <span>Data Final: </span>
+                <input type="date"  onChange={(e) => setEndDay(e.currentTarget.value)} />
+              </div>
+            </div>
+            <button className="loadingData" onClick={loadingWithData} >CARREGAR DADOS</button>
+          </div>
+          
+          <div className="table">
+            <DataTableExtensions
+              {...tableData}
+              exportHeaders={true}
+            >
+              <DataTable
+              title={nameEmployee}
+                columns={columns}
+                data={data}
+                pagination
+                paginationPerPage={32}
+                onRowDoubleClicked={(e: any) => 
+                  {
+                    setOpenModal(true); 
+                    setDetailUpdate({id: e.id, idEmployee: e.id_funcionario, date: e.day}); 
+                    setIdComments(undefined) 
+                  }}
+              />
+            </DataTableExtensions>
+          </div>
+          <h1>{sumHours}</h1>
+        </Body>
+      </Container>
+
+      {openModal &&
         <Modal>
           <div>
             <p>LANÇAR OBSERVAÇÃO</p>
@@ -242,9 +243,8 @@ const TimeAttendanceDetail: React.FC = () => {
             <button className="cancelar" onClick={() => setOpenModal(false)}>CANCELAR</button>
           </div>
         </Modal>
-        : <></>
       }
-    </Container>
+    </>
   );
 }
 

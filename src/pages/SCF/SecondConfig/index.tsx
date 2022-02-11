@@ -17,17 +17,19 @@ const SecondConfig: React.FC = () => {
   }
 
   return (
-    <Container>
-      <SideBar page='panel' />
-      <Body>
-        <div>
-          <h1>Qual o seu Setor?</h1>
-          <button onClick={() => handdleNumber(1, 'FARMÁCIA')}>FARMÁCIA</button>
-          <button onClick={() => handdleNumber(2, 'CONSULTAS')}>CONSULTAS</button>
-          <button onClick={() => handdleNumber(3, 'EXAMES')}>EXAMES</button>
-        </div>
-      </Body>
-    </Container>
+    <>
+      <Container>
+        <SideBar page='panel' />
+        <Body>
+          <div>
+            <h1>Qual o seu Setor?</h1>
+            <button onClick={() => handdleNumber(1, 'FARMÁCIA')}>FARMÁCIA</button>
+            <button onClick={() => handdleNumber(2, 'CONSULTAS')}>CONSULTAS</button>
+            <button onClick={() => handdleNumber(3, 'EXAMES')}>EXAMES</button>
+          </div>
+        </Body>
+      </Container>
+    </>
   );
 }
 

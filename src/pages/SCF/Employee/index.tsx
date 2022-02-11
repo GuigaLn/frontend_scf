@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Body, Modal} from './styles';
 
 import SideBar from '../../../components/SideBar';
@@ -198,53 +198,55 @@ const Employee: React.FC = () => {
   }
 
   return (
-    <Container>
+    <>
       <ToastContainer />
-      <SideBar page='employee' />
-      <Body>
-        <h1>
-          FUNCIONÁRIOS
-        </h1>
-        <button className="addColaborador" onClick={() => setOpenModalAdd(true)}>Adicionar Funcionário</button>
-        <div className="table">
-          <DataTableExtensions
-            {...tableData}
-            exportHeaders={true}
-          >
-            <DataTable
-              columns={columns}
-              data={data}
-              pagination
-              paginationPerPage={30}
-              onRowDoubleClicked={(e: any) => {history.push(`employee/detail/${e.id}`) }}
-            />
-          </DataTableExtensions>
-        </div>
-      </Body>
+      <Container>
+        <SideBar page='employee' />
+        <Body>
+          <h1>
+            FUNCIONÁRIOS
+          </h1>
+          <button className="addColaborador" onClick={() => setOpenModalAdd(true)}>Adicionar Funcionário</button>
+          <div className="table">
+            <DataTableExtensions
+              {...tableData}
+              exportHeaders={true}
+            >
+              <DataTable
+                columns={columns}
+                data={data}
+                pagination
+                paginationPerPage={30}
+                onRowDoubleClicked={(e: any) => {history.push(`employee/detail/${e.id}`) }}
+              />
+            </DataTableExtensions>
+          </div>
+        </Body>
+      </Container>
       {openModal ?
         <Modal>
           <div>
-            <p>EDITAR FUNCIONÁRIO</p>
-            <div className="titleInput"> Nome Completo *</div>
-            <input type="text" onChange={(e) => valueEdit.name = e.currentTarget.value} defaultValue={valueEdit.name} />
+              <p>EDITAR FUNCIONÁRIO</p>
+              <div className="titleInput"> Nome Completo *</div>
+              <input type="text" onChange={(e) => valueEdit.name = e.currentTarget.value} defaultValue={valueEdit.name} />
 
-            <div className="titleInput"> Data Nascimento *</div>
-            <input type="date" onChange={(e) => valueEdit.birthday = e.currentTarget.value} defaultValue={valueEdit.bedit} />
+              <div className="titleInput"> Data Nascimento *</div>
+              <input type="date" onChange={(e) => valueEdit.birthday = e.currentTarget.value} defaultValue={valueEdit.bedit} />
 
-            <div className="titleInput"> CPF *</div>
-            <input type="text" onChange={(e) => valueEdit.cpf = e.currentTarget.value} defaultValue={valueEdit.cpf} />
+              <div className="titleInput"> CPF *</div>
+              <input type="text" onChange={(e) => valueEdit.cpf = e.currentTarget.value} defaultValue={valueEdit.cpf} />
 
-            <div className="titleInput"> CNS</div>
-            <input type="text" onChange={(e) => valueEdit.cns = e.currentTarget.value} defaultValue={valueEdit.cns} />
+              <div className="titleInput"> CNS</div>
+              <input type="text" onChange={(e) => valueEdit.cns = e.currentTarget.value} defaultValue={valueEdit.cns} />
 
-            <div className="titleInput"> Matricula</div>
-            <input type="number" maxLength={6} onChange={(e) => valueEdit.registration = e.currentTarget.value} defaultValue={valueEdit.registration} />
+              <div className="titleInput"> Matricula</div>
+              <input type="number" maxLength={6} onChange={(e) => valueEdit.registration = e.currentTarget.value} defaultValue={valueEdit.registration} />
 
-            <div className="titleInput"> Data Adimissão</div>
-            <input type="date" onChange={(e) => valueEdit.admission = e.currentTarget.value} defaultValue={valueEdit.admission} />
+              <div className="titleInput"> Data Adimissão</div>
+              <input type="date" onChange={(e) => valueEdit.admission = e.currentTarget.value} defaultValue={valueEdit.admission} />
 
-            <button className="editar" onClick={promiseEdit}>EDITAR</button>
-            <button className="cancelar" onClick={() => setOpenModal(false)}>CANCELAR</button>
+              <button className="editar" onClick={promiseEdit}>EDITAR</button>
+              <button className="cancelar" onClick={() => setOpenModal(false)}>CANCELAR</button>
           </div>
         </Modal>
         : <></>
@@ -252,33 +254,33 @@ const Employee: React.FC = () => {
 
       {openModalAdd ?
         <Modal>
-          <div>
-            <p>ADICIONAR FUNCIONÁRIO</p>
-            <div className="titleInput"> Nome Completo *</div>
-            <input type="text" onChange={(e) => valueAdd.name = e.currentTarget.value} placeholder="GUILHERME LEONARDO NALLON" />
+            <div>
+              <p>ADICIONAR FUNCIONÁRIO</p>
+              <div className="titleInput"> Nome Completo *</div>
+              <input type="text" onChange={(e) => valueAdd.name = e.currentTarget.value} placeholder="GUILHERME LEONARDO NALLON" />
 
-            <div className="titleInput"> Data Nascimento *</div>
-            <input type="date" onChange={(e) => valueAdd.birthday = e.currentTarget.value} />
+              <div className="titleInput"> Data Nascimento *</div>
+              <input type="date" onChange={(e) => valueAdd.birthday = e.currentTarget.value} />
 
-            <div className="titleInput"> CPF *</div>
-            <input type="text" onChange={(e) => valueAdd.cpf = e.currentTarget.value} placeholder="000.000.000-00" />
+              <div className="titleInput"> CPF *</div>
+              <input type="text" onChange={(e) => valueAdd.cpf = e.currentTarget.value} placeholder="000.000.000-00" />
 
-            <div className="titleInput"> CNS</div>
-            <input type="text" onChange={(e) => valueAdd.cns = e.currentTarget.value} placeholder="0000..." />
+              <div className="titleInput"> CNS</div>
+              <input type="text" onChange={(e) => valueAdd.cns = e.currentTarget.value} placeholder="0000..." />
 
-            <div className="titleInput"> Matricula</div>
-            <input type="number" maxLength={6} onChange={(e) => valueAdd.registration = e.currentTarget.value} placeholder="0000..." />
+              <div className="titleInput"> Matricula</div>
+              <input type="number" maxLength={6} onChange={(e) => valueAdd.registration = e.currentTarget.value} placeholder="0000..." />
 
-            <div className="titleInput"> Data Adimissão</div>
-            <input type="date" onChange={(e) => valueAdd.admission = e.currentTarget.value}/>
+              <div className="titleInput"> Data Adimissão</div>
+              <input type="date" onChange={(e) => valueAdd.admission = e.currentTarget.value}/>
 
-            <button className="editar" onClick={promiseAdd}>CADASTRAR</button>
-            <button className="cancelar" onClick={() => setOpenModalAdd(false)}>CANCELAR</button>
-          </div>
+              <button className="editar" onClick={promiseAdd}>CADASTRAR</button>
+              <button className="cancelar" onClick={() => setOpenModalAdd(false)}>CANCELAR</button>
+            </div>
         </Modal>
         : <></>
       }
-    </Container>
+    </>
   );
 }
 

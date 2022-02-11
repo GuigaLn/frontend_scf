@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Container, Body, Modal} from './styles';
+import React, { useEffect, useState } from 'react';
+import { Container, Body} from './styles';
 import SideBar from '../../../components/SideBar';
 import api from '../../../services/api';
 
@@ -75,29 +75,32 @@ const TimeAttendance: React.FC = () => {
   }
 
   return (
-    <Container>
-      <ToastContainer />
-      <SideBar page='timeattendance' />
-      <Body>
-        <h1>
-          ÚSUARIO
-        </h1>
-        <div className="table">
-          <DataTableExtensions
-            {...tableData}
-            exportHeaders={true}
-          >
-            <DataTable
-              columns={columns}
-              data={data}
-              pagination
-              paginationPerPage={30}
-              onRowDoubleClicked={(e: any) => { history.push(`/scf/timeattendance/detail/${e.id}`) }}
-            />
-          </DataTableExtensions>
-        </div>
-      </Body>
-    </Container>
+    <>
+    <ToastContainer />
+      <Container>
+        
+        <SideBar page='timeattendance' />
+        <Body>
+          <h1>
+            ÚSUARIO
+          </h1>
+          <div className="table">
+            <DataTableExtensions
+              {...tableData}
+              exportHeaders={true}
+            >
+              <DataTable
+                columns={columns}
+                data={data}
+                pagination
+                paginationPerPage={30}
+                onRowDoubleClicked={(e: any) => { history.push(`/scf/timeattendance/detail/${e.id}`) }}
+              />
+            </DataTableExtensions>
+          </div>
+        </Body>
+      </Container>
+    </>
   );
 }
 

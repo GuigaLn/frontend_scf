@@ -4,10 +4,9 @@ import { shade } from 'polished';
 
 export const Container = styled.div`
   width: 100%;
-  height: 100vh;
-  background-color: #FFF;
+  height: 100%;
   display: flex;
-  align-items: center;
+  flex-wrap: no-wrap;
 `;
 
 export const Body = styled.div`
@@ -17,8 +16,8 @@ export const Body = styled.div`
   justify-content: center;
   width: 100%;
   flex-direction: column;
-  margin-left: 300px;
   padding: 0px 40px;
+  min-height: 100vh;
 
   h1 {
     color: #1E97F7;
