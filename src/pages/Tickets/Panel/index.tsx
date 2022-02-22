@@ -26,7 +26,7 @@ const Panel: React.FC = () => {
 
   const NOTIFY_NEW_PUBLIC_TODOS = gql`
     subscription MySubscription {
-      chamados(where: {setor: {nome: {_eq: "${localStorage.getItem("@panel-ticket/sectorName")}"}}}, limit: 4, order_by: {id: desc}) {
+      chamados(where: {setor_senha: {nome: {_eq: "${localStorage.getItem("@panel-ticket/sectorName")}"}}}, limit: 4, order_by: {id: desc}) {
         id
         numero
         setor_id

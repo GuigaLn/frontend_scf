@@ -75,9 +75,12 @@ const ContactSessionList: React.FC<SessionsContactProps> = ({ activeChat, setAct
           className={`chat ${activeChat.chatId === item.id ? 'activeChat': ''}`}
         >
           <ContactInformation>
-            <div>
-              <strong>{item.contato.name}</strong>
-              <p>{item.mensagens[0].texto}</p>
+            <div className="content">
+              <div className="img" style={{ backgroundImage:  "url(https://ef564920920608e03abb-7d34ef097b6ab6c586dfc84157128505.ssl.cf1.rackcdn.com/PostImagem/36734/foto-de-perfil-profissional_o1eh30s23krp31qn41l3havc2fti.JPG)" }} />
+              <div className="information">
+                <strong>{item.contato.name}</strong>
+                <p>{item.mensagens[0].texto}</p>
+              </div>
             </div>
           </ContactInformation>
         </Contact>

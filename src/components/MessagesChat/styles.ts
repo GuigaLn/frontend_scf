@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 
-import imageLogo from '../../assets/logo.png';
+//import imageLogo from '../../assets/logo.png';
 
 export const Menssagens = styled.div`
-  background-image: url(${imageLogo});
-  background-size: 50%;
+  background-image: url("https://personalmarketingdigital.com.br/wp-content/uploads/2018/05/background-whatsapp-7.jpg");
+  background-size: cover;
+
   background-repeat: no-repeat;
   background-position: center;
   position: relative;
@@ -58,6 +59,10 @@ export const Menssagens = styled.div`
   div.container {
     overflow-y: auto;
     scroll-behavior: smooth;
+
+    #loaderMoreMessage {
+      cursor: pointer;
+    }
   }
 
   .sendMessage {

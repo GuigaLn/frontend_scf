@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Contacts = styled.div`
-  background-color: #F0F0F0;
+  background-color: #FFF;
   flex-basis: 30%;
   height: 100%;
   text-align: center;
@@ -46,19 +46,33 @@ export const ContactInformation = styled.div`
   justify-content: space-between;
   width: 100%;
 
-  div {
+  div.content {
     flex-basis: 80%;
+    display: flex;
 
-    strong {
-      color: #000;
-      font-size: 14px;
+    .information {
+      padding: 0px 15px;
+
+      strong {
+        color: #000;
+        font-size: 15px;
+      }
+
+      p {
+        margin-top: 5px;
+        color: #606060;
+        font-weight: bold;
+        font-size: 12px;
+      }
     }
 
-    p {
-      margin-top: 5px;
-      color: #606060;
-      font-weight: bold;
-      font-size: 12px;
+    .img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
     }
   }
 

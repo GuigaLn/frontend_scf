@@ -12,6 +12,7 @@ import { AxiosError } from 'axios';
 import { useAuth } from '../../context/AuthContext';
 import { gql, useSubscription } from '@apollo/react-hooks';
 import LoadingChat from '../LoadingChat';
+import MessageAutomatic from '../MessageAutomatic';
 
 interface InterfaceMessages {
   id: number;
@@ -108,7 +109,8 @@ const MessagesChat: React.FC<MessageChatProps> = ({ chatId, idPhone, setModalUpd
         <AlwaysScrollToBottom />                  
       </div>
       <div className="sendMessage">
-          <input defaultValue=""  onSubmitCapture={() => console.log("d")} type="text" onInputCapture={(e) => setMsgToSend(e.currentTarget.value)} ></input>
+          <MessageAutomatic setMsgToSend={setMsgToSend} />
+          <input defaultValue=""  value={msgToSend} onSubmitCapture={() => console.log("d")} type="text" onInputCapture={(e) => setMsgToSend(e.currentTarget.value)} ></input>
           <FiSend size={28} className="button-send" onClick={sendMessage} />
       </div>
     </Menssagens> 

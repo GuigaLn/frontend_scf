@@ -14,7 +14,7 @@ interface SidebarProps {
 const Dashboard: React.FC<SidebarProps> = ({ page }) => {
     const history = useHistory();
     const { signOut, user } = useAuth();
-    const [close, setClose] = useState(false);
+    const [close, setClose] = useState(true);
     /*
     1 = total
     2 = ponto
@@ -24,6 +24,7 @@ const Dashboard: React.FC<SidebarProps> = ({ page }) => {
     const [ tickets, setTickets ] = useState(-1);
     const [ timeAttedance, setTimeAttedance ] = useState(-1);
     const [ employee, setEmployee ] = useState(-1);
+    const [ callCenter, setCallCenter ] = useState(-1);
 
     useEffect(() => {
         if(user.userPermissions.findIndex((item) => item.permisionid === 1) !== -1) {
@@ -31,10 +32,12 @@ const Dashboard: React.FC<SidebarProps> = ({ page }) => {
             setTimeAttedance(1);
             setAll(1);
             setEmployee(1);
+            setCallCenter(1);
         }
         if(user.userPermissions.findIndex((item) => item.permisionid === 2) !== -1) setTimeAttedance(1);
         if(user.userPermissions.findIndex((item) => item.permisionid === 3) !== -1) setTickets(1);
         if(user.userPermissions.findIndex((item) => item.permisionid === 4) !== -1) setEmployee(1);
+        if(user.userPermissions.findIndex((item) => item.permisionid === 6) !== -1) setCallCenter(1);
     }, [user.userPermissions]);
     return (
         <SideBar close={close}>
@@ -82,7 +85,7 @@ const Dashboard: React.FC<SidebarProps> = ({ page }) => {
                         </div> :<></>
                     }
                     { // VERIFICAR SE TEM PERMISÃO TOAL
-                    all !== -1 ?
+                    callCenter !== -1 ?
                         <div className={ page === 'chat' ? "option select" : 'option' } onClick={() => history.push('/scf/chat')}>
                             <FiMessageCircle />
                             <span>Chat</span>
