@@ -3,7 +3,7 @@ import styled from 'styled-components';
 //import imageLogo from '../../assets/logo.png';
 
 export const Menssagens = styled.div`
-  background-image: url("https://personalmarketingdigital.com.br/wp-content/uploads/2018/05/background-whatsapp-7.jpg");
+  //background-image: url("https://cdn.shopify.com/s/files/1/1087/6262/files/computador-camaroes.png?v=1639671823");
   background-size: cover;
 
   background-repeat: no-repeat;

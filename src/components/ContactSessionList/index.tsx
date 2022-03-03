@@ -2,9 +2,12 @@ import { gql, useSubscription } from '@apollo/react-hooks';
 import React, { useEffect, useState } from 'react';
 
 import { Contact, Contacts, ContactInformation } from './styles';
+import { FiSearch } from 'react-icons/fi';
+import moment from 'moment';
 
 interface InterfaceSessionsContact{
   id: number;
+  atendimento: boolean;
   contato: {
     name: string
     id_phone: string
@@ -12,6 +15,7 @@ interface InterfaceSessionsContact{
   mensagens: [
     {
       texto: string
+      gerado: string
     }
   ];
 }
@@ -34,6 +38,7 @@ const ContactSessionList: React.FC<SessionsContactProps> = ({ activeChat, setAct
     subscription ContactSubscription {
       contato_sessao_mensagens(where: {realizado: {_eq: false}}, order_by: {mensagens_aggregate: {stddev_pop: {id: desc}}}) {
         id
+        atendimento
         id_setor
         contato {
           name
@@ -41,6 +46,7 @@ const ContactSessionList: React.FC<SessionsContactProps> = ({ activeChat, setAct
         }
         mensagens(limit: 1, order_by: {id: desc}) {
           texto
+          gerado
         }
       }
     }
@@ -67,6 +73,15 @@ const ContactSessionList: React.FC<SessionsContactProps> = ({ activeChat, setAct
   
   return (
     <Contacts>
+      <div className="sector">
+        <strong>SETOR</strong>
+        <span>GERAL</span>
+      </div>
+
+      <div className="search_chat">
+        <FiSearch className="icon_search" />
+        <input type="text" />
+      </div>
       {sessionsContact.map((item) => (
         <Contact
           key={item.id}
@@ -74,12 +89,16 @@ const ContactSessionList: React.FC<SessionsContactProps> = ({ activeChat, setAct
           id={item.contato.id_phone.toString()}
           className={`chat ${activeChat.chatId === item.id ? 'activeChat': ''}`}
         >
-          <ContactInformation>
+          <ContactInformation attendance={item.atendimento}>
             <div className="content">
               <div className="img" style={{ backgroundImage:  "url(https://ef564920920608e03abb-7d34ef097b6ab6c586dfc84157128505.ssl.cf1.rackcdn.com/PostImagem/36734/foto-de-perfil-profissional_o1eh30s23krp31qn41l3havc2fti.JPG)" }} />
               <div className="information">
                 <strong>{item.contato.name}</strong>
                 <p>{item.mensagens[0].texto}</p>
+                <div className="attendent">
+                  <span className="tag_attendance">{item.atendimento ? 'em atendimento' : 'sem atendimento' }</span>
+                  <span className="time_last_message">{moment(item.mensagens[0].gerado).format("HH:mm")}</span>
+                </div>
               </div>
             </div>
           </ContactInformation>

@@ -31,6 +31,7 @@ const TimeAttendanceDetail: React.FC = () => {
 
   const [nameEmployee, setNameEmployee] = useState('');
   const [sumHours, setSumHours] = useState('');
+  const [minWorkTime, setMinWorkTime] = useState('');
 
   const [detailUpdate, setDetailUpdate] = useState<any>();
   const [idComments, setIdComments] = useState<any>();
@@ -97,6 +98,7 @@ const TimeAttendanceDetail: React.FC = () => {
    new Promise((resolve, reject) => {
       try {
         api.post('time/detail', {id}).then(response => {
+          setMinWorkTime(response.data.times.minWorkTime);
           setData(response.data.times.list);
           if(response.data.customer) {
             setNameEmployee(response.data.customer);
@@ -139,6 +141,7 @@ const TimeAttendanceDetail: React.FC = () => {
     new Promise((resolve, reject) => {
       try {
         api.post('time/detail', {id, startDay, endDay}).then(response => {
+          setMinWorkTime(response.data.times.minWorkTime);
           setData(response.data.times.list);
           if(nameEmployee === '') {
             setNameEmployee(response.data.customer);
@@ -221,7 +224,7 @@ const TimeAttendanceDetail: React.FC = () => {
               />
             </DataTableExtensions>
           </div>
-          <h1>{sumHours}</h1>
+          <h3>TOTAL: {sumHours} - MÍNIMO: {minWorkTime}</h3>
         </Body>
       </Container>
 

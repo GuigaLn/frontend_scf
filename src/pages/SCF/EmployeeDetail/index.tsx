@@ -33,6 +33,7 @@ interface InterfaceEmployee {
   phone: string
   ubsid: number
   occupationid: number
+  workload: any
 }
 
 interface InterfaceUBS {
@@ -52,7 +53,7 @@ const EmployeeDetail: React.FC = () => {
   const { id } = useParams<Request>();
   const { user, signOut } = useAuth();
 
-  let [data, setData] = useState<InterfaceEmployee>({id: 0, name: '', bedit: '', birthday: '', cpf: '', cns: '', registration: '', numberct: '', seriesct: '', mail: '', phone: '', ubsid: 0, occupationid: 0});
+  let [data, setData] = useState<InterfaceEmployee>({id: 0, name: '', bedit: '', birthday: '', cpf: '', cns: '', registration: '', numberct: '', seriesct: '', mail: '', phone: '', ubsid: 0, occupationid: 0, workload: ''});
 
   const [dataUBS, setDataUBS] = useState<InterfaceUBS[]>([]);
   const [dataOccupation, setDataOccupation] = useState<InterfaceOccupation[]>([]);
@@ -328,6 +329,11 @@ const EmployeeDetail: React.FC = () => {
           <div className="itemForm">
             <div className="titleInput">E-mail</div>  
             <input type="text" defaultValue={data.mail} onInput={(e) => data.mail = e.currentTarget.value}  />
+          </div>
+
+          <div className="itemForm">
+            <div className="titleInput">Carga Horária</div>  
+            <input type="number" defaultValue={data.workload} onInput={(e) => data.workload = e.currentTarget.value}  />
           </div>
 
           <div className="itemForm">

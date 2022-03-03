@@ -13,7 +13,8 @@ import {
 } from "@apollo/client";
 
 
-const GRAPHQL_ENDPOINT = "192.168.10.10:8081/v1/graphql";
+//const GRAPHQL_ENDPOINT = "192.168.10.10:8081/v1/graphql";
+const GRAPHQL_ENDPOINT = "localhost:8080/v1/graphql";
 
 const httpLink = new HttpLink({
   uri: `${GRAPHQL_ENDPOINT}`,

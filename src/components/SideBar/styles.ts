@@ -11,7 +11,7 @@ export const SideBar = styled.div<{ close: boolean }>`
 
   div.navbar {
     position: fixed;
-    width: ${({ close }) => (close ? 'calc(7% - 20px)' : 'calc(30% - 136px)')};
+    width: ${({ close }) => (close ? 'calc(7% - 38px)' : 'calc(30% - 136px)')};
   }
 
   div.header {

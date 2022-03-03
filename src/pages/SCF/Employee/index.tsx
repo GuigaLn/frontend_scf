@@ -24,6 +24,7 @@ interface valueEmployee {
   bedit?: string
   admission?: string;
   registration?: string
+  workload?: string;
 }
 
 const Employee: React.FC = () => {
@@ -130,7 +131,7 @@ const Employee: React.FC = () => {
     
     const reseolveApi = new Promise((resolve, reject) => {
       try {
-        api.post('/employee', {name: valueAdd.name, birthday: valueAdd.birthday, cpf: valueAdd.cpf, cns: valueAdd.cns, admission: valueAdd.admission, registration}).then(response => {
+        api.post('/employee', {name: valueAdd.name, birthday: valueAdd.birthday, cpf: valueAdd.cpf, cns: valueAdd.cns, admission: valueAdd.admission, registration, workload: valueAdd.workload}).then(response => {
           setData([...data, {id: response.data.rows[0].id, registration: registration, name: valueAdd.name, birthday: valueAdd.birthday, cpf: valueAdd.cpf, cns: valueAdd.cns}]);
           setTimeout(resolve);
           setOpenModalAdd(false);
@@ -273,6 +274,9 @@ const Employee: React.FC = () => {
 
               <div className="titleInput"> Data Adimissão</div>
               <input type="date" onChange={(e) => valueAdd.admission = e.currentTarget.value}/>
+
+              <div className="titleInput"> Carga Horária</div>
+              <input type="number" onChange={(e) => valueAdd.workload = e.currentTarget.value}/>
 
               <button className="editar" onClick={promiseAdd}>CADASTRAR</button>
               <button className="cancelar" onClick={() => setOpenModalAdd(false)}>CANCELAR</button>

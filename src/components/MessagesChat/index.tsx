@@ -52,6 +52,7 @@ const MessagesChat: React.FC<MessageChatProps> = ({ chatId, idPhone, setModalUpd
   const getMessages = useSubscription(MESSAGES_CONTATO_SUBSCRIPTION);
 
   useEffect(() => {
+    setLoading(true);
     if(getMessages.data !== undefined) {
       setMessages(getMessages.data.mensagens);
       setLoading(false);
