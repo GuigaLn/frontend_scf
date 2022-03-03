@@ -40,6 +40,29 @@ const TimeAttendanceDetail: React.FC = () => {
   const { id } = useParams<Request>();
   const [openModal, setOpenModal] = useState(false);
 
+  const conditionalRowStyles = [
+    {
+      when: (row: any) => row.week === 'Sab',
+      style: {
+        backgroundColor: 'rgb(200, 255, 200, 1)',
+        color: 'black',
+        '&:hover': {
+          cursor: 'pointer',
+        },
+      },
+    },
+    {
+      when: (row: any) => row.week === 'Dom',
+      style: {
+        backgroundColor: 'rgb(200, 200, 255, 1)',
+        color: 'black',
+        '&:hover': {
+          cursor: 'pointer',
+        },
+      },
+    },
+  ];
+
   const columns: any = [
     {
       name: "Data",
@@ -216,11 +239,12 @@ const TimeAttendanceDetail: React.FC = () => {
                 pagination
                 paginationPerPage={32}
                 onRowDoubleClicked={(e: any) => 
-                  {
-                    setOpenModal(true); 
-                    setDetailUpdate({id: e.id, idEmployee: e.id_funcionario, date: e.day}); 
-                    setIdComments(undefined) 
-                  }}
+                {
+                  setOpenModal(true); 
+                  setDetailUpdate({id: e.id, idEmployee: e.id_funcionario, date: e.day}); 
+                  setIdComments(undefined) 
+                }}
+                conditionalRowStyles={conditionalRowStyles}
               />
             </DataTableExtensions>
           </div>
