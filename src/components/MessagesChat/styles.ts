@@ -74,6 +74,22 @@ export const Menssagens = styled.div`
     justify-content: space-between;
     align-items: center;
 
+    .take_care {
+      background-color: #1E97F7;
+      padding: 10px 5px;
+      color: #FFF;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-left: 20px;
+
+      transition: 1s;
+
+      &:hover {
+        background-color: #1e97c0;
+      }
+    }
+
     input {
       width: 100%;
       font-size: 18px;

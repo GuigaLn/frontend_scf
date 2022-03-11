@@ -16,7 +16,8 @@ export const Body = styled.div`
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: calc(100% - 120px);
+  margin-left: 120px;
   flex-direction: column;
   height: 100vh;
 `;

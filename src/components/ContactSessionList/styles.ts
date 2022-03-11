@@ -75,7 +75,7 @@ export const Contact = styled.div`
   &.activeChat {
     opacity: 0.9;
     color: black;
-    background-color: #1E97F7;
+    background-color: #E0E0E0;
 
     p {
       color: #000;

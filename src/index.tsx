@@ -11,17 +11,14 @@ import {
   InMemoryCache,
   split,
 } from "@apollo/client";
-
-
-//const GRAPHQL_ENDPOINT = "192.168.10.10:8081/v1/graphql";
-const GRAPHQL_ENDPOINT = "localhost:8080/v1/graphql";
+import { END_POINT_HASURA } from './services/config';
 
 const httpLink = new HttpLink({
-  uri: `${GRAPHQL_ENDPOINT}`,
+  uri: `${END_POINT_HASURA}`,
 });
 
 const wsLink = new WebSocketLink({
-  uri: `ws://${GRAPHQL_ENDPOINT}`,
+  uri: `ws://${END_POINT_HASURA}`,
   options: {
     reconnect: true,
   },

@@ -5,6 +5,12 @@ import { Contact, Contacts, ContactInformation } from './styles';
 import { FiSearch } from 'react-icons/fi';
 import moment from 'moment';
 
+interface InterfaceContacts {
+  id: number;
+  id_phone: string
+  name: string
+}
+
 interface InterfaceSessionsContact{
   id: number;
   atendimento: boolean;
@@ -23,6 +29,7 @@ interface InterfaceSessionsContact{
 interface IntefaceActiveChat {
   chatId?: number
   idPhone?: string
+  attendance?: boolean
 }
 
 //idPhone: '', chatId: 0
@@ -33,6 +40,17 @@ interface SessionsContactProps {
 
 const ContactSessionList: React.FC<SessionsContactProps> = ({ activeChat, setActiveChat }) => {
   const [sessionsContact, setSessionsContact] = useState<InterfaceSessionsContact[]>([]);
+  const [contacts, setContacts] = useState<InterfaceContacts[]>([]);
+
+  const CONSTACTS_GET_ALL = gql`
+  subscription ContactGetAll {
+      contato {
+        id
+        id_phone
+        name
+      }
+    }
+  `;
 
   const CONSTACTS_SESSION_SUBSCRIPTION = gql`
     subscription ContactSubscription {
@@ -53,22 +71,28 @@ const ContactSessionList: React.FC<SessionsContactProps> = ({ activeChat, setAct
   `;
 
   const contactsSessions = useSubscription(CONSTACTS_SESSION_SUBSCRIPTION);
+  const contactsAll = useSubscription(CONSTACTS_GET_ALL);
 
   useEffect(() => {
     if(contactsSessions.data !== undefined) {
       setSessionsContact(contactsSessions.data.contato_sessao_mensagens);
     }
 
+    if(contactsAll.data !== undefined) {
+      console.log(contactsAll)
+      setContacts(contactsAll.data);
+    }
+
     if (contactsSessions.error?.message === 'Observable cancelled prematurely') {
       window.location.reload();
     }
     
-  }, [ contactsSessions ]);
+  }, [ contactsSessions, contactsAll ]);
 
 
-  const activeChatHandle = (key: number, idPhone: string) => {
+  const activeChatHandle = (key: number, idPhone: string, attendance: boolean) => {
     localStorage.setItem('@panel-ticket/idSessionContato', key.toString());
-    setActiveChat({chatId: key, idPhone});
+    setActiveChat({chatId: key, idPhone, attendance});
   } 
   
   return (
@@ -85,7 +109,7 @@ const ContactSessionList: React.FC<SessionsContactProps> = ({ activeChat, setAct
       {sessionsContact.map((item) => (
         <Contact
           key={item.id}
-          onClick={() => activeChatHandle(item.id, item.contato.id_phone)} 
+          onClick={() => activeChatHandle(item.id, item.contato.id_phone, item.atendimento)} 
           id={item.contato.id_phone.toString()}
           className={`chat ${activeChat.chatId === item.id ? 'activeChat': ''}`}
         >

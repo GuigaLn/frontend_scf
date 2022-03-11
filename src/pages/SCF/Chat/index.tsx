@@ -12,8 +12,9 @@ import MessagesChat from '../../../components/MessagesChat';
 import ContactSessionList from '../../../components/ContactSessionList';
 
 interface IntefaceActiveChat {
-  chatId?: number
-  idPhone?: string
+  chatId?: number;
+  idPhone?: string;
+  attendance?: boolean;
 }
 
 const Chat: React.FC = () => {
@@ -54,7 +55,7 @@ const Chat: React.FC = () => {
             <ContactSessionList activeChat={activeChat} setActiveChat={setActiveChat} />
             {activeChat.chatId !== undefined && activeChat.chatId !== 0 && activeChat.idPhone ?
             (
-              <MessagesChat chatId={activeChat.chatId} idPhone={activeChat.idPhone} setModalUpdateSector={setModalUpdateSector} />
+              <MessagesChat chatId={activeChat.chatId}  attendance={activeChat.attendance} idPhone={activeChat.idPhone} setModalUpdateSector={setModalUpdateSector} />
             ) : <NotChatOpen />
             }
           </ContainerChat>

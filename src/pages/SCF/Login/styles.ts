@@ -21,7 +21,7 @@ export const Form = styled.form`
 
     strong {
       font-weight: 800;
-      font-size: 64px;
+      font-size: 48px;
       line-height: 87px;
       text-align: center;
       
@@ -33,7 +33,7 @@ export const Form = styled.form`
       line-height: 30px;
       text-align: center;
       
-      color: #989898;
+      color: #606060;
     }
 
     div.header {
@@ -83,7 +83,7 @@ export const Form = styled.form`
         width: 70%;
         background: #1E97F7;
 
-        border-radius: 10px;
+        border-radius: 5PX;
         border: 0;
         margin: 0 auto;
         padding: 10px;

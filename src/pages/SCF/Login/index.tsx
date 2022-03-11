@@ -48,13 +48,13 @@ const Login: React.FC = () => {
               id="email" 
               value={login}
               onChange={(e): void => setLogin(e.target.value)}
-              type="email" 
-              placeholder="Ex: Guilherme@gmail.com" 
-              name="email"
+              type="text" 
+              placeholder="ÚSUARIO" 
+              name="text"
               required
             />
 
-            <label htmlFor="email">Senha: *</label>
+            <label htmlFor="senha">Senha: *</label>
             <input 
               id="senha" 
               type="password" 

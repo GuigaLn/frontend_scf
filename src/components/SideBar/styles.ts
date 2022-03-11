@@ -2,16 +2,17 @@ import styled from 'styled-components';
 
 export const SideBar = styled.div<{ close: boolean }>`
   transition-duration: 0.5s;
-  background-color: #F7F9FC;
   position: relative;
-  width: ${({ close }) => (close ? '7%' : '30%')};
-  padding: 20px;
+
   
   z-index: 10;
 
   div.navbar {
+    transition-duration: 0.5s;
+    background-color: #F7F9FC;
     position: fixed;
-    width: ${({ close }) => (close ? 'calc(7% - 38px)' : 'calc(30% - 136px)')};
+    padding: ${({ close }) => (close ? '10px 0px' : '10px 20px')};
+    width: ${({ close }) => (close ? '100px' : '300px')};
   }
 
   div.header {
@@ -41,7 +42,7 @@ export const SideBar = styled.div<{ close: boolean }>`
     border-top: 1px solid #CCC;
     overflow: auto;
     max-height: 90vh;
-
+ 
     div.option {
       font-weight: 400;
       font-size: 18px;

@@ -30,7 +30,8 @@ export const Body = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  width: 100%;
+  width: calc(100% - 120px);
+  margin-left: 120px;
   flex-direction: column;
   min-height: 100vh;
 

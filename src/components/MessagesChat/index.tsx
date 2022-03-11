@@ -25,10 +25,11 @@ interface InterfaceMessages {
 interface MessageChatProps {
   chatId: number;
   idPhone: string;
+  attendance?: boolean;
   setModalUpdateSector: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const MessagesChat: React.FC<MessageChatProps> = ({ chatId, idPhone, setModalUpdateSector }) => {
+const MessagesChat: React.FC<MessageChatProps> = ({ chatId, idPhone, attendance, setModalUpdateSector }) => {
   const [messages, setMessages] = useState<InterfaceMessages[]>([]);
   const [msgToSend, setMsgToSend] = useState('');
   const messagesEndRef: any = useRef(null); 
@@ -110,9 +111,14 @@ const MessagesChat: React.FC<MessageChatProps> = ({ chatId, idPhone, setModalUpd
         <AlwaysScrollToBottom />                  
       </div>
       <div className="sendMessage">
-          <MessageAutomatic setMsgToSend={setMsgToSend} />
-          <input defaultValue=""  value={msgToSend} onSubmitCapture={() => console.log("d")} type="text" onInputCapture={(e) => setMsgToSend(e.currentTarget.value)} ></input>
-          <FiSend size={28} className="button-send" onClick={sendMessage} />
+          {attendance !== true ?
+            <button className="take_care">Assumir Atendimento</button>
+          :<>
+            <MessageAutomatic setMsgToSend={setMsgToSend} />
+            <input defaultValue=""  value={msgToSend} onSubmitCapture={() => console.log("d")} type="text" onInputCapture={(e) => setMsgToSend(e.currentTarget.value)} ></input>
+            <FiSend size={28} className="button-send" onClick={sendMessage} />
+          </>
+          }
       </div>
     </Menssagens> 
   );

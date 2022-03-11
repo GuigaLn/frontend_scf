@@ -39,7 +39,7 @@ const Routes: React.FC = () => {
   return (
     <Switch>
       
-      <Route path="/" exact component={InitialRouter} />
+      <Route path="/" exact component={Login} />
 
       <Route path="/test" exact isPrivade component={PDFPrinter} />
 

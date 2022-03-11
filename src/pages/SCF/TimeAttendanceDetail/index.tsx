@@ -11,6 +11,7 @@ import { ToastContainer } from 'react-toastify';
 import { useParams } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import { useAuth } from '../../../context/AuthContext';
+import { FiThumbsUp } from 'react-icons/fi';
 
 interface Request {
   id: string;
@@ -104,6 +105,20 @@ const TimeAttendanceDetail: React.FC = () => {
       selector: "sum",
       sortable: true
     },
+    {
+      name: "VALIDADO",
+      selector: (row: any) => {
+      if(row.id === undefined) {
+        return '';
+      } else { 
+        if(!row.valided) {
+          return <span onClick={() => validedTimeAttendance(row.id)}  className='icon-printer' style={{ cursor: 'pointer', color: '#1E97F7'}}><FiThumbsUp size={22} /></span> 
+        } else {
+          return <span style={{ color: 'green' }}>OK</span>
+        }
+      }},
+      sortable: true
+    },
   ];
 
   const tableData = {
@@ -117,8 +132,9 @@ const TimeAttendanceDetail: React.FC = () => {
   }, []);
 
   let promiseLoadingData = () => {
-   
-   new Promise((resolve, reject) => {
+    if(startDay !== '' && startDay !== null) { return }
+    if(endDay !== '' && endDay !== null) { return }
+    new Promise((resolve, reject) => {
       try {
         api.post('time/detail', {id}).then(response => {
           setMinWorkTime(response.data.times.minWorkTime);
@@ -191,7 +207,7 @@ const TimeAttendanceDetail: React.FC = () => {
      new Promise((resolve, reject) => {
        try {
          api.put('time', {id: detailUpdate.id, note: idComments, date: detailUpdate.date, idEmployee: detailUpdate.idEmployee}).then(response => {
-           //promiseLoadingData();
+           promiseLoadingData();
            setOpenModal(false);
            return;
          }).catch((err) => {
@@ -203,7 +219,24 @@ const TimeAttendanceDetail: React.FC = () => {
          return;
        }
      });
-   }
+  }
+
+  let validedTimeAttendance = (idTimeAttendance: number) => {
+    if (idTimeAttendance === undefined && idTimeAttendance === null) return;
+    try {
+      api.put('time/valided', {id: idTimeAttendance}).then(response => {
+        promiseLoadingData();
+        setOpenModal(false);
+        return;
+      }).catch((err) => {
+        console.log(err);
+        return;
+      }); 
+    } catch (err) {
+      console.log(err);
+      return;
+    }
+  }
 
   return (
     <>
