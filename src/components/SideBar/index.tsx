@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { SideBar} from './styles';
-import { FiClock, FiPieChart, FiMap, FiBriefcase, FiKey, FiAlertCircle, FiMenu, FiHome, FiLogOut, FiCast, FiSun, FiMessageCircle, FiUser } from 'react-icons/fi';
+import { FiClock, FiMap, FiBriefcase, FiKey, FiAlertCircle, FiMenu, FiHome, FiLogOut, FiCast, FiSun, FiMessageCircle, FiUser } from 'react-icons/fi';
 
 import logo from '../../assets/logo2.png';
 import { useHistory } from 'react-router';
@@ -67,14 +67,6 @@ const Dashboard: React.FC<SidebarProps> = ({ page }) => {
                         <div className={ page === 'timeattendance' ? "option select" : 'option' } onClick={() => history.push('/scf/timeattendance')}>
                             <FiClock />
                             <span>Batidas</span>
-                        </div> :<></>
-                    }
-                    
-                    { // VERIFICAR SE TEM PERMISÃO TOAL
-                    all !== -1 ?
-                        <div className="option">
-                            <FiPieChart />
-                            <span>Relatórios</span>
                         </div> :<></>
                     }
                     { // VERIFICAR SE TEM PERMISÃO TOAL

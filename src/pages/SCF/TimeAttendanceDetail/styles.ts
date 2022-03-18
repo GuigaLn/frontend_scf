@@ -19,6 +19,12 @@ export const Body = styled.div`
   flex-direction: column;
   padding: 0px 40px;
   min-height: 100vh;
+
+  .input_time {
+    font-size: 12px;
+    border: none;
+    width: 40;
+  }
  
   .findForDate {
     margin-top: 40px;
@@ -37,23 +43,27 @@ export const Body = styled.div`
         margin: 5px;
       }
     }
+  }
 
-    button {
-      background-color: #1E97F7;
-      border: none;
-      color: #FFF;
-      font-weight: 400;
-      font-size: 16px;
-      font-family: Arial, Helvetica, sans-serif;
-      padding: 10px;
-      border-radius: 5px;
-      margin-left: 20px;
+  .addExtraHour, .loadingData {
+    background-color: #1E97F7;
+    border: none;
+    color: #FFF;
+    font-weight: 400;
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 10px;
+    border-radius: 5px;
+    margin-left: 20px;
 
-      transition: background 0.4s;
+    transition: background 0.4s;
 
-      &:hover {
-        background-color: ${shade(0.2, '#1E97F7')};
-      }
+    &:hover {
+      background-color: ${shade(0.2, '#1E97F7')};
+    }
+
+    &.addExtraHour {
+      margin: 20px 0;
     }
   }
 
@@ -78,9 +88,9 @@ export const Modal = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  z-index: 11;
+  z-index: 999;
 
-  div {
+  > div {
     background-color: #FFF;
     padding: 20px;
 
@@ -92,12 +102,27 @@ export const Modal = styled.div`
     }
 
     select {
-      margin-top: 20px;
+      border: 1px solid #808080;
+      background-color: #FFF;
+      padding: 10px 20px;
+      border-radius: 5px;
+      width: 100%;
+      color: #808080;
+    }
+
+    input {
       border: 1px solid #808080;
       padding: 10px 20px;
       border-radius: 5px;
       width: 100%;
-      background-color: #fff;
+      color: #808080;
+    }
+
+    .titleInput {
+      text-align: left;
+      flex: 1;
+      margin-top: 10px;
+      color: #808080;
     }
 
     button {
@@ -113,7 +138,7 @@ export const Modal = styled.div`
       width: 100%;
       transition: background 0.4s;
 
-      &.submit {
+      &.editar {
         background-color: #1E97F7;
 
         &:hover {
@@ -122,6 +147,15 @@ export const Modal = styled.div`
       }
 
       &.cancelar {
+        border: 1px solid #ff473d;
+        color: #ff473d;
+
+        &:hover {
+          border-color: ${shade(0.2, '#ff473d')};
+        }
+      }
+
+      &.excluir {
         background-color: #ff473d;
 
         &:hover {

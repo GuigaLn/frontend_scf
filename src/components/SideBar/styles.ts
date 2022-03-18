@@ -10,6 +10,7 @@ export const SideBar = styled.div<{ close: boolean }>`
   div.navbar {
     transition-duration: 0.5s;
     background-color: #F7F9FC;
+    height: 100vh;
     position: fixed;
     padding: ${({ close }) => (close ? '10px 0px' : '10px 20px')};
     width: ${({ close }) => (close ? '100px' : '300px')};

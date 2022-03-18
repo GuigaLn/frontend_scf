@@ -7,7 +7,7 @@ import 'react-data-table-component-extensions/dist/index.css';
 
 import SideBar from '../../../components/SideBar';
 import api from '../../../services/api';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import { useParams } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import { useAuth } from '../../../context/AuthContext';
@@ -39,7 +39,12 @@ const TimeAttendanceDetail: React.FC = () => {
 
   const [comments, setComments] = useState<InterfaceComments[]>([]);
   const { id } = useParams<Request>();
+
+  const [descriptionExtraHour, setDescriptionExtraHour] = useState('');
+  const [qtdExtraHour, setqtdExtraHour] = useState('');
+
   const [openModal, setOpenModal] = useState(false);
+  const [openModalExtraHour, setOpenModalExtraHour] = useState(false);
 
   const conditionalRowStyles = [
     {
@@ -102,7 +107,13 @@ const TimeAttendanceDetail: React.FC = () => {
     },
     {
       name: "SOMA",
-      selector: "sum",
+      selector: (row: any) => {
+        if(row.valided || row.week === 'Sab' || row.week === 'Dom' || row.sum === '-') {
+          return row.sum
+        } else {
+          return <input onChange={e => row.sum = e.target.value} className="input_time" type="time" defaultValue={row.sum} />
+        }
+      },
       sortable: true
     },
     {
@@ -112,7 +123,7 @@ const TimeAttendanceDetail: React.FC = () => {
         return '';
       } else { 
         if(!row.valided) {
-          return <span onClick={() => validedTimeAttendance(row.id)}  className='icon-printer' style={{ cursor: 'pointer', color: '#1E97F7'}}><FiThumbsUp size={22} /></span> 
+          return <span onClick={() => validedTimeAttendance({ id: row.id, hours: row.sum })}  className='icon-printer' style={{ cursor: 'pointer', color: '#1E97F7'}}><FiThumbsUp size={22} /></span> 
         } else {
           return <span style={{ color: 'green' }}>OK</span>
         }
@@ -184,7 +195,6 @@ const TimeAttendanceDetail: React.FC = () => {
           setData(response.data.times.list);
           if(nameEmployee === '') {
             setNameEmployee(response.data.customer);
-            console.log(nameEmployee)
           }
           setSumHours(response.data.times.sumHours);
           setTimeout(resolve);
@@ -221,10 +231,32 @@ const TimeAttendanceDetail: React.FC = () => {
      });
   }
 
-  let validedTimeAttendance = (idTimeAttendance: number) => {
-    if (idTimeAttendance === undefined && idTimeAttendance === null) return;
+  let addExtraHour = () => {
+    if (id === undefined || qtdExtraHour === '' || descriptionExtraHour === '') return;
+     new Promise((resolve, reject) => {
+       try {
+         api.post('employee/addextrahours', {id: id, extraHour: qtdExtraHour, description: descriptionExtraHour}).then(response => {
+           promiseLoadingData();
+           toast.success('Sucesso ao Adcionar Horas Extra!');
+           setDescriptionExtraHour('');
+           setqtdExtraHour('');
+           setOpenModalExtraHour(false);
+           return;
+         }).catch((err) => {
+           console.log(err);
+           return;
+         }); 
+       } catch (err) {
+         console.log(err);
+         return;
+       }
+     });
+  }
+
+  let validedTimeAttendance = (time: { id: number; hours: string }) => {
+    if (time.id === undefined && time.id === null && time.hours === undefined && time.hours === null) return;
     try {
-      api.put('time/valided', {id: idTimeAttendance}).then(response => {
+      api.put('time/valided', {id: time.id, hours: time.hours}).then(response => {
         promiseLoadingData();
         setOpenModal(false);
         return;
@@ -282,6 +314,8 @@ const TimeAttendanceDetail: React.FC = () => {
             </DataTableExtensions>
           </div>
           <h3>TOTAL: {sumHours} - MÍNIMO: {minWorkTime}</h3>
+
+          <button className="addExtraHour" onClick={() => setOpenModalExtraHour(true)} >ADICIONAR HORA EXTRA</button>
         </Body>
       </Container>
 
@@ -299,10 +333,27 @@ const TimeAttendanceDetail: React.FC = () => {
                   <option key={item.id} value={item.id}>{item.description}</option>
               ))}
             </select>
-            <button className="submit" onClick={submitComments}>LANÇAR</button>
+            <button className="editar" onClick={submitComments}>LANÇAR</button>
             <button className="cancelar" onClick={() => setOpenModal(false)}>CANCELAR</button>
           </div>
         </Modal>
+      }
+
+      {openModalExtraHour ?
+        <Modal>
+          <div>
+            <p>ADICIONAR HORA EXTRA</p>
+            <div className="titleInput">Descrição *</div>
+            <input onInput={(e) => setDescriptionExtraHour(e.currentTarget.value)} type="text" placeholder="Exemp.: Janeiro/2022" />
+            
+            <div className="titleInput">Horas *</div>
+            <input onInput={(e) => setqtdExtraHour(e.currentTarget.value)} type="time" />
+
+            <button className="editar" onClick={addExtraHour}>GRAVAR</button>
+            <button className="cancelar" onClick={() => setOpenModalExtraHour(false)}>CANCELAR</button>
+          </div>
+        </Modal>
+        : <></>
       }
     </>
   );

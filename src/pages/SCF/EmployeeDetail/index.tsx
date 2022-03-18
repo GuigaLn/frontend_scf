@@ -34,6 +34,7 @@ interface InterfaceEmployee {
   ubsid: number
   occupationid: number
   workload: any
+  extrahour: any
 }
 
 interface InterfaceUBS {
@@ -53,11 +54,12 @@ const EmployeeDetail: React.FC = () => {
   const { id } = useParams<Request>();
   const { user, signOut } = useAuth();
 
-  let [data, setData] = useState<InterfaceEmployee>({id: 0, name: '', bedit: '', birthday: '', cpf: '', cns: '', registration: '', numberct: '', seriesct: '', mail: '', phone: '', ubsid: 0, occupationid: 0, workload: ''});
+  let [data, setData] = useState<InterfaceEmployee>({id: 0, name: '', bedit: '', birthday: '', cpf: '', cns: '', registration: '', numberct: '', seriesct: '', mail: '', phone: '', ubsid: 0, occupationid: 0, workload: '', extrahour: ''});
 
   const [dataUBS, setDataUBS] = useState<InterfaceUBS[]>([]);
   const [dataOccupation, setDataOccupation] = useState<InterfaceOccupation[]>([]);
   const [openModalVacation, setOpenModalVacation] = useState(false);
+  const [openModalExtraHour, setOpenModalExtraHour] = useState(false);
 
   const [discharge, setDischarge] = useState('gozo');
   const [vacation, setVacation] = useState('vacation')
@@ -284,7 +286,7 @@ const EmployeeDetail: React.FC = () => {
           <h1><FiUser /> CADASTRO DO USÚARIO</h1>
         </div>        
 
-        <h2>DADOS</h2>
+        <h2>DADOS - HORA EXTRA {data.extrahour}</h2>
         <div className="form">
           <div className="itemForm">
             <div className="titleInput">Nome</div>  
@@ -366,7 +368,27 @@ const EmployeeDetail: React.FC = () => {
         <button className="editar" onClick={() => history.push(`/scf/employee/printepi/${id}`)}>GERAR FICHA - EPI</button>
 
         <hr />
+        <h2>FÉRIAS / LICENÇA PRÊMIO</h2>
         <button className="emit-vacation" onClick={() => setOpenModalVacation(true)}>EMITIR FÉRiAS</button>
+
+        <div className="table">
+          <DataTableExtensions
+            {...tableData}
+            exportHeaders={true}
+          >
+            <DataTable
+              columns={columns}
+              data={dataListVacation}
+              pagination
+              paginationPerPage={30}
+              onRowDoubleClicked={(e: any) => {history.push(`employee/detail/${e.id}`) }}
+            />
+          </DataTableExtensions>
+        </div>
+
+        <hr />
+        <h2>HISTÓRICO DE FOLGA</h2>
+        <button className="editar" onClick={() => setOpenModalExtraHour(true)}>EMITIR FOLGA</button>
 
         <div className="table">
           <DataTableExtensions
@@ -415,6 +437,26 @@ const EmployeeDetail: React.FC = () => {
 
             <button className="editar" onClick={emitVacation}>GRAVAR</button>
             <button className="cancelar" onClick={() => setOpenModalVacation(false)}>CANCELAR</button>
+          </div>
+        </Modal>
+        : <></>
+      }
+
+      {openModalExtraHour ?
+        <Modal>
+          <div>
+            <p>ADICIONAR FOLGA</p>
+            <div className="titleInput">Descrição *</div>
+            <input onInput={(e) => setVestingPeriod(e.currentTarget.value)} type="text" placeholder="Pedido de Folga" />
+            
+            <div className="titleInput">Horas *</div>
+            <input type="time" />
+
+            <div className="titleInput">Dia *</div>
+            <input type="date" />
+
+            <button className="editar" onClick={() => console.log(1)}>GRAVAR</button>
+            <button className="cancelar" onClick={() => setOpenModalExtraHour(false)}>CANCELAR</button>
           </div>
         </Modal>
         : <></>
