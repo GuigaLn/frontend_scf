@@ -82,22 +82,46 @@ const TimeAttendanceDetail: React.FC = () => {
     },
     {
       name: "1º Entrada",
-      selector: "one",
+      selector: (row: any) => {
+        if(row.valided || row.sum === '-') {
+          return row.one
+        } else {
+          return <input onChange={e => row.one = e.target.value} className="input_time" type="time" defaultValue={row.one} />
+        }
+      },
       sortable: true
     },
     {
       name: "2º Entrada",
-      selector: "oneout",
+      selector: (row: any) => {
+        if(row.valided || row.sum === '-') {
+          return row.oneout
+        } else {
+          return <input onChange={e => row.oneout = e.target.value} className="input_time" type="time" defaultValue={row.oneout} />
+        }
+      },
       sortable: true
     },
     {
       name: "3º Entrada",
-      selector: "two",
+      selector: (row: any) => {
+        if(row.valided || row.sum === '-') {
+          return row.two
+        } else {
+          return <input onChange={e => row.two = e.target.value} className="input_time" type="time" defaultValue={row.two} />
+        }
+      },
       sortable: true
     },
     {
       name: "4º Entrada",
-      selector: "twoout",
+      selector: (row: any) => {
+        if(row.valided || row.sum === '-') {
+          return row.twoout
+        } else {
+          return <input onChange={e => row.twoout = e.target.value} className="input_time" type="time" defaultValue={row.twoout} />
+        }
+      },
       sortable: true
     },
     {
@@ -108,7 +132,7 @@ const TimeAttendanceDetail: React.FC = () => {
     {
       name: "SOMA",
       selector: (row: any) => {
-        if(row.valided || row.week === 'Sab' || row.week === 'Dom' || row.sum === '-') {
+        if(row.valided || row.sum === '-') {
           return row.sum
         } else {
           return <input onChange={e => row.sum = e.target.value} className="input_time" type="time" defaultValue={row.sum} />
@@ -123,7 +147,7 @@ const TimeAttendanceDetail: React.FC = () => {
         return '';
       } else { 
         if(!row.valided) {
-          return <span onClick={() => validedTimeAttendance({ id: row.id, hours: row.sum })}  className='icon-printer' style={{ cursor: 'pointer', color: '#1E97F7'}}><FiThumbsUp size={22} /></span> 
+          return <span onClick={() => validedTimeAttendance({ id: row.id, hours: row.sum, one: row.one, oneout: row.oneout, two: row.two, twoout: row.twoout })}  className='icon-printer' style={{ cursor: 'pointer', color: '#1E97F7'}}><FiThumbsUp size={22} /></span> 
         } else {
           return <span style={{ color: 'green' }}>OK</span>
         }
@@ -253,10 +277,10 @@ const TimeAttendanceDetail: React.FC = () => {
      });
   }
 
-  let validedTimeAttendance = (time: { id: number; hours: string }) => {
+  let validedTimeAttendance = (time: { id: number; hours: string; one: string; oneout: string, two: string; twoout: string }) => {
     if (time.id === undefined && time.id === null && time.hours === undefined && time.hours === null) return;
     try {
-      api.put('time/valided', {id: time.id, hours: time.hours}).then(response => {
+      api.put('time/valided', {id: time.id, hours: time.hours, one: time.one, oneout: time.oneout, two: time.two, twoout: time.twoout}).then(response => {
         promiseLoadingData();
         setOpenModal(false);
         return;

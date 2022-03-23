@@ -43,6 +43,13 @@ interface InterfaceUBS {
   description: string;
 }
 
+interface InterfaceOverTime {
+  id: number; 
+  idovertime: number; 
+  descricao: string;
+  extrahour: string;
+}
+
 interface InterfaceOccupation {
   id: number; 
   idoccupation: number; 
@@ -58,14 +65,18 @@ const EmployeeDetail: React.FC = () => {
 
   const [dataUBS, setDataUBS] = useState<InterfaceUBS[]>([]);
   const [dataOccupation, setDataOccupation] = useState<InterfaceOccupation[]>([]);
+  const [dataOverTime, setDataOverTime] = useState<InterfaceOccupation[]>([]);
   const [openModalVacation, setOpenModalVacation] = useState(false);
-  const [openModalExtraHour, setOpenModalExtraHour] = useState(false);
+  const [openModalDayOff, setOpenModalDayOff] = useState(false);
 
   const [discharge, setDischarge] = useState('gozo');
   const [vacation, setVacation] = useState('vacation')
   const [vestingPeriod, setVestingPeriod] = useState('');
   const [daysPeriod, setDaysPeriod] = useState('');
   const [dateInitial, setDateInitial] = useState('');
+
+  const [qtdDayOff, setQtdDayOff] = useState('');
+  const [dateDayOff, setDateDayOff] = useState('');
 
   const [dataListVacation, setDataListVacation] = useState<any>();
   const columns: any = [
@@ -113,11 +124,30 @@ const EmployeeDetail: React.FC = () => {
     data: dataListVacation,
   };
 
+  const columnsOverTime: any = [
+    {
+      name: "DESCRIÇÃO",
+      selector: (row: any) => row.description,
+      sortable: true,
+    },
+    {
+      name: "HORA EXTRA",
+      selector: (row: any) => row.extrahour,
+      sortable: true,
+    },
+  ];
+
+  const tableDataOverTime = {
+    columns: columnsOverTime,
+    data: dataOverTime,
+  };
+
   useEffect(() => {
     promiseLoading();
     loadingUBS();
     loadingOccupation();
     loadingListVacation();
+    loadingOverTime();
   }, []);
 
   let promiseLoading = () => {
@@ -151,6 +181,25 @@ const EmployeeDetail: React.FC = () => {
         error: 'Erro ao Carregar 🤯'
       }
     )
+  }
+
+  let reloadingData = () => {
+    try {
+      api.post('/employee/detail', {id}).then(response => {
+        if(response.data[0] === undefined) { return history.push('/scf/employee') }
+        setData(response.data[0]);
+        return;
+      }).catch((err: AxiosError) => {
+        if(err.response?.status === 401) {
+          signOut();
+          return;
+        }
+        console.log(err.response);
+        return;
+      }); 
+    } catch (err) {
+      return;
+    }
   }
 
   let promiseEdit = () => {
@@ -227,6 +276,21 @@ const EmployeeDetail: React.FC = () => {
     }
   }
 
+  let loadingOverTime = () => {
+    try {
+      api.post('/overtime', { id: id }).then(response => {
+        setDataOverTime(response.data);
+        return;
+      }).catch((err) => {
+        console.log(err);
+        return;
+      }); 
+    } catch (err) {
+      console.log(err);
+      return;
+    }
+  }
+
   let emitVacation = () => {
     const reseolveApi = new Promise((resolve, reject) => {
       data.id = Number(id);
@@ -275,6 +339,29 @@ const EmployeeDetail: React.FC = () => {
         error: 'Erro ao Editar 🤯'
       }
     )
+  }
+
+  let addDayOff = () => {
+    if (id === undefined || qtdDayOff === '' || dateDayOff === '') return;
+     new Promise((resolve, reject) => {
+       try {
+         api.post('employee/adddayoff', {id: id, extraHour: qtdDayOff, day: dateDayOff}).then(response => {
+           toast.success('Sucesso ao Adcionar Horas Extra!');
+           setQtdDayOff('');
+           setDateDayOff('');
+           loadingOverTime();
+           reloadingData();
+           setOpenModalDayOff(false);
+           return;
+         }).catch((err) => {
+           console.log(err);
+           return;
+         }); 
+       } catch (err) {
+         console.log(err);
+         return;
+       }
+     });
   }
 
   return (
@@ -381,26 +468,24 @@ const EmployeeDetail: React.FC = () => {
               data={dataListVacation}
               pagination
               paginationPerPage={30}
-              onRowDoubleClicked={(e: any) => {history.push(`employee/detail/${e.id}`) }}
             />
           </DataTableExtensions>
         </div>
 
         <hr />
         <h2>HISTÓRICO DE FOLGA</h2>
-        <button className="editar" onClick={() => setOpenModalExtraHour(true)}>EMITIR FOLGA</button>
+        <button className="editar" onClick={() => setOpenModalDayOff(true)}>EMITIR FOLGA</button>
 
         <div className="table">
           <DataTableExtensions
-            {...tableData}
+            {...tableDataOverTime}
             exportHeaders={true}
           >
             <DataTable
-              columns={columns}
-              data={dataListVacation}
+              columns={columnsOverTime}
+              data={dataOverTime}
               pagination
               paginationPerPage={30}
-              onRowDoubleClicked={(e: any) => {history.push(`employee/detail/${e.id}`) }}
             />
           </DataTableExtensions>
         </div>
@@ -442,21 +527,18 @@ const EmployeeDetail: React.FC = () => {
         : <></>
       }
 
-      {openModalExtraHour ?
+      {openModalDayOff ?
         <Modal>
           <div>
-            <p>ADICIONAR FOLGA</p>
-            <div className="titleInput">Descrição *</div>
-            <input onInput={(e) => setVestingPeriod(e.currentTarget.value)} type="text" placeholder="Pedido de Folga" />
-            
+            <p>ADICIONAR FOLGA</p>            
             <div className="titleInput">Horas *</div>
-            <input type="time" />
+            <input type="time" onInput={(e) => setQtdDayOff(e.currentTarget.value)} />
 
             <div className="titleInput">Dia *</div>
-            <input type="date" />
+            <input type="date" onInput={(e) => setDateDayOff(e.currentTarget.value)} />
 
-            <button className="editar" onClick={() => console.log(1)}>GRAVAR</button>
-            <button className="cancelar" onClick={() => setOpenModalExtraHour(false)}>CANCELAR</button>
+            <button className="editar" onClick={addDayOff}>GRAVAR</button>
+            <button className="cancelar" onClick={() => setOpenModalDayOff(false)}>CANCELAR</button>
           </div>
         </Modal>
         : <></>
