@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { Container } from './styles';
+
+import { AxiosError } from 'axios';
 // @ts-ignore
 import Printer from 'react-pdf-print';
-import api from '../../../services/api';
-import { AxiosError } from 'axios';
 import { useAuth } from '../../../context/AuthContext';
+import api from '../../../services/api';
 
-import logo from '../../../assets/signture.png';
+import signtureGrazzi from '../../../assets/signtureGrazzi.png';
+import signtureMarcos from '../../../assets/signtureMarcos.png';
+
 
 interface Request {
   id: string;
@@ -22,6 +25,7 @@ const Vacation: React.FC = () => {
 
   const [dateNow, setDateNow] = useState();
   const [name, setName] = useState();
+  const [autorizedBy, setAutorizedBy] = useState(0);
 
   const [text, setText] = useState('');
 
@@ -32,6 +36,8 @@ const Vacation: React.FC = () => {
         setText(response.data.text)
         setDateNow(response.data.dateNow)
         setName(response.data.name);
+        setAutorizedBy(response.data.autorizedBy);
+        console.log(response.data.autorizedBy)
         setTimeout(() => {
          window.print()
         }, 500);
@@ -73,15 +79,22 @@ const Vacation: React.FC = () => {
                   <td><hr /></td>
                   <td className="signture">
                     <div>
-                      <img src={logo} alt="signture" />
+                      {autorizedBy === 11 ? 
+                      <img src={signtureMarcos} alt="signture" /> :  <img src={signtureGrazzi} alt="signture" />
+                    }
                     </div>
                     <hr />
                   </td>
                 </tr>
+                {autorizedBy === 11 ? 
                 <tr> 
                   <td><b>{name}</b></td>
-                  <td><b>GRAZIELA BRAUN</b><br/>SEC. MUN. DE SAÚDE<br/>DECRETO Nº 3677/2021</td>
+                  <td><b>MARCOS MARCZAL</b><br/>SEC. MUN. DE TRANSPORTE<br/>DECRETO Nº 3451/2021</td>
                 </tr>
+                :  <tr> 
+                <td><b>{name}</b></td>
+                <td><b>GRAZIELA BRAUN</b><br/>SEC. MUN. DE SAÚDE<br/>DECRETO Nº 3677/2021</td>
+              </tr> }
               </tbody>
             </table>           
           </div>

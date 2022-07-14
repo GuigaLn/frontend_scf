@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Body } from './styles';
 import DataTable from "react-data-table-component";
 import SideBar from '../../../components/SideBar';
 import api from '../../../services/api';
+import { Body, Container } from './styles';
 
 import { useHistory } from 'react-router-dom';
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { useAuth } from '../../../context/AuthContext';
 import { AxiosError } from 'axios';
 import { FiPrinter, FiThumbsDown, FiThumbsUp } from 'react-icons/fi';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useAuth } from '../../../context/AuthContext';
 
 
 const ListVacation: React.FC = () => {
@@ -78,7 +78,7 @@ const ListVacation: React.FC = () => {
     {
       name: "OPÇÕES",
       selector: (row: any) => {  
-        if(user.id_unidade_de_saude === 9) { 
+        if(user.userPermissions.find((item) => item.permisionid === 5)) { 
           return row.autorizedby === null ? 
           <div>
             <span onClick={() => promiseConfirm(row.id)}  className='icon-printer' style={{ cursor: 'pointer', color: '#1E97F7'}}><FiThumbsUp size={22} /></span> 
@@ -95,6 +95,37 @@ const ListVacation: React.FC = () => {
       sortable: true
     },
   ];
+
+  const ExpandedComponent = ({ data }: any) => (
+    <div className="vacation-details">
+      <p>
+        <strong>ID:</strong> {data.id}
+      </p>
+      <p>
+        <strong>Quantidade de dias:</strong> {data.daysperiod}
+      </p>
+      {data.cancellationreason && (
+        <p>
+          <strong>Motivo do cancelamento:</strong> {data.cancellationreason}
+        </p>
+      )}
+      {data.vacation ? <p>
+          <strong>Férias - {data.enjoyment ? 'Com gozo' : 'Sem gozo'}</strong>
+        </p> : <p>
+          <strong>Licença prêmio</strong> 
+        </p>}
+        {data.discharge ? <p>
+          <strong>Com quitação</strong>
+        </p> : <p>
+          <strong>Sem quitação</strong> 
+        </p>}
+        {data.autorizedby && (
+        <p>
+          <strong>Autorizado por:</strong> {data.autorizedbyname}
+        </p>
+      )}
+    </div>
+  );
 
   useEffect(() => {
     promiseLoading();
@@ -187,7 +218,7 @@ const ListVacation: React.FC = () => {
 
     const reseolveApi = new Promise((resolve, reject) => {
       try {
-        api.put('/vacation/cancel', { id: idVacation}).then(response => {
+        api.put('/vacation/reject', { id: idVacation}).then(response => {
           reloadData();
           setTimeout(resolve);
           return;
@@ -230,6 +261,8 @@ const ListVacation: React.FC = () => {
               pagination
               paginationPerPage={30}
               conditionalRowStyles={conditionalRowStyles}
+              expandableRows
+              expandableRowsComponent={ExpandedComponent}
             />
           </div>
         </Body>

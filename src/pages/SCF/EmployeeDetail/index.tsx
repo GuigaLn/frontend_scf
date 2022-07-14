@@ -1,19 +1,20 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Container, Body, Modal } from './styles';
+import React, { useEffect, useState } from 'react';
 import SideBar from '../../../components/SideBar';
 import api from '../../../services/api';
+import { Body, Container, Modal } from './styles';
 
 import DataTable from "react-data-table-component";
 // @ts-ignore
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { FiPrinter, FiUser } from 'react-icons/fi';
-import { useHistory, useParams } from 'react-router-dom';
-import { useAuth } from '../../../context/AuthContext';
 import { AxiosError } from 'axios';
+import moment from 'moment';
+import { FiPrinter, FiTrash, FiUser } from 'react-icons/fi';
+import { useHistory, useParams } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useAuth } from '../../../context/AuthContext';
 
 interface Request {
   id: string;
@@ -78,7 +79,42 @@ const EmployeeDetail: React.FC = () => {
   const [qtdDayOff, setQtdDayOff] = useState('');
   const [dateDayOff, setDateDayOff] = useState('');
 
+  const [openModalConfirmCancelVacation, setOpenModalConfirmCancelVacation] = useState<number | null>(null);
+  const [cancellationReason, setCancellationReason] = useState('');
+
   const [dataListVacation, setDataListVacation] = useState<any>();
+
+  const ExpandedComponent = ({ data }: any) => (
+    <div className="vacation-details">
+      <p>
+        <strong>ID:</strong> {data.id}
+      </p>
+      <p>
+        <strong>Quantidade de dias:</strong> {data.daysperiod}
+      </p>
+      {data.cancellationreason && (
+        <p>
+          <strong>Motivo do cancelamento:</strong> {data.cancellationreason}
+        </p>
+      )}
+      {data.vacation ? <p>
+          <strong>Férias - {data.enjoyment ? 'Com gozo' : 'Sem gozo'}</strong>
+        </p> : <p>
+          <strong>Licença prêmio</strong> 
+        </p>}
+        {data.discharge ? <p>
+          <strong>Com quitação</strong>
+        </p> : <p>
+          <strong>Sem quitação</strong> 
+        </p>}
+        {data.autorizedby && (
+        <p>
+          <strong>Autorizado por:</strong> {data.autorizedbyname}
+        </p>
+      )}
+    </div>
+  );
+
   const columns: any = [
     {
       name: "TIPO",
@@ -108,13 +144,24 @@ const EmployeeDetail: React.FC = () => {
         if(row.autorizedby !== null) {
           return <span onClick={() => history.push(`/scf/employee/vacation/${row.id}`)}  className='icon-printer' style={{ cursor: 'pointer', color: '#1E97F7'}}><FiPrinter /></span> 
         } else { 
-          if(row.canceledby !== null) {
+          if(row.rejectby !== null) {
             return <span style={{ color: 'red' }}>REJEITADO</span> 
           } else {
-            return <span style={{ color: 'red' }}>PENDENTE</span> 
+            if(row.cancellationreason !== null) {
+              return <span style={{ color: 'red' }}>CANCELADO</span> 
+            } else {
+              return <span style={{ color: 'red' }}>PENDENTE</span> 
+            }
           }
         }
       },
+      sortable: true
+    },
+    {
+      name: "",
+      selector: (row: any)  =>  { if(row.rejectby === null && row.cancellationreason === null && 
+        (moment(row.dateend, 'DD/MM/YYYY').format() > moment().format() || row.autorizedby === null)) return <span style={{ color: 'red', cursor: 'pointer' }} 
+      onClick={() => setOpenModalConfirmCancelVacation(row.id)}><FiTrash /></span> },
       sortable: true
     },
   ];
@@ -264,6 +311,7 @@ const EmployeeDetail: React.FC = () => {
   let loadingListVacation = () => {
     try {
       api.post('/vacation/listByEmployee', { idEmployee: id }).then(response => {
+        console.log(response.data)
         setDataListVacation(response.data);
         return;
       }).catch((err) => {
@@ -364,6 +412,27 @@ const EmployeeDetail: React.FC = () => {
      });
   }
 
+  let promiseCancel = (idVacation: number) => {
+    if(cancellationReason.length < 5) {
+      return toast.info('Motivo precisa de no mínimo 05 dígitos');
+    }
+    try {
+      api.put('/vacation/cancel', { id: idVacation, cancellationReason}).then(response => {
+        loadingListVacation();
+        toast.success('Sucesso ao cancelar');
+        setCancellationReason('');
+        setOpenModalConfirmCancelVacation(null);
+        return;
+      }).catch((err) => {
+        console.log(err);
+        return;
+      }); 
+    } catch (err) {
+      console.log(err);
+      return;
+    }
+  }
+
   return (
     <Container>
       <ToastContainer />
@@ -448,6 +517,7 @@ const EmployeeDetail: React.FC = () => {
               ))}
             </select>
           </div>
+
         </div>    
 
         <button className="editar" onClick={promiseEdit}>EDITAR DADOS</button>
@@ -468,6 +538,8 @@ const EmployeeDetail: React.FC = () => {
               data={dataListVacation}
               pagination
               paginationPerPage={30}
+              expandableRows
+              expandableRowsComponent={ExpandedComponent}
             />
           </DataTableExtensions>
         </div>
@@ -542,6 +614,22 @@ const EmployeeDetail: React.FC = () => {
           </div>
         </Modal>
         : <></>
+      }
+
+      {openModalConfirmCancelVacation &&
+        <Modal>
+          <div>
+            <p>CONFIRMAR CANCELAMENTO DE FÉRIAS? </p>            
+            <div style={{color: '#606060', marginTop: 20, marginBottom: 20 }}>Caso seja cancelada não poderá ser desfeita</div>
+
+
+            <input onInput={(e) => setCancellationReason(e.currentTarget.value)} type="text" placeholder="motivo do cancelamento" />
+
+
+            <button className="editar" onClick={() => promiseCancel(Number(openModalConfirmCancelVacation))}>CONFIRMAR CANCELAMENTO</button>
+            <button className="cancelar" onClick={() => setOpenModalConfirmCancelVacation(null)}>FECHAR</button>
+          </div>
+        </Modal>
       }
     </Container>
   );

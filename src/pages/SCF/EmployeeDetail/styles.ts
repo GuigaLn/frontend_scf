@@ -9,6 +9,16 @@ export const Container = styled.div`
   flex-wrap: no-wrap;
   display: space-around;
 
+  .vacation-details {
+    font-size: 0.9rem;
+    padding: 10px 40px;
+    background-color: #eee;
+
+    p {
+      margin-top: 10px;
+    }
+  }
+
   .rdt_TableCol {
     align-items: center !important;
     justify-content: center !important;

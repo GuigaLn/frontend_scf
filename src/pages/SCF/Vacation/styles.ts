@@ -83,7 +83,8 @@ export const Container = styled.div`
             img {
               position: relative;
               top: 25px;
-              width: 200px;
+              width: 100%;
+              max-width: 200px;
             }
           }
         }

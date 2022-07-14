@@ -48,6 +48,16 @@ export const Body = styled.div`
   div.table {
     width: 100%;
   }
+
+  .vacation-details {
+    font-size: 0.9rem;
+    padding: 10px 40px;
+    background-color: #eee;
+
+    p {
+      margin-top: 10px;
+    }
+  }
 `;
 
 export const Modal = styled.div`
