@@ -1,6 +1,7 @@
 import { gql, useSubscription } from '@apollo/react-hooks';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+
 import { Container } from './styles';
 
 /*
@@ -67,7 +68,9 @@ const Panel: React.FC = () => {
     <Container>
       <div className="header">
         <p>CENTRO DE SAÚDE DR. CARLOS RENATO PASSOS</p>
-        <h1>{sectorName}</h1>
+        <div>
+          <h1>{sectorName}</h1>
+        </div>
       </div>
       <div className="body">
         <div className="atually">

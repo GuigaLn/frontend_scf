@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   width: 100%;
   height: 100vh;
-  background-color: #F0F0F0;
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,9 +20,19 @@ export const Container = styled.div`
       font-weight: bold;
     }
 
-    h1 {
-      margin-top: 10px;
-      font-size: 80px;
+    div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      img {
+        width: 20%;
+      }
+
+      h1 {
+        margin-top: 10px;
+        font-size: 80px;
+      }
     }
   }
 
@@ -42,7 +52,8 @@ export const Container = styled.div`
       justify-content: center;
       height: 100%;
       padding: 20px;
-
+      background-image: url(logoCM);
+      
       span {
         font-size: 50px;
         font-weight: bold;
@@ -62,7 +73,7 @@ export const Container = styled.div`
     .lasted {
       border-left: 10px solid #104670;
       flex-basis: 50%;
-      background-color: #F3F3F3;
+
       display: flex;
       flex-direction: column;
       text-align: center;

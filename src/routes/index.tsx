@@ -2,37 +2,37 @@ import React from 'react';
 
 import { Switch } from 'react-router-dom';
 
-import Route from './Route'
+import Route from './Route';
 
 /* ROTA INICIAL */
-import InitialRouter from '../pages/SCF/InitialRouter';
 
 /* ROTAS DO SISTEMA DE TICKETS */
-import InitialConfig from '../pages/SCF/InitialConfig';
-import SecondConfig from '../pages/SCF/SecondConfig';
 import CallTickets from '../pages/SCF/CallTickets';
+import InitialConfig from '../pages/SCF/InitialConfig';
 import ResetTickets from '../pages/SCF/ResetTickets';
+import SecondConfig from '../pages/SCF/SecondConfig';
 
 /* ROTAS DO SISTEMA DE FUNCIONÁRIOS */
-import Panel from '../pages/Tickets/Panel';
-import PanelConfig from '../pages/Tickets/PanelConfig';
-import Dashboard from '../pages/SCF/Dashboard';
 import City from '../pages/SCF/City';
-import Occupation from '../pages/SCF/Occupation';
-import UBS from '../pages/SCF/UBS';
 import Comments from '../pages/SCF/Comments';
+import Dashboard from '../pages/SCF/Dashboard';
+import Employee from '../pages/SCF/Employee';
+import EmployeeDetail from '../pages/SCF/EmployeeDetail';
+import ListVacation from '../pages/SCF/ListVacation';
+import Login from '../pages/SCF/Login';
+import Occupation from '../pages/SCF/Occupation';
+import PDFPrinter from '../pages/SCF/PDFPrinter';
+import PrintEPI from '../pages/SCF/PrintEPI';
 import TimeAttendance from '../pages/SCF/TimeAttendance';
 import TimeAttendanceDetail from '../pages/SCF/TimeAttendanceDetail';
-import Employee from '../pages/SCF/Employee';
-import Login from '../pages/SCF/Login';
-import EmployeeDetail from '../pages/SCF/EmployeeDetail';
-import PDFPrinter from '../pages/SCF/PDFPrinter';
+import UBS from '../pages/SCF/UBS';
 import Vacation from '../pages/SCF/Vacation';
-import PrintEPI from '../pages/SCF/PrintEPI';
-import ListVacation from '../pages/SCF/ListVacation';
+import Panel from '../pages/Tickets/Panel';
+import PanelConfig from '../pages/Tickets/PanelConfig';
 
 /* ROTA DO CHAT DO WHATSAPP */
 import Chat from '../pages/SCF/Chat';
+import Contact from '../pages/SCF/Contact';
 
 
 const Routes: React.FC = () => {
@@ -59,12 +59,13 @@ const Routes: React.FC = () => {
       <Route path="/scf/comments" component={Comments} isPrivade />
       <Route path="/scf/timeattendance" exact component={TimeAttendance} isPrivade />
       <Route path="/scf/timeattendance/detail/:id" component={TimeAttendanceDetail} isPrivade />
+      <Route path="/scf/contact" exact component={Contact} isPrivade />
       <Route path="/scf/employee" exact component={Employee} isPrivade />
       <Route path="/scf/employee/detail/:id" component={EmployeeDetail} isPrivade />
       <Route path="/scf/employee/vacation/:id" component={Vacation} isPrivade />
       <Route path="/scf/employee/listvacation" component={ListVacation} isPrivade />
       <Route path="/scf/employee/printepi/:id" component={PrintEPI} isPrivade />
-
+      
       <Route path="/scf/chat" exact component={Chat} isPrivade />
       
     </Switch>

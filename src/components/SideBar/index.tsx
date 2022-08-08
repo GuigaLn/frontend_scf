@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { SideBar} from './styles';
-import { FiClock, FiMap, FiBriefcase, FiKey, FiAlertCircle, FiMenu, FiHome, FiLogOut, FiCast, FiSun, FiMessageCircle, FiUser } from 'react-icons/fi';
+import { AiOutlineWhatsApp } from 'react-icons/ai';
+import { FiAlertCircle, FiBriefcase, FiCast, FiClock, FiHome, FiKey, FiLogOut, FiMap, FiMenu, FiMessageCircle, FiSun, FiUser } from 'react-icons/fi';
+import { SideBar } from './styles';
 
-import logo from '../../assets/logo2.png';
 import { useHistory } from 'react-router';
+import logo from '../../assets/logo2.png';
 import { useAuth } from '../../context/AuthContext';
 
 interface SidebarProps {
@@ -25,6 +26,7 @@ const Dashboard: React.FC<SidebarProps> = ({ page }) => {
     const [ timeAttedance, setTimeAttedance ] = useState(-1);
     const [ employee, setEmployee ] = useState(-1);
     const [ callCenter, setCallCenter ] = useState(-1);
+    const [ contact, setContact ] = useState(-1);
 
     useEffect(() => {
         if(user.userPermissions.findIndex((item) => item.permisionid === 1) !== -1) {
@@ -38,6 +40,7 @@ const Dashboard: React.FC<SidebarProps> = ({ page }) => {
         if(user.userPermissions.findIndex((item) => item.permisionid === 3) !== -1) setTickets(1);
         if(user.userPermissions.findIndex((item) => item.permisionid === 4) !== -1) setEmployee(1);
         if(user.userPermissions.findIndex((item) => item.permisionid === 6) !== -1) setCallCenter(1);
+        if(user.userPermissions.findIndex((item) => item.permisionid === 7) !== -1) setContact(1);
     }, [user.userPermissions]);
     return (
         <SideBar close={close}>
@@ -120,6 +123,14 @@ const Dashboard: React.FC<SidebarProps> = ({ page }) => {
                         <div className={ page === 'panel' ? "option select" : 'option' } onClick={() => history.push('/scf/ticket/initialconfig')}>
                             <FiCast />
                             <span>Painel</span>
+                        </div> :<></>
+                    }
+
+                    { // GERADOR LINK WHATSAPP
+                    contact !== -1 ?
+                        <div className={ page === 'chat' ? "option select" : 'option' } onClick={() => history.push('/scf/contact')}>
+                            <AiOutlineWhatsApp />
+                            <span>Link</span>
                         </div> :<></>
                     }
 

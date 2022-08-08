@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Body, Modal} from './styles';
 import DataTable from "react-data-table-component";
+import { Body, Container, Modal } from './styles';
 // @ts-ignore
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
 
-import SideBar from '../../../components/SideBar';
-import api from '../../../services/api';
-import { toast, ToastContainer } from 'react-toastify';
-import { useParams } from 'react-router-dom';
 import { AxiosError } from 'axios';
-import { useAuth } from '../../../context/AuthContext';
 import { FiThumbsUp } from 'react-icons/fi';
+import { useParams } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import SideBar from '../../../components/SideBar';
+import { useAuth } from '../../../context/AuthContext';
+import api from '../../../services/api';
 
 interface Request {
   id: string;
