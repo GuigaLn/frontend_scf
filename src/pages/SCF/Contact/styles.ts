@@ -127,6 +127,14 @@ export const Modal = styled.div`
       color: #808080;
     }
 
+    .selectDoctor {
+      padding: 10px 20px;
+      border-radius: 5px;
+      width: 100%;
+      color: #808080;
+      border: 1px solid #808080;
+    }
+
     button {
       border: none;
       color: #FFF;

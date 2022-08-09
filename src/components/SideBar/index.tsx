@@ -35,6 +35,7 @@ const Dashboard: React.FC<SidebarProps> = ({ page }) => {
             setAll(1);
             setEmployee(1);
             setCallCenter(1);
+            setContact(1);
         }
         if(user.userPermissions.findIndex((item) => item.permisionid === 2) !== -1) setTimeAttedance(1);
         if(user.userPermissions.findIndex((item) => item.permisionid === 3) !== -1) setTickets(1);
@@ -128,7 +129,7 @@ const Dashboard: React.FC<SidebarProps> = ({ page }) => {
 
                     { // GERADOR LINK WHATSAPP
                     contact !== -1 ?
-                        <div className={ page === 'chat' ? "option select" : 'option' } onClick={() => history.push('/scf/contact')}>
+                        <div className={ page === 'contact' ? "option select" : 'option' } onClick={() => history.push('/scf/contact')}>
                             <AiOutlineWhatsApp />
                             <span>Link</span>
                         </div> :<></>

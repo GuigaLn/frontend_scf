@@ -28,7 +28,7 @@ const Contact: React.FC = () => {
   const [openModalEdit, setOpenModalEdit] = useState(false);
   const [openModalAdd, setOpenModalAdd] = useState(false);
   const [openModalExamArrival, setOpenModalExamArrival] = useState<{name: string, phone: string, data?: string} | undefined>(undefined);
-  const [openModalConsultDoctor, setOpenModalConsultDoctor] = useState<{name: string, phone: string, data?: string} | undefined>(undefined);
+  const [openModalConsultDoctor, setOpenModalConsultDoctor] = useState<{name: string, phone: string, data?: string, doctor?: string} | undefined>(undefined);
   let valueAdd: valueEmployee = {name: '', phone: ''};
   let [valueEdit, setValueEdit] = useState<valueEmployee>({name: '', phone: ''});
 
@@ -69,10 +69,6 @@ const Contact: React.FC = () => {
       <p>
         <strong>Telefone:</strong> {data.phone}
       </p>
-      <p>
-        <strong>Data da atividade:</strong> 
-        <input type="text" className="input-data-expanded" placeholder="01/01/22" onChange={(e) => data.date = e.currentTarget.value} defaultValue={data.date || ''}/>
-      </p>
 
       <p style={{ marginTop: '10px' }}><strong>Atividade:</strong> </p> 
       <div className="buttons-expanded">
@@ -92,6 +88,7 @@ const Contact: React.FC = () => {
 
   useEffect(() => {
     promiseLoading();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   let promiseLoading = () => {
@@ -199,22 +196,57 @@ const Contact: React.FC = () => {
     )
   }
 
-  const generetLink = (number: string, type: 'examArrival' | 'a', date?: string) => {
+  const generetLink = async (number: string, name: string, type: 'examArrival' | 'medicalAppointment', date?: string, doctor?: string) => {
     if(date === '' || !date || !number || number === '')  {
       return toast.warn('Necessita de uma data!');
     }
 
-    return alert(moment(date, 'YYYY-MM-DD').format('DD-MM-YYYY'));
     if(type === 'examArrival') {
-      window.open(`https://api.whatsapp.com/send?phone=${number}&text=Olá, sou do Centro de Saúde de Cruz Machado, seu exame chegou no dia ${date} ☺️, solicitamos que venha buscar o mais rápido possível!`);
+      await promiseSaveHistoric(number, `Centro de Saúde de Cruz Machado%0A%0AOlá *${name}*,%0AInformamos que seu exame chegou no dia *${moment(date, 'YYYY-MM-DD').format('DD-MM-YYYY')}* ☺️, solicitamos que venha buscar o mais rápido possível! %0A%0A*Cruz machado para todos!*`);
+      window.open(`https://api.whatsapp.com/send?phone=${number}&text=Centro de Saúde de Cruz Machado%0A%0AOlá *${name}*,%0AInformamos que seu exame chegou no dia *${moment(date, 'YYYY-MM-DD').format('DD-MM-YYYY')}* ☺️, solicitamos que venha buscar o mais rápido possível! %0A%0A*Cruz machado para todos!*`, "", "width=600,height=400,left=300,top=200");
+    } else if (type === 'medicalAppointment') {
+      if(doctor && doctor !== '') {
+        await promiseSaveHistoric(number, `Centro de Saúde de Cruz Machado%0A%0AOlá *${name}*,%0Ainformamos que sua consulta com o/a ${doctor}, foi agendado para o dia *${moment(date, 'YYYY-MM-DD').format('DD-MM-YYYY')}* ☺️, em caso de desistência ligar para (42) 3554-1294! %0A%0A*Cruz machado para todos!*`);
+        window.open(`https://api.whatsapp.com/send?phone=${number}&text=Centro de Saúde de Cruz Machado%0A%0AOlá *${name}*,%0Ainformamos que sua consulta com o/a ${doctor}, foi agendado para o dia *${moment(date, 'YYYY-MM-DD').format('DD-MM-YYYY')}* ☺️, em caso de desistência ligar para (42) 3554-1294! %0A%0A*Cruz machado para todos!*`, "", "width=600,height=400,left=300,top=200");
+      } else {
+        alert('Selecione um médico!')
+      }
     }
+  }
+
+  let promiseSaveHistoric = async (phone: string, message: string) => {    
+    const reseolveApi = new Promise(async (resolve, reject) => {
+    try {
+      await api.post('/contact/storeHistoricMessage', {phone: phone, message: message }).then(response => {
+        setTimeout(resolve);
+        return;
+      }).catch((err) => {
+        setTimeout(reject);
+        console.log(err);
+        return;
+      }); 
+    } catch (err) {
+      setTimeout(reject);
+      console.log(err);
+      return;
+    }
+  });
+
+  toast.promise(
+    reseolveApi,
+    {
+      pending: 'Consultando API',
+      success: 'histórico de mensagem armazenada 👌',
+      error: 'Erro ao armazenar 🤯'
+    }
+  )
   }
 
   return (
     <>
       <ToastContainer />
       <Container>
-        <SideBar page='employee' />
+        <SideBar page='contact' />
         <Body>
           <h1>
             CONTATOS
@@ -233,6 +265,7 @@ const Contact: React.FC = () => {
                 onRowDoubleClicked={(e: any) => {(setValueEdit(e));setOpenModalEdit(true) }}
                 expandableRows
                 expandableRowsComponent={ExpandedComponent}
+                expandOnRowClicked
               />
             </DataTableExtensions>
           </div>
@@ -282,7 +315,7 @@ const Contact: React.FC = () => {
               <input type="date" onChange={(e) => openModalExamArrival.data = e.currentTarget.value} placeholder="4299999999" />            
 
               <button className="editar" 
-              onClick={() => generetLink(openModalExamArrival.phone, 'examArrival', openModalExamArrival.data)}>ENVIAR</button>
+              onClick={() => generetLink(openModalExamArrival.phone, openModalExamArrival.name, 'examArrival', openModalExamArrival.data)}>ENVIAR</button>
               <button className="cancelar" onClick={() => setOpenModalExamArrival(undefined)}>CANCELAR</button>
             </div>
         </Modal>
@@ -296,11 +329,22 @@ const Contact: React.FC = () => {
               <div className="titleInput"> {openModalConsultDoctor.name} - {openModalConsultDoctor.phone}</div>
 
               <div className="titleInput"> Data: * </div>
-              <input type="date" onChange={(e) => openModalConsultDoctor.data = e.currentTarget.value} placeholder="4299999999" />            
+              <input type="date" onChange={(e) => openModalConsultDoctor.data = e.currentTarget.value} placeholder="4299999999" />    
+
+              <div className="titleInput"> Médico: * </div>
+              <select className="selectDoctor" onChange={e => openModalConsultDoctor.doctor = (e.currentTarget.value)}>
+                <option value=''>Selecione</option>
+                <option value='*DRA. KARINE DA SILVA* (médico clínico)'>KARINE DA SILVA</option>
+                <option value='*DR.	DAVID SILVEIRA COSTA* (médico clínico)'>DAVID SILVEIRA COSTA</option>
+                <option value='*DR. CLAUDIO OTHARAN NUNES* (médico clínico)'>CLAUDIO OTHARAN NUNES</option>
+                <option value='*DR. DAVID HISSAO AOKI* (médico clínico)'>DAVID HISSAO AOKI</option>
+                <option value='*DR. DICESAR TERNA DE CAMPOS* (médico obstetra e ginecologista)'>DICESAR TERNA DE CAMPOS</option>
+                <option value='*DR. BRUNO MUSSI FIGUEIREDO* (médico psiquiatra)'>BRUNO MUSSI FIGUEIREDO</option>
+              </select>        
 
               <button className="editar" 
-              onClick={() => generetLink(openModalConsultDoctor.phone, 'examArrival', openModalConsultDoctor.data)}>ENVIAR</button>
-              <button className="cancelar" onClick={() => setOpenModalExamArrival(undefined)}>CANCELAR</button>
+              onClick={() => generetLink(openModalConsultDoctor.phone, openModalConsultDoctor.name,'medicalAppointment', openModalConsultDoctor.data, openModalConsultDoctor.doctor)}>ENVIAR</button>
+              <button className="cancelar" onClick={() => setOpenModalConsultDoctor(undefined)}>CANCELAR</button>
             </div>
         </Modal>
         : <></>
