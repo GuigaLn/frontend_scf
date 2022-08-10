@@ -33,6 +33,8 @@ import PanelConfig from '../pages/Tickets/PanelConfig';
 /* ROTA DO CHAT DO WHATSAPP */
 import Chat from '../pages/SCF/Chat';
 import Contact from '../pages/SCF/Contact';
+import ListVacationMobile from '../pages/SCF/Mobile/ListVacationMobile';
+import LoginMobile from '../pages/SCF/Mobile/LoginMobile';
 
 
 const Routes: React.FC = () => {
@@ -40,6 +42,7 @@ const Routes: React.FC = () => {
     <Switch>
       
       <Route path="/" exact component={Login} />
+      <Route path="/mobile" exact component={LoginMobile} />
 
       <Route path="/test" exact isPrivade component={PDFPrinter} />
 
@@ -68,6 +71,8 @@ const Routes: React.FC = () => {
       
       <Route path="/scf/chat" exact component={Chat} isPrivade />
       
+
+      <Route path="/scf/mobile/employee/listvacation" component={ListVacationMobile} isPrivade />
     </Switch>
   );
 }

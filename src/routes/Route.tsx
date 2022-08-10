@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { RouteProps, Route as ReactDOMRoute, Redirect } from 'react-router-dom';
+import { Redirect, Route as ReactDOMRoute, RouteProps } from 'react-router-dom';
 
 import { useAuth } from '../context/AuthContext';
 
@@ -15,7 +15,7 @@ interface ReactRouterProps extends RouteProps{
 //False/false = ok
 
 const Route: React.FC<ReactRouterProps>  = ({ isPrivade = false, component: Component, ...rest } ) => {
-  const { user } = useAuth();
+  const { user, mobile } = useAuth();
   /* 
   * CASO EXISTA USUARIO = DIRECIONA PARA O DASHBOARD
   */
@@ -26,6 +26,9 @@ const Route: React.FC<ReactRouterProps>  = ({ isPrivade = false, component: Comp
         if ( isPrivade === !!user ) {
           return <Component />;
         } else {
+          if(mobile) {
+            return <Redirect to={{ pathname: isPrivade ? '/mobile' : '/scf/mobile/employee/listvacation'}} />;
+          }
           return <Redirect to={{ pathname: isPrivade ? '/' : '/scf/dashboard'}} />;
         }
       }} 
