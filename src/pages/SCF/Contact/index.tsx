@@ -29,6 +29,7 @@ const Contact: React.FC = () => {
   const [openModalAdd, setOpenModalAdd] = useState(false);
   const [openModalExamArrival, setOpenModalExamArrival] = useState<{name: string, phone: string, data?: string} | undefined>(undefined);
   const [openModalConsultDoctor, setOpenModalConsultDoctor] = useState<{name: string, phone: string, data?: string, doctor?: string} | undefined>(undefined);
+  const [openModalVaccine, setOpenModalVaccine] = useState<{name: string, phone: string, data?: string, doctor?: string} | undefined>(undefined);
   let valueAdd: valueEmployee = {name: '', phone: ''};
   let [valueEdit, setValueEdit] = useState<valueEmployee>({name: '', phone: ''});
 
@@ -81,6 +82,16 @@ const Contact: React.FC = () => {
         <span className="option-button-expanded" 
           onClick={() => setOpenModalConsultDoctor({name: data.name, phone: data.phone})}>
           Consulta Médica
+        </span>
+
+        <span className="option-button-expanded" 
+          onClick={() => setOpenModalConsultDoctor({name: data.name, phone: data.phone})}>
+          Agendamento Vacina
+        </span>
+
+        <span className="option-button-expanded" 
+          onClick={() => setOpenModalConsultDoctor({name: data.name, phone: data.phone})}>
+          Vacina criança atrasada
         </span>
       </div>
     </div>

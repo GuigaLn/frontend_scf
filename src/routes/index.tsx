@@ -31,6 +31,7 @@ import Panel from '../pages/Tickets/Panel';
 import PanelConfig from '../pages/Tickets/PanelConfig';
 
 /* ROTA DO CHAT DO WHATSAPP */
+import Ponto from '../pages/Ponto';
 import Chat from '../pages/SCF/Chat';
 import Contact from '../pages/SCF/Contact';
 import ListVacationMobile from '../pages/SCF/Mobile/ListVacationMobile';
@@ -73,6 +74,8 @@ const Routes: React.FC = () => {
       
 
       <Route path="/scf/mobile/employee/listvacation" component={ListVacationMobile} isPrivade />
+
+      <Route path="/ponto" component={Ponto} />
     </Switch>
   );
 }

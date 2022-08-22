@@ -2,6 +2,8 @@ import { gql, useSubscription } from '@apollo/react-hooks';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import LogoCM from './logoCM.png';
+
 import { Container } from './styles';
 
 /*
@@ -32,6 +34,9 @@ const Panel: React.FC = () => {
         numero
         setor_id
         guiche
+        setor_senha {
+          nome
+        }
       }
     }
   `;
@@ -51,15 +56,14 @@ const Panel: React.FC = () => {
     if(error) {
       console.log(error)
     }
-    
   }, [audioCall, data, error]);
 
   /* EVITAR ERROS */
   const defaultList = [
-    {id: 0, numero: '-', guiche: '-'},
-    {id: 0, numero: '-', guiche: '-'},
-    {id: 0, numero: '-', guiche: '-'},
-    {id: 0, numero: '-', guiche: '-'}
+    {id: 0, numero: '-', guiche: '-', setor_senha: { nome: ['-'] }},
+    {id: 0, numero: '-', guiche: '-', setor_senha: { nome: ['-'] }},
+    {id: 0, numero: '-', guiche: '-', setor_senha: { nome: ['-'] }},
+    {id: 0, numero: '-', guiche: '-', setor_senha: { nome: ['-'] }}
   ]
 
   const [list, updateList] = useState(defaultList);
@@ -67,34 +71,29 @@ const Panel: React.FC = () => {
   return (
     <Container>
       <div className="header">
-        <p>CENTRO DE SAÚDE DR. CARLOS RENATO PASSOS</p>
-        <div>
-          <h1>{sectorName}</h1>
+        <div className="name-sector">
+          <h1>{list[0].setor_senha.nome}</h1>
+          <img src={LogoCM} alt="Logo Cruz Machado Para Todos" />
+        </div>
+
+        <div className="atually">
+          <h2>{list[0].numero}</h2>
+          <p>GUICHÊ <br /> {list[0].guiche}</p>
         </div>
       </div>
       <div className="body">
-        <div className="atually">
-          <span>SENHA</span>
-          <h2>{list[0].numero}</h2>
-          <p>GUICHÊ {list[0].guiche}</p>
-        </div>
         <div className="lasted">
-          <h2>ÚLTIMAS SENHAS</h2>
-          <div>
-            <p className="senha">SENHA</p>
-            <p className="guiche">GUICHÊ</p>
-          </div>
           <div>
             <p className="senha">{list[1].numero}</p>
-            <p className="guiche">{list[1].guiche}</p>
+            <p className="guiche">Guichê: {list[1].guiche}</p>
           </div>
           <div>
             <p className="senha">{list[2].numero}</p>
-            <p className="guiche">{list[2].guiche}</p>
+            <p className="guiche">Guichê: {list[2].guiche}</p>
           </div>
           <div>
             <p className="senha">{list[3].numero}</p>
-            <p className="guiche">{list[3].guiche}</p>
+            <p className="guiche">Guichê: {list[3].guiche}</p>
           </div>
         </div>
       </div>
