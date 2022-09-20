@@ -322,7 +322,7 @@ const TimeAttendanceDetail: React.FC = () => {
               exportHeaders={true}
             >
               <DataTable
-              title={nameEmployee}
+                title={nameEmployee}
                 columns={columns}
                 data={data}
                 pagination

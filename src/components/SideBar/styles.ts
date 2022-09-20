@@ -9,7 +9,7 @@ export const SideBar = styled.div<{ close: boolean }>`
 
   div.navbar {
     transition-duration: 0.5s;
-    background-color: #F7F9FC;
+    background-color: var(--background);
     height: 100vh;
     position: fixed;
     padding: ${({ close }) => (close ? '10px 0px' : '10px 20px')};
@@ -30,7 +30,11 @@ export const SideBar = styled.div<{ close: boolean }>`
     strong {
       display: ${({ close }) => (close ? 'none' : 'flex')};
       font-family: Arial, Helvetica, sans-serif;
-      color: #606060;
+      color: var(--white);
+    }
+
+    svg {
+      color: var(--background-button);
     }
   }
 
@@ -40,38 +44,45 @@ export const SideBar = styled.div<{ close: boolean }>`
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    border-top: 1px solid #CCC;
+  
     overflow: auto;
     max-height: 90vh;
  
     div.option {
       font-weight: 400;
       font-size: 18px;
+      flex-basis: 51%;
       
       margin-top: 10px;
       padding: 10px 10px;
       border-radius: 5px;
-      width: 100%;
-      color: #808080;
-      cursor: pointer;
+    
+      color: var(--white);
+      cursor: pointer;       
+      background-color: ${({ close }) => (close && '#2f2c45')};
+
+      flex-basis: ${({ close }) => (!close && '100%')};
+     
 
       display: flex;
       transition: color 0.2s;
       justify-content: ${({ close }) => (close ? 'center' : 'flex-start')};
 
+
       span {
         margin-left: 10px;
         font-family: Arial, Helvetica, sans-serif;
+        font-size: 1rem;
         display: ${({ close }) => (close ? 'none' : 'flex')};
       }
 
       &.select {
-        color: #1E97F7;
-        background-color: #E8EDF3;
+        color: var(--white);
+        background-color: var(--background-button);
       }
 
       &:hover {
-        color: #1E97F7;
+        color: var(--background-button);
       }
     }
 

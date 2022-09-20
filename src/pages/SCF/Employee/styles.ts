@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 
-import { shade } from 'polished';
 
 export const Container = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
   flex-wrap: no-wrap;
+  background: var(--background);
 `;
 
 export const Body = styled.div`
@@ -23,11 +23,11 @@ export const Body = styled.div`
 
   h1 {
     margin-top: 40px;
-    color: #808080;
+    color: var(--text);
   }
 
   button.addColaborador {
-    background-color: #1E97F7;
+    background-color: var(--background-button);
     border: none;
     color: #FFF;
     font-weight: 400;
@@ -39,10 +39,10 @@ export const Body = styled.div`
     padding: 10px 0px;
     border-radius: 5px;
     width: 60%;
-    transition: background 0.4s;
+    transition: opacity 0.4s;
 
     &:hover {
-      background-color: ${shade(0.2, '#1E97F7')};
+      opacity: 0.4;
     }
   }
 
@@ -52,6 +52,19 @@ export const Body = styled.div`
 
   div.table {
     width: 95%;
+    background: var(--background-two);
+    border-radius: 10px;
+
+    padding: 20px;
+
+    .rdt_TableHeadRow, .rdt_TableRow, .rdt_Pagination {
+      background: var(--background-two);
+      color: var(--white);
+    }
+
+    .rdt_TableRow {
+      border-color: var(--border-table);
+    }
   }
 `;
 
@@ -69,29 +82,31 @@ export const Modal = styled.div`
   z-index: 999;
 
   > div {
-    background-color: #FFF;
+    background-color: var(--background);
     padding: 20px;
 
     p {
       font-weight: 400;
       font-size: 18px;
-      color: #606060;
+      color: var(--white);
       font-family: Arial, Helvetica, sans-serif;
     }
 
     input {
-      border: 1px solid #808080;
+      border: 1px solid var(--border-input);
+      margin-top: 5px;
       padding: 10px 20px;
       border-radius: 5px;
       width: 100%;
-      color: #808080;
+      color: var(--white);
+      background-color: var(--background);
     }
 
     .titleInput {
       text-align: left;
       flex: 1;
       margin-top: 10px;
-      color: #808080;
+      color: var(--white);
     }
 
     button {
@@ -108,27 +123,32 @@ export const Modal = styled.div`
       transition: background 0.4s;
 
       &.editar {
-        background-color: #1E97F7;
+        background: var(--background-button);
+        color: var(--white);
+        transition: opacity 0.4s;
 
         &:hover {
-          background-color: ${shade(0.2, '#1E97F7')};
+          opacity: 0.7;
         }
       }
 
       &.cancelar {
-        border: 1px solid #ff473d;
-        color: #ff473d;
+        background: var(--background-two);
+        color: var(--white);
+        transition: opacity 0.4s;
 
         &:hover {
-          border-color: ${shade(0.2, '#ff473d')};
+          opacity: 0.7;
         }
       }
 
       &.excluir {
-        background-color: #ff473d;
+        background: var(--background-two);
+        color: var(--white);
+        transition: opacity 0.4s;
 
         &:hover {
-          background-color: ${shade(0.2, '#ff473d')};
+          opacity: 0.7;
         }
       }
     }

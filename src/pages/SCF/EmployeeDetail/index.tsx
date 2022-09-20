@@ -546,7 +546,7 @@ const EmployeeDetail: React.FC = () => {
 
         <hr />
         <h2>HISTÓRICO DE FOLGA</h2>
-        <button className="editar" onClick={() => setOpenModalDayOff(true)}>EMITIR FOLGA</button>
+        <button className="emit-vacation" onClick={() => setOpenModalDayOff(true)}>EMITIR FOLGA</button>
 
         <div className="table">
           <DataTableExtensions

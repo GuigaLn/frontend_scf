@@ -8,6 +8,7 @@ export const Container = styled.div`
   display: flex;
   flex-wrap: no-wrap;
   display: space-around;
+  background: var(--background);
 
   .vacation-details {
     font-size: 0.9rem;
@@ -48,7 +49,7 @@ export const Body = styled.div`
   div.header {
     width: 100%;
     display: flex;
-    background-color: #1E97F7;
+    background-color: var(--background-button);
     text-align: center;
     justify-content: center;
     align-items: center;
@@ -57,7 +58,7 @@ export const Body = styled.div`
     h1 {
       margin-top: 20px;
       margin-bottom: 20px;
-      color: #FFF;
+      color: var(--white);
       display: flex;
       align-items: center;
     }
@@ -65,7 +66,7 @@ export const Body = styled.div`
 
   h2 {
     margin-top: 40px;
-    color: #606060
+    color: var(--white);
   }
 
   div.form {
@@ -78,20 +79,22 @@ export const Body = styled.div`
       flex-basis: 45%;
       
       input {
-        border: 1px solid #808080;
+        border: 1px solid var(--border-input);
+        margin-top: 5px;
         padding: 10px 20px;
-        border-radius: 2px;
+        border-radius: 5px;
         width: 100%;
-        color: #808080;
+        color: var(--white);
+        background-color: var(--background);
       }
 
       select {
-        border: 1px solid #808080;
-        background-color: #fff;
+        border: 1px solid var(--border-input);
+        background-color: var(--background);
         padding: 10px 20px;
         border-radius: 2px;
         width: 100%;
-        color: #808080;
+        color: var(--white);
       }
 
       .titleInput {
@@ -106,19 +109,19 @@ export const Body = styled.div`
 
   .editar {
     border: none;
-    color: #FFF;
+    color: var(--white);
     font-weight: 400;
     font-size: 16px;
     margin-top: 20px;
 
     padding: 10px 20px;
     border-radius: 5px;
-    transition: background 0.4s;
-
-    background-color: #1E97F7;
+    background: var(--background-button);
+    color: var(--white);
+    transition: opacity 0.4s;
 
     &:hover {
-      background-color: ${shade(0.2, '#1E97F7')};
+      opacity: 0.7;
     }
   }
 
@@ -135,7 +138,7 @@ export const Body = styled.div`
     color: #FFF;
     font-weight: 400;
     font-size: 16px;
-    margin-top: 20px;
+    margin: 20px;
 
     padding: 10px 20px;
     border-radius: 5px;
@@ -149,7 +152,20 @@ export const Body = styled.div`
   }
 
   div.table {
-    width: 100%;
+    width: 95%;
+    background: var(--background-two);
+    border-radius: 10px;
+
+    padding: 20px;
+
+    .rdt_TableHeadRow, .rdt_TableRow, .rdt_Pagination {
+      background: var(--background-two);
+      color: var(--white);
+    }
+
+    .rdt_TableRow {
+      border-color: var(--border-table);
+    }
   }
 `;
 
@@ -167,38 +183,40 @@ export const Modal = styled.div`
   z-index: 999;
 
   > div {
-    background-color: #FFF;
+    background-color: var(--background);
     padding: 20px;
 
     p {
       font-weight: 400;
       font-size: 18px;
-      color: #606060;
+      color: var(--white);
       font-family: Arial, Helvetica, sans-serif;
     }
 
-    select {
-      border: 1px solid #808080;
-      background-color: #FFF;
+    input {
+      border: 1px solid var(--border-input);
+      margin-top: 5px;
       padding: 10px 20px;
       border-radius: 5px;
       width: 100%;
-      color: #808080;
+      color: var(--white);
+      background-color: var(--background);
     }
 
-    input {
-      border: 1px solid #808080;
-      padding: 10px 20px;
-      border-radius: 5px;
-      width: 100%;
-      color: #808080;
-    }
+    select {
+        border: 1px solid var(--border-input);
+        background-color: var(--background);
+        padding: 10px 20px;
+        border-radius: 2px;
+        width: 100%;
+        color: var(--white);
+      }
 
     .titleInput {
       text-align: left;
       flex: 1;
       margin-top: 10px;
-      color: #808080;
+      color: var(--white);
     }
 
     button {
@@ -215,27 +233,32 @@ export const Modal = styled.div`
       transition: background 0.4s;
 
       &.editar {
-        background-color: #1E97F7;
+        background: var(--background-button);
+        color: var(--white);
+        transition: opacity 0.4s;
 
         &:hover {
-          background-color: ${shade(0.2, '#1E97F7')};
+          opacity: 0.7;
         }
       }
 
       &.cancelar {
-        border: 1px solid #ff473d;
-        color: #ff473d;
+        background: var(--background-two);
+        color: var(--white);
+        transition: opacity 0.4s;
 
         &:hover {
-          border-color: ${shade(0.2, '#ff473d')};
+          opacity: 0.7;
         }
       }
 
       &.excluir {
-        background-color: #ff473d;
+        background: var(--background-two);
+        color: var(--white);
+        transition: opacity 0.4s;
 
         &:hover {
-          background-color: ${shade(0.2, '#ff473d')};
+          opacity: 0.7;
         }
       }
     }

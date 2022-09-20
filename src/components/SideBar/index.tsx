@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { AiOutlineWhatsApp } from 'react-icons/ai';
-import { FiAlertCircle, FiBriefcase, FiCast, FiClock, FiHome, FiKey, FiLogOut, FiMap, FiMenu, FiMessageCircle, FiSun, FiUser } from 'react-icons/fi';
+import { FiAlertCircle, FiBriefcase, FiCast, FiClock, FiFile, FiHome, FiKey, FiLogOut, FiMap, FiMenu, FiMessageCircle, FiSun, FiUser } from 'react-icons/fi';
 import { SideBar } from './styles';
 
 import { useHistory } from 'react-router';
@@ -27,6 +27,7 @@ const Dashboard: React.FC<SidebarProps> = ({ page }) => {
     const [ employee, setEmployee ] = useState(-1);
     const [ callCenter, setCallCenter ] = useState(-1);
     const [ contact, setContact ] = useState(-1);
+    const [ pops, setPops ] = useState(-1);
 
     useEffect(() => {
         if(user.userPermissions.findIndex((item) => item.permisionid === 1) !== -1) {
@@ -36,12 +37,14 @@ const Dashboard: React.FC<SidebarProps> = ({ page }) => {
             setEmployee(1);
             setCallCenter(1);
             setContact(1);
+            setPops(1);
+            return;
         }
         if(user.userPermissions.findIndex((item) => item.permisionid === 2) !== -1) setTimeAttedance(1);
         if(user.userPermissions.findIndex((item) => item.permisionid === 3) !== -1) setTickets(1);
         if(user.userPermissions.findIndex((item) => item.permisionid === 4) !== -1) setEmployee(1);
         if(user.userPermissions.findIndex((item) => item.permisionid === 6) !== -1) setCallCenter(1);
-        if(user.userPermissions.findIndex((item) => item.permisionid === 7) !== -1) setContact(1);
+        if(user.userPermissions.findIndex((item) => item.permisionid === 8) !== -1) setPops(1);
     }, [user.userPermissions]);
     return (
         <SideBar close={close}>
@@ -116,6 +119,14 @@ const Dashboard: React.FC<SidebarProps> = ({ page }) => {
                         <div className={ page === 'ubs' ? "option select" : 'option' } onClick={() => history.push('/scf/ubs')}>
                             <FiKey />
                             <span>Únidade</span>
+                        </div> :<></>
+                    }
+
+                    { // VERIFICAR SE TEM PERMISÃO TOAL
+                    pops !== -1 ?
+                        <div className={ page === 'pops' ? "option select" : 'option' } onClick={() => history.push('/scf/pops')}>
+                            <FiFile />
+                            <span>POPs</span>
                         </div> :<></>
                     }
 

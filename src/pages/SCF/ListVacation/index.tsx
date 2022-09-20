@@ -238,8 +238,8 @@ const ListVacation: React.FC = () => {
       reseolveApi,
       {
         pending: 'Consultando API',
-        success: 'Sucesso ao Autorizar 👌',
-        error: 'Erro ao Autorizar 🤯'
+        success: 'Sucesso ao Rejeitar 👌',
+        error: 'Erro ao Rejeitar 🤯'
       }
     )
   }

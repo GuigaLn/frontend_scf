@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 
-import { shade } from 'polished';
 
 export const Container = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
   flex-wrap: no-wrap;
+  background: var(--background);
 `;
 
 export const Body = styled.div`

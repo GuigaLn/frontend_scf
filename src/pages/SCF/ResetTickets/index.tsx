@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { Container, Body, Modal } from './styles';
-import SideBar from '../../../components/SideBar';
 import { useHistory } from 'react-router';
+import SideBar from '../../../components/SideBar';
+import { Body, Container, Modal } from './styles';
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import api from '../../../services/api';
 import { AxiosError } from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../../../context/AuthContext';
+import api from '../../../services/api';
 
 const ResetTickets: React.FC = () => {
   const history = useHistory();
@@ -73,9 +73,9 @@ const ResetTickets: React.FC = () => {
         <Body>
           <div className="body">
             <h1>Qual o Setor que será Resetado?</h1>
-            <button onClick={() => setSectorId(1)}>FARMÁCIA</button>
-            <button onClick={() => setSectorId(2)}>CONSULTAS</button>
-            <button onClick={() => setSectorId(3)}>EXAMES</button>
+            <button onClick={() => setSectorId(1)} className="editar">FARMÁCIA</button>
+            <button onClick={() => setSectorId(2)} className="editar">CONSULTAS</button>
+            <button onClick={() => setSectorId(3)} className="editar">EXAMES</button>
           </div>
         </Body>
       </Container>

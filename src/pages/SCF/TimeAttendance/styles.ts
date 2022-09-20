@@ -5,6 +5,7 @@ export const Container = styled.div`
   height: 100%;
   display: flex;
   flex-wrap: no-wrap;
+  background: var(--background);
 `;
 
 export const Body = styled.div`
@@ -19,11 +20,24 @@ export const Body = styled.div`
   min-height: 100vh;
 
   h1 {
-    margin-top: 40px;
-    color: #808080;
+    margin: 40px;
+    color: var(--white);
   }
 
   div.table {
-    width: 100%;
+    width: 95%;
+    background: var(--background-two);
+    border-radius: 10px;
+
+    padding: 20px;
+
+    .rdt_TableHeadRow, .rdt_TableRow, .rdt_Pagination {
+      background: var(--background-two);
+      color: var(--white);
+    }
+
+    .rdt_TableRow {
+      border-color: var(--border-table);
+    }
   }
 `;

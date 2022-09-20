@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Body } from './styles';
-import SideBar from '../../../components/SideBar';
 import { useHistory } from 'react-router';
+import SideBar from '../../../components/SideBar';
+import { Body, Container } from './styles';
 
 import api from '../../../services/api';
 
@@ -56,7 +56,7 @@ const CallTickets: React.FC = () => {
         <Body>
           <div>
             <h1>{sectorName} - GUICHÊ {numberWindow}</h1>
-            <button onClick={handdleCall} style={{ opacity: delayCall ? '0' : '1' }} disabled={delayCall}>CHAMAR</button>
+            <button onClick={handdleCall} style={{ opacity: delayCall ? '0' : '1' }} disabled={delayCall} className="editar">CHAMAR</button>
             <h2>SENHA: {lastTicket}</h2>
           </div>
         </Body>

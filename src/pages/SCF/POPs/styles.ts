@@ -18,13 +18,12 @@ export const Body = styled.div`
   width: calc(100% - 120px);
   margin-left: 120px;
   flex-direction: column;
-
   padding: 0px 40px;
   min-height: 100vh;
 
   h1 {
     margin-top: 40px;
-    color: #808080;
+    color: var(--text);
   }
 
   button.addColaborador {
@@ -47,43 +46,6 @@ export const Body = styled.div`
     }
   }
 
-  .contact-details {
-    font-size: 0.9rem;
-    padding: 10px 40px;
-    background-color: #eee;
-
-    p {
-      margin-top: 10px;
-    }
-
-    .input-data-expanded {
-      padding: 2px 10px;
-      font-size: 0.9rem;
-      margin-left: 20px;
-    }
-
-    .buttons-expanded {
-      margin-top: 5px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-
-      .option-button-expanded {
-        padding: 10px 20px;
-        background-color: #1E97F7;
-        color: #FFF;
-        border-radius: 10px;
-        opacity: 0.8;
-        cursor: pointer;
-      }
-
-    }
-  }
-    
-  .data-table-extensions-action {
-    z-index: 99 !important;
-  }
-
   div.table {
     width: 95%;
     background: var(--background-two);
@@ -98,6 +60,17 @@ export const Body = styled.div`
 
     .rdt_TableRow {
       border-color: var(--border-table);
+    }
+
+    .details {
+      font-size: 0.9rem;
+      padding: 10px 40px;
+      background-color: var(--background);
+      color: var(--text);
+
+      p {
+        margin-top: 10px;
+      }
     }
   }
 `;
@@ -126,6 +99,11 @@ export const Modal = styled.div`
       font-family: Arial, Helvetica, sans-serif;
     }
 
+    span {
+      margin: 0px 10px;
+      color: var(--text);
+    }
+
     input {
       border: 1px solid var(--border-input);
       margin-top: 5px;
@@ -134,6 +112,16 @@ export const Modal = styled.div`
       width: 100%;
       color: var(--white);
       background-color: var(--background);
+      margin-bottom: 20px;
+    }
+
+    select {
+      border: 1px solid var(--border-input);
+      background-color: var(--background);
+      padding: 10px 20px;
+      border-radius: 2px;
+      width: 100%;
+      color: var(--white);
     }
 
     .titleInput {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Container, Body } from './styles';
-import SideBar from '../../../components/SideBar';
 import { useHistory } from 'react-router';
+import SideBar from '../../../components/SideBar';
+import { Body, Container } from './styles';
 
 const InitialConfig: React.FC = () => {
   const [windowNumber, setWindownNumber] = useState("1");
@@ -24,8 +24,8 @@ const InitialConfig: React.FC = () => {
           <div>
             <h1>Número do Guichê</h1>
             <input type="text" placeholder="Exmp. 01" onChange={(e) => setWindownNumber(e.target.value)}></input>
-            <button onClick={handdleNumber}>PROSSEGUIR</button>
-            <button onClick={() => history.push('/scf/ticket/resettickets')}>RESETAR FICHAS</button>
+            <button onClick={handdleNumber} className="editar">PROSSEGUIR</button>
+            <button onClick={() => history.push('/scf/ticket/resettickets')} className="excluir">RESETAR FICHAS</button>
           </div>
         </Body>
       </Container>

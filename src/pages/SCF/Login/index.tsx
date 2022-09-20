@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 
 import { Form } from './styles';
 
+import { useHistory } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import { useAuth } from '../../../context/AuthContext';
-import { useHistory } from 'react-router-dom';
 
 const Login: React.FC = () => {
   const [login, setLogin] = useState('');
@@ -37,9 +37,11 @@ const Login: React.FC = () => {
     <>
       <ToastContainer />
       <Form>
-        
-        <div>
-          <strong>Sign-In</strong>
+        <div className="banner">
+          
+        </div>    
+        <div className="form">
+          <strong>SCF</strong>
           <p>Realize o Login</p>
 
           <div className="header">

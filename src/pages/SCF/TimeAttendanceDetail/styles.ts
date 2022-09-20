@@ -7,6 +7,7 @@ export const Container = styled.div`
   height: 100%;
   display: flex;
   flex-wrap: no-wrap;
+  background: var(--background);
 `;
 
 export const Body = styled.div`
@@ -28,15 +29,21 @@ export const Body = styled.div`
  
   .findForDate {
     margin-top: 40px;
+    color: var(--text);
+    margin-bottom: 20px;
     
     display: flex;
     > div {
       display: flex;
       
       input {
+        border: 1px solid var(--border-input);
+        margin-top: 5px;
+        padding: 10px 20px;
         border-radius: 5px;
-        padding: 5px;
-        border: 1px solid #808080;
+
+        color: var(--white);
+        background-color: var(--background);
       }
 
       div {
@@ -46,15 +53,16 @@ export const Body = styled.div`
   }
 
   .addExtraHour, .loadingData {
-    background-color: #1E97F7;
+    background-color: var(--background-button);
     border: none;
-    color: #FFF;
+    color: var(--white);
     font-weight: 400;
     font-size: 16px;
     font-family: Arial, Helvetica, sans-serif;
     padding: 10px;
     border-radius: 5px;
     margin-left: 20px;
+  
 
     transition: background 0.4s;
 
@@ -73,8 +81,39 @@ export const Body = styled.div`
 
   div.table {
     width: 95%;
+    background: var(--background-two);
+    border-radius: 10px;
+
+    padding: 20px;
+
+    .rdt_TableHeader {
+      background-color: transparent;
+      color: var(--text);
+    }
+
+    .rdt_TableHeadRow, .rdt_TableRow, .rdt_Pagination {
+      background: var(--background-two);
+      color: var(--white);
+    }
+
+    .rdt_TableRow {
+      border-color: var(--border-table);
+    }
+
+    input {
+      border: 1px solid var(--border-input);
+      margin-top: 5px;
+      padding: 5px 0px;
+      border-radius: 5px;
+      color: var(--white);
+      background-color: var(--background);
+    }
   }
   
+  h3 {
+    margin-top: 20px;
+    color: var(--white);
+  }
 `;
 
 export const Modal = styled.div`
@@ -91,38 +130,31 @@ export const Modal = styled.div`
   z-index: 999;
 
   > div {
-    background-color: #FFF;
+    background-color: var(--background);
     padding: 20px;
 
     p {
       font-weight: 400;
       font-size: 18px;
-      color: #606060;
+      color: var(--white);
       font-family: Arial, Helvetica, sans-serif;
     }
 
-    select {
-      border: 1px solid #808080;
-      background-color: #FFF;
-      padding: 10px 20px;
-      border-radius: 5px;
-      width: 100%;
-      color: #808080;
-    }
-
     input {
-      border: 1px solid #808080;
+      border: 1px solid var(--border-input);
+      margin-top: 5px;
       padding: 10px 20px;
       border-radius: 5px;
       width: 100%;
-      color: #808080;
+      color: var(--white);
+      background-color: var(--background);
     }
 
     .titleInput {
       text-align: left;
       flex: 1;
       margin-top: 10px;
-      color: #808080;
+      color: var(--white);
     }
 
     button {
@@ -139,27 +171,32 @@ export const Modal = styled.div`
       transition: background 0.4s;
 
       &.editar {
-        background-color: #1E97F7;
+        background: var(--background-button);
+        color: var(--white);
+        transition: opacity 0.4s;
 
         &:hover {
-          background-color: ${shade(0.2, '#1E97F7')};
+          opacity: 0.7;
         }
       }
 
       &.cancelar {
-        border: 1px solid #ff473d;
-        color: #ff473d;
+        background: var(--background-two);
+        color: var(--white);
+        transition: opacity 0.4s;
 
         &:hover {
-          border-color: ${shade(0.2, '#ff473d')};
+          opacity: 0.7;
         }
       }
 
       &.excluir {
-        background-color: #ff473d;
+        background: var(--background-two);
+        color: var(--white);
+        transition: opacity 0.4s;
 
         &:hover {
-          background-color: ${shade(0.2, '#ff473d')};
+          opacity: 0.7;
         }
       }
     }
