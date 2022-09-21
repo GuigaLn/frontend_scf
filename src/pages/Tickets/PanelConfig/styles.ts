@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   width: 100%;
   height: 100vh;
-  background-color: #F0F0F0;
+  background: var(--background);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,7 +12,7 @@ export const Container = styled.div`
     display: flex;
     flex-basis: 30%;
     flex-direction: column;
-    background-color: #FFF;
+    background: var(--background-two);
     border-radius: 5px;
     padding: 20px;
     text-align: center;
@@ -20,7 +20,7 @@ export const Container = styled.div`
     h1 {
       font-size: 28px;
       margin-bottom: 40px;
-      color: #606060;
+      color: var(--text);
     }
 
     input {
@@ -38,7 +38,13 @@ export const Container = styled.div`
       border-radius: 5px;
       font-size: 20px;
       border: none;
-      background-color: #CCC;
+      background: var(--background);
+      color: var(--text);
+      transition: background 0.4s;
+
+      &:hover {
+        background: var(--background-button);
+      }
     }
   }
 `;
