@@ -37,6 +37,7 @@ import Contact from '../pages/SCF/Contact';
 import ListVacationMobile from '../pages/SCF/Mobile/ListVacationMobile';
 import LoginMobile from '../pages/SCF/Mobile/LoginMobile';
 import POPs from '../pages/SCF/POPs';
+import POPsPublic from '../pages/SCF/POPsPublic';
 
 
 const Routes: React.FC = () => {
@@ -78,6 +79,7 @@ const Routes: React.FC = () => {
       <Route path="/scf/mobile/employee/listvacation" component={ListVacationMobile} isPrivade />
 
       <Route path="/ponto" component={Ponto} />
+      <Route path="/pops/public" exact component={POPsPublic} />
     </Switch>
   );
 }
