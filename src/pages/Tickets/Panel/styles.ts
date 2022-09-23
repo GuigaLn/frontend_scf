@@ -138,6 +138,30 @@ export const Container = styled.div`
   }
 `;
 
+export const ButtonInteraction = styled.button`
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background: #004CAA;
+
+  span {
+    color: #FFF;
+    font-size: 1.5rem;
+    
+  }
+
+  strong {
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    color: #FFF;
+    font-size: 2rem;
+    font-weight: 700;
+  }
+`;
+
 export const Modal = styled.div`
   position: fixed;
   top: 0;

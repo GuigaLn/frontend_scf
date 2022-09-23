@@ -4,7 +4,8 @@ import { useHistory } from 'react-router-dom';
 
 import LogoCM from './logoCM.png';
 
-import { Container } from './styles';
+import { FiPlay } from 'react-icons/fi';
+import { ButtonInteraction, Container } from './styles';
 
 /*
 * FALTA RECEBER AS SENHAS ATRAVÉS DO SOCKET E ATUALIZAR O PAINEL
@@ -13,19 +14,7 @@ const Panel: React.FC = () => {
   const [sectorName, setSectorName] = useState("FARMACIA");
   const audioCall = useMemo(() => new Audio('/sound.mp3'), []);
   const history = useHistory();
-
-  useEffect(() => {
-    var sectorNameLocal = localStorage.getItem("@panel-ticket/sectorName");
-
-    if(sectorNameLocal === "FARMACIA" || sectorNameLocal === "CONSULTA" || sectorNameLocal === "EXAME") {
-      setSectorName(sectorNameLocal)
-    } else {
-      history.push("/panelconfig");
-    }
-
-    audioCall.play();
-  }, [audioCall, history]);
-
+  const [interaction, setInteraction] = useState(false);
 
   const NOTIFY_NEW_PUBLIC_TODOS = gql`
     subscription MySubscription {
@@ -44,19 +33,35 @@ const Panel: React.FC = () => {
   const { loading, error, data } = useSubscription(NOTIFY_NEW_PUBLIC_TODOS);
 
   useEffect(() => {
-    if(data !== undefined) {
-      updateList(data.chamados);
+    if(interaction) {
+      var sectorNameLocal = localStorage.getItem("@panel-ticket/sectorName");
+
+      if(sectorNameLocal === "FARMACIA" || sectorNameLocal === "CONSULTA" || sectorNameLocal === "EXAME") {
+        setSectorName(sectorNameLocal)
+      } else {
+        history.push("/panelconfig");
+      }
+
       audioCall.play();
     }
+  }, [audioCall, history, interaction]);
 
-    if (error?.message === 'Observable cancelled prematurely') {
-      window.location.reload();
-    }
+  useEffect(() => {
+    if(interaction) {
+      if(data !== undefined) {
+        updateList(data.chamados);
+        audioCall.play();
+      }
 
-    if(error) {
-      console.log(error)
+      if (error?.message === 'Observable cancelled prematurely') {
+        window.location.reload();
+      }
+
+      if(error) {
+        console.log(error)
+      }
     }
-  }, [audioCall, data, error]);
+  }, [audioCall, data, error, interaction]);
 
   /* EVITAR ERROS */
   const defaultList = [
@@ -70,7 +75,13 @@ const Panel: React.FC = () => {
 
   return (
     <Container>
-      <div className="header">
+      { !interaction && 
+        <ButtonInteraction onClick={() => setInteraction(true)}>
+          <span>Para iniciar o painel clique no botão "OK" do controle</span>
+          <strong>INICIAR <FiPlay /></strong>
+        </ButtonInteraction> 
+      }
+      <div className="header" id="tex">
         <div className="name-sector">
           <h1>{list[0].setor_senha.nome}</h1>
           <img src={LogoCM} alt="Logo Cruz Machado Para Todos" />
