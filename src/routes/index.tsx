@@ -37,6 +37,8 @@ import Contact from '../pages/SCF/Contact';
 import ListVacationMobile from '../pages/SCF/Mobile/ListVacationMobile';
 import LoginMobile from '../pages/SCF/Mobile/LoginMobile';
 import POPs from '../pages/SCF/POPs';
+import POPSAdd from '../pages/SCF/POPSAdd';
+import POPSEdit from '../pages/SCF/POPSEdit';
 import POPsPublic from '../pages/SCF/POPsPublic';
 
 
@@ -72,6 +74,8 @@ const Routes: React.FC = () => {
       <Route path="/scf/employee/listvacation" component={ListVacation} isPrivade />
       <Route path="/scf/employee/printepi/:id" component={PrintEPI} isPrivade />
       <Route path="/scf/pops" exact component={POPs} isPrivade />
+      <Route path="/scf/pops/add" exact component={POPSAdd} isPrivade />
+      <Route path="/scf/pops/edit/:id" exact component={POPSEdit} isPrivade />
       
       <Route path="/scf/chat" exact component={Chat} isPrivade />
       
