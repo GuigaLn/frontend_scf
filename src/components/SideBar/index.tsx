@@ -44,6 +44,7 @@ const Dashboard: React.FC<SidebarProps> = ({ page }) => {
         if(user.userPermissions.findIndex((item) => item.permisionid === 3) !== -1) setTickets(1);
         if(user.userPermissions.findIndex((item) => item.permisionid === 4) !== -1) setEmployee(1);
         if(user.userPermissions.findIndex((item) => item.permisionid === 6) !== -1) setCallCenter(1);
+        if(user.userPermissions.findIndex((item) => item.permisionid === 7) !== -1) setContact(1);
         if(user.userPermissions.findIndex((item) => item.permisionid === 8) !== -1) setPops(1);
     }, [user.userPermissions]);
     return (
