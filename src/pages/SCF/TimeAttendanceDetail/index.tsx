@@ -22,6 +22,11 @@ interface InterfaceComments {
   description: string
 }
 
+const ExpandedComponent: any = ({ data }: any) => {
+  return <pre>{JSON.stringify(data, null, 2)}</pre>;
+};
+
+
 const TimeAttendanceDetail: React.FC = () => {
   const data2 = [{}];
   const [data, setData] = useState<any>(data2);
@@ -334,6 +339,8 @@ const TimeAttendanceDetail: React.FC = () => {
                   setIdComments(undefined) 
                 }}
                 conditionalRowStyles={conditionalRowStyles}
+                expandableRows 
+                expandableRowsComponent={ExpandedComponent}
               />
             </DataTableExtensions>
           </div>
