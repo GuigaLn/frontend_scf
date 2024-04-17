@@ -11,6 +11,13 @@ interface responsedInterface {
 }
 
 const Ponto: React.FC = () => {
+  const [tokenPontoInput, setTokenPontoInput] = useState('');
+  const [tokenPontoStorage, setTokenPontoStorage] = useState(() => {
+    const tokenPontoLocal = localStorage.getItem('@ScfTokenPonto');
+    if(tokenPontoLocal) return tokenPontoLocal.toString();
+
+    return null;
+  });
   const [ isLoading, setIsLoading ] = useState(false);
   const [ idEmployee, setIdEmployee ] = useState('');
 
@@ -22,7 +29,7 @@ const Ponto: React.FC = () => {
     setIsLoading(true);
     if(idEmployee !== '') {
       try {
-        api.post(`/time`, {registration: idEmployee}).then(async response => {
+        api.post(`/time`, {registration: idEmployee}, { headers: { access_token: tokenPontoStorage } }).then(async response => {
             if(response.data.statusCode === 200) {
               setResponsed({ title: 'SUCESSO', msg: `${response.data.msg}`, name: `${response.data.name}` });
               setIsModal(true);
@@ -36,7 +43,12 @@ const Ponto: React.FC = () => {
               setIsModal(false)
             }, 3000);
           }).catch((err) => {
-            console.log(err)
+            if(err?.response?.status === 401) {
+              alert("TOKEN DE PONTO INVÁLIDO");
+              localStorage.removeItem('@ScfTokenPonto');
+              setTokenPontoStorage(null);
+              return;
+            }
             alert("ERRO VERIFIQUE SEU ID");
             setIsLoading(false);
           }); 
@@ -48,6 +60,27 @@ const Ponto: React.FC = () => {
       alert("ID NÃO PODE SER VAZIO");
       setIsLoading(false);
     }
+  }
+
+  const submitPontoStorage = () => {
+    if(!tokenPontoInput) return;
+    localStorage.setItem('@ScfTokenPonto', tokenPontoInput);
+
+    setTokenPontoStorage(tokenPontoInput);
+  }
+
+  if(!tokenPontoStorage) {
+    return (
+      <div>
+        <input 
+          value={tokenPontoInput}
+          onChange={(e): void => setTokenPontoInput(e.target.value)}
+          type="text" 
+        />
+
+        <button onClick={submitPontoStorage}>Confirmar</button>
+      </div>
+    )
   }
 
   return (
