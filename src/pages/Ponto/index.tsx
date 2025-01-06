@@ -97,7 +97,7 @@ const Ponto: React.FC = () => {
         <p style={{ color: '#FFF', marginBottom: 20, fontSize: '2rem' }}>{responsed.msg}</p>
       </div> : <></>
       }
-      <Form>
+      <Form onClick={handleSubmit}>
         <div>
           <Clock />
 
