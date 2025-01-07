@@ -36,8 +36,9 @@ const PanelTotem: React.FC = () => {
       toast.error(
         `${err}`
       )
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   }
 
   return (
