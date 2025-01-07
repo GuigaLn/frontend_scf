@@ -10,7 +10,7 @@ import api from '../../../services/api';
 
 import signtureGrazzi from '../../../assets/signtureGrazzi.png';
 import signtureMarcos from '../../../assets/signtureMarcos.png';
-
+import signtureDiego from '../../../assets/signtureDiego.png';
 
 interface Request {
   id: string;
@@ -79,22 +79,38 @@ const Vacation: React.FC = () => {
                   <td><hr /></td>
                   <td className="signture">
                     <div>
-                      {autorizedBy === 11 ? 
-                      <img src={signtureMarcos} alt="signture" /> :  <img src={signtureGrazzi} alt="signture" />
-                    }
+                    {autorizedBy === 6 && (
+                       <img src={signtureGrazzi} alt="signture" />
+                    )}
+                    {autorizedBy === 11 && (
+                       <img src={signtureMarcos} alt="signture" /> 
+                    )}
+                    {autorizedBy === 19 && (
+                       <img src={signtureDiego} alt="signture" className="signture-diego" /> 
+                    )}
                     </div>
                     <hr />
                   </td>
                 </tr>
-                {autorizedBy === 11 ? 
-                <tr> 
-                  <td><b>{name}</b></td>
-                  <td><b>MARCOS MARCZAL</b><br/>SEC. MUN. DE TRANSPORTE<br/>DECRETO Nº 3451/2021</td>
-                </tr>
-                :  <tr> 
-                <td><b>{name}</b></td>
-                <td><b>GRAZIELA BRAUN</b><br/>SEC. MUN. DE SAÚDE<br/>DECRETO Nº 3677/2021</td>
-              </tr> }
+              	
+                    {autorizedBy === 6 && (
+                       <tr> 
+                			<td><b>{name}</b></td>
+                			<td><b>GRAZIELA BRAUN</b><br/>SEC. MUN. DE SAÚDE<br/>DECRETO Nº 3677/2021</td>
+              			</tr>
+                    )}
+                    {autorizedBy === 11 && (
+                       	<tr> 
+                  			<td><b>{name}</b></td>
+                  			<td><b>MARCOS MARCZAL</b><br/>SEC. MUN. DE TRANSPORTE<br/>DECRETO Nº 3451/2021</td>
+               			</tr>
+                    )}
+                    {autorizedBy === 19 && (
+                      <tr> 
+                  			<td><b>{name}</b></td>
+                  			<td><b>CARLOS DIEGO TRAIN</b><br/>SEC. MUN. DE SAÚDE<br/>DECRETO Nº 5165/2025</td>
+               			</tr>
+                    )}
               </tbody>
             </table>           
           </div>
