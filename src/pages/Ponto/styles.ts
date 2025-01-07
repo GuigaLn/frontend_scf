@@ -1,12 +1,12 @@
 import styled from 'styled-components';
-
+import logoImage from './logo.png';
 import { shade } from 'polished';
 
 export const Form = styled.form`
   height: 100vh;
   display: flex;
   align-items: center;
-  margin: 0 auto;
+  margin: 20px;
 
   div {
     max-width: 550px;
@@ -18,6 +18,13 @@ export const Form = styled.form`
     flex-direction: column;
 
     animation: 1s;
+
+    img {
+      max-width: 50%;
+      height: auto;
+      margin: 0 auto 20px; /* Margem automática nas laterais e 20px na parte inferior */
+      display: block; /* Para garantir que a margem automática funcione corretamente */
+    }
 
     strong {
       font-weight: 800;
@@ -43,11 +50,12 @@ export const Form = styled.form`
       label {
         font-weight: 600;
         margin-top: 20px;
-        font-size: 16px;
+        margin-bottom: 40px;
+        font-size: 40px;
         line-height: 22px;
         color: #848484;
 
-        text-align: left;
+        text-align: center;
       }
 
       input {
@@ -55,6 +63,7 @@ export const Form = styled.form`
         border: 1px solid #F0EFF4;
         box-sizing: border-box;
         border-radius: 10px;
+        font-size: 30px;
 
         padding: 15px 20px;
         transition: border-color 1s;
@@ -90,7 +99,7 @@ export const Form = styled.form`
         text-align: center;
 
         font-weight: 600;
-        font-size: 18px;
+        font-size: 30px;
         color: #FFFFFF;
         transition: background 0.4s;
 

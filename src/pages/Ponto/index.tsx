@@ -3,6 +3,7 @@ import api from '../../services/api';
 
 import Clock from "./Clock";
 import { Form } from './styles';
+import logoImage from './logo.png';
 
 interface responsedInterface {
   title: string,
@@ -89,20 +90,21 @@ const Ponto: React.FC = () => {
         <div style={{ 
           position: 'absolute', height: '100vh', width: '100vw', backgroundColor: responsed.title === 'SUCESSO' ? '#228b22' : '#b4362c' ,
           display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', textAlign: 'center'
-          }}>
-        <h1 style={{ color: '#FFF', marginBottom: 20, fontSize: '4rem' }}>
+        }}>
+        <h1 style={{ color: '#FFF', marginBottom: 20, fontSize: '4rem'}}>
           {responsed.title}
         </h1>
         <p style={{ color: '#FFF', marginBottom: 20, fontSize: '2rem' }}>{responsed.name}</p>
         <p style={{ color: '#FFF', marginBottom: 20, fontSize: '2rem' }}>{responsed.msg}</p>
       </div> : <></>
       }
-      <Form onClick={handleSubmit}>
+      <Form>
         <div>
+          <img src={logoImage} alt="Logo" />
           <Clock />
 
-          <div className="header" style={{ padding: 40 }}>
-            <label htmlFor="email">DIGITE SEU ID: *</label>
+          <div className="header" style={{padding: 40 }}>
+            <label htmlFor="email">DIGITE SEU ID</label>
             <input 
               id="number" 
               value={idEmployee}
@@ -110,6 +112,11 @@ const Ponto: React.FC = () => {
               type="number" 
               name="number"
               required
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  handleSubmit();
+                }
+              }}
             />
           </div>
           <div className="buttons">
