@@ -27,17 +27,19 @@ const PanelTotem: React.FC = () => {
   const printTicket = (prioritary: boolean) => {
     setIsLoading(true);
     try {
-      api.post('/totemCalls', { prioritary, token }).then().catch((err) => {
+      api.post('/totemCalls', { prioritary, token }).then(() => {
+        setIsLoading(false);
+      }).catch((err) => {
+        setIsLoading(false);
         toast.error(
           `${err}`
         )
       }); 
     } catch (err) {
+      setIsLoading(false);
       toast.error(
         `${err}`
       )
-    } finally {
-      setIsLoading(false);
     }
   }
 
