@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Form } from './styles';
 
@@ -33,6 +33,14 @@ const Login: React.FC = () => {
     }
 
   }
+
+  useEffect(() => {
+    const tokenStoraged = localStorage.getItem('@panel-totem-token');
+    if(tokenStoraged) {
+      history.push(`/panel-totem`);
+    }
+  }, [])
+
   return (
     <>
       <ToastContainer />
