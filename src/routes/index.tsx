@@ -40,6 +40,7 @@ import POPs from '../pages/SCF/POPs';
 import POPSAdd from '../pages/SCF/POPSAdd';
 import POPSEdit from '../pages/SCF/POPSEdit';
 import POPsPublic from '../pages/SCF/POPsPublic';
+import PanelTotem from '../pages/Tickets/PanelTotem';
 
 
 const Routes: React.FC = () => {
@@ -58,6 +59,7 @@ const Routes: React.FC = () => {
 
       <Route path="/panelconfig" component={PanelConfig} />
       <Route path="/panel" component={Panel} />
+      <Route path="/panel-totem" component={PanelTotem} />
 
       <Route path="/scf" exact component={Login} />
       <Route path="/scf/dashboard" component={Dashboard} isPrivade />
