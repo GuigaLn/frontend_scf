@@ -13,24 +13,32 @@ const CallTickets: React.FC = () => {
   const [numberWindow, setNumberWindow] = useState('');
   const [delayCall, setDelayCall] = useState(false);
 
+  const [mode, setMode] = useState('');
+  const [modeName, setModeName] = useState('');
+
   useEffect(() => {
     var sWl = localStorage.getItem("@panel-ticket/sectorWindow");
     var nWl = localStorage.getItem("@panel-ticket/numberWindow");
     var sWn = localStorage.getItem("@panel-ticket/sectorName");
 
-    if(sWl === null || nWl === null ||sWn === null) {
+    var tWl = localStorage.getItem("@panel-ticket/mode");
+    var tWn = localStorage.getItem("@panel-ticket/modeName");
+
+    if(sWl === null || nWl === null || sWn === null || !tWl || !tWn) {
       history.push('/scf/ticket/initialconfig');
     } else {
       setSectorId(sWl);
       setNumberWindow(nWl);
       setSectorName(sWn);
+      setMode(tWl);
+      setModeName(tWn);
     }
   }, [history]);
 
   function handdleCall() {
     setDelayCall(true);
     try {
-      api.post('/TicketWindowController', {sectorId: sectorId, ticketWindow: numberWindow}).then(response => {
+      api.post('/TicketWindowController', {sectorId: sectorId, ticketWindow: numberWindow, mode }).then(response => {
         setLastTicket(response.data.numberCall);
         activeCall();
       }).catch((err) => {
@@ -55,7 +63,7 @@ const CallTickets: React.FC = () => {
         <SideBar page='panel' />
         <Body>
           <div>
-            <h1>{sectorName} - GUICHÊ {numberWindow}</h1>
+            <h1>{sectorName} - GUICHÊ {numberWindow} ({modeName})</h1>
             <button onClick={handdleCall} style={{ opacity: delayCall ? '0' : '1' }} disabled={delayCall} className="editar">CHAMAR</button>
             <h2>SENHA: {lastTicket}</h2>
           </div>

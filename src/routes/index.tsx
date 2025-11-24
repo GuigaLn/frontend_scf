@@ -11,6 +11,7 @@ import CallTickets from '../pages/SCF/CallTickets';
 import InitialConfig from '../pages/SCF/InitialConfig';
 import ResetTickets from '../pages/SCF/ResetTickets';
 import SecondConfig from '../pages/SCF/SecondConfig';
+import ThirdConfig from '../pages/SCF/ThirdConfig';
 
 /* ROTAS DO SISTEMA DE FUNCIONÁRIOS */
 import City from '../pages/SCF/City';
@@ -54,6 +55,7 @@ const Routes: React.FC = () => {
 
       <Route path="/scf/ticket/initialconfig" isPrivade component={InitialConfig} />
       <Route path="/scf/ticket/secondconfig" isPrivade component={SecondConfig} />
+      <Route path="/scf/ticket/thirdconfig" isPrivade component={ThirdConfig} />
       <Route path="/scf/ticket/calltickets" isPrivade component={CallTickets} />
       <Route path="/scf/ticket/resettickets" isPrivade component={ResetTickets} />
 

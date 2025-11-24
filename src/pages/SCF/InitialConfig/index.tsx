@@ -9,8 +9,11 @@ const InitialConfig: React.FC = () => {
 
   function handdleNumber() {
     if(windowNumber) {
+      localStorage.setItem('@panel-ticket/sectorWindow', '1');
+      localStorage.setItem('@panel-ticket/sectorName', 'FARMÁCIA');
+
       localStorage.setItem('@panel-ticket/numberWindow', windowNumber);
-      history.push("/scf/ticket/secondconfig");
+      history.push("/scf/ticket/thirdconfig");
     } else {
       alert("Digite o Número do Guichê!");
     }
